@@ -4,9 +4,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
+
 import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+
 
 
 // default style hook from material-ui
@@ -15,7 +17,7 @@ const styles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   title: {
     flexGrow: 1,
@@ -36,7 +38,7 @@ const styles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
-    },
+    }
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -61,7 +63,7 @@ const styles = makeStyles((theme) => ({
       '&:focus': {
         width: '20ch',
       },
-    },
+    }
   },
 }));
 
@@ -73,7 +75,7 @@ export class Header extends React.Component {
 
     return (
         <div className={classes.root}>
-          <AppBar position="static">
+          <AppBar style={{ background: '#004D45' }} position="static">
             <Toolbar>
               <IconButton
                 edge="start"
@@ -81,24 +83,27 @@ export class Header extends React.Component {
                 color="inherit"
                 aria-label="open drawer"
               >
-                <MenuIcon />
+                <MenuIcon style={{ color: '#80FFF2' }} />
               </IconButton>
               <Typography className={classes.title} variant="h6" noWrap>
-                JustFix<span>it</span>
+                Just<span style={{fontWeight: 'bold'}}>Fix</span>
+                <span style={{color: 'yellow'}}>it</span><span style={{color: '#80FFF2'}}> ʸᵉˢ</span>
               </Typography>
+
               <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
                 <InputBase
+                  startAdornment={<SearchIcon />}
                   placeholder="Search Customer"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
                   }}
+                  style={{'color': 'white', 'fontWeight': 'bold', 
+                  'background': '#00332E', 'marginLeft': '75px'}}
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </div>
+
             </Toolbar>
           </AppBar>
         </div>

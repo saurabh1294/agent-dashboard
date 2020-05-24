@@ -40,16 +40,69 @@ const styles = (theme: any) => ({
 
 
 export class App extends Component {
-  // constructor(props: any) {
-  //   super(props);
-  // }
+  state = {
+    email: '', 
+    password: '',
+    emailError: false,
+    passwordError: false, 
+    email_error_text: null, 
+    password_error_text: null,
+    isLoggedIn: false
+  };
+
+  async handleChange(e: any, type: any) {
+    const value = e.target.value;
+    
+    if (type === 'password')
+      await this.setState({password : value});
+
+    if (type === 'email')
+      await this.setState({email : value});
+
+    if (type === 'password') {
+      if (this.state.password.length === 0)
+        await this.setState({passwordError: true});
+      else
+        await this.setState({passwordError: false});
+    }
+    
+    if (type === 'email') {
+      if (this.state.email.length === 0)
+        await this.setState({emailError: true});
+      else
+        await this.setState({emailError: false});
+    }   
+  }
+
+  async handleLogin(e: any) {
+    console.log(this.state);
+    if (this.state.password.length === 0)
+      this.setState({passwordError: true});
+    
+    if (this.state.email.length === 0)
+      this.setState({emailError: true});
+
+    // test code to check login credentials
+    if (this.state.email === 'admin@optus.com.au' && this.state.password === 'test123') {
+      await this.setState({isLoggedIn : true});
+      alert('login successful.. redirecting');
+      //e.preventDefault();
+    } else {
+      alert('login failed');
+    }
+
+    // e.preventDefault();
+    // on auth successful handle redirection here
+  }
 
   render() {
     const { classes } = this.props as any;
 
     return (
       <div>
-        <Header {...this.props}/>
+      <Header {...this.props}
+      isLoggedIn={this.state.isLoggedIn}
+      />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -69,8 +122,12 @@ export class App extends Component {
               label="Email Address"
               name="email"
               autoComplete="email"
+              error={this.state.email === '' && this.state.emailError}
+              helperText={this.state.email === '' && this.state.emailError ? 'Email is required!' : ' '}
+              onChange={e => this.handleChange(e, 'email')}
               autoFocus
             />
+
             <TextField
               variant="outlined"
               margin="normal"
@@ -80,6 +137,9 @@ export class App extends Component {
               label="Password"
               type="password"
               id="password"
+              error={this.state.password === '' && this.state.passwordError}
+              helperText={this.state.password === '' && this.state.passwordError ? 'Password is required!' : ' '}
+              onChange={e => this.handleChange(e, 'password')}
               autoComplete="current-password"
             />
             <FormControlLabel
@@ -92,6 +152,7 @@ export class App extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={e => this.handleLogin(e)}
             >
               Sign In
             </Button>

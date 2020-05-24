@@ -69,9 +69,11 @@ const styles = makeStyles((theme) => ({
 
 
 
-export class Header extends React.Component {
+export class Header extends React.Component <any, any> {
   render() {
     const { classes } = this.props as any;
+    
+    console.log(this.props, 'props');
 
     return (
         <div className={classes.root}>
@@ -90,7 +92,7 @@ export class Header extends React.Component {
                 <span style={{color: 'yellow'}}>it</span><span style={{color: '#80FFF2'}}> ʸᵉˢ</span>
               </Typography>
 
-              <div className={classes.search}>
+              {this.props.isLoggedIn && <div className={classes.search}>
                 <InputBase
                   startAdornment={<SearchIcon />}
                   placeholder="Search Customer"
@@ -102,7 +104,7 @@ export class Header extends React.Component {
                   'background': '#00332E', 'marginLeft': '75px'}}
                   inputProps={{ 'aria-label': 'search' }}
                 />
-              </div>
+              </div>}
 
             </Toolbar>
           </AppBar>

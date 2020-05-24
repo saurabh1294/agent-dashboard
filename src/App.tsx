@@ -15,6 +15,14 @@ import Container from '@material-ui/core/Container';
 import { Footer } from './components/Footer/Footer';
 import { Header } from './components/Header/Header';
 
+import {
+  Switch,
+  Route,
+  useHistory
+} from "react-router-dom";
+
+import Dashboard from "./components/Dashboard/Dashboard";
+
 
 // default style hook from material-ui
 const styles = (theme: any) => ({
@@ -76,17 +84,24 @@ export class App extends Component {
 
   async handleLogin(e: any) {
     console.log(this.state);
+    // fix useHistory
+    let history = useHistory();
+    // alert(history);
+    console.log(history);
+    debugger;
     if (this.state.password.length === 0)
       this.setState({passwordError: true});
     
     if (this.state.email.length === 0)
       this.setState({emailError: true});
 
-    // test code to check login credentials
+    // test code to check login credentials - use try catch when API is ready
     if (this.state.email === 'admin@optus.com.au' && this.state.password === 'test123') {
       await this.setState({isLoggedIn : true});
-      alert('login successful.. redirecting');
+      // alert('login successful.. redirecting');
       //e.preventDefault();
+      alert('pushing dashboard');
+      history.push('/dashboard');
     } else {
       alert('login failed');
     }
@@ -100,6 +115,11 @@ export class App extends Component {
 
     return (
       <div>
+      <Switch>
+      <Route path="/dashboard">
+          <Dashboard />
+      </Route>
+      </Switch>
       <Header {...this.props}
       isLoggedIn={this.state.isLoggedIn}
       />

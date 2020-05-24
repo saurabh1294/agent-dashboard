@@ -9,8 +9,6 @@ import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 
-
-
 // default style hook from material-ui
 const styles = makeStyles((theme) => ({
   root: {
@@ -105,7 +103,7 @@ export class Header extends React.Component <any, any> {
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </div>}
-
+              {/* show a profile icon with logout in menu dropdown here is isLoggedIn is true */}
             </Toolbar>
           </AppBar>
         </div>

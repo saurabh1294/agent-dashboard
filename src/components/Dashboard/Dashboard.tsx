@@ -31,16 +31,17 @@ const styles = (theme: any) => ({
   });
 
 
-class Dashboard extends Component {
+class Dashboard extends Component <any> {
     render() {
-        console.log('in dashboard component ', this.props);
+        console.log('in dashboard component ', this.props, 
+        this.props.location.state.isLoggedIn);
+        
         return (
             <div>
             <Header {...this.props}
             />
             <Container component="main" maxWidth="xs">
               <CssBaseline />
-              
               <Box mt={8}>
                 <Footer />
               </Box>

@@ -12,14 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Footer } from './components/Footer/Footer';
 import { Header } from './components/Header/Header';
-
-// import {
-//   Switch,
-//   Route,
-//   useHistory
-// } from "react-router-dom";
-
-
+import { Redirect } from 'react-router'
 
 
 // default style hook from material-ui
@@ -82,11 +75,7 @@ export class App extends React.Component {
 
   async handleLogin(e: any) {
     console.log(this.state);
-    // fix useHistory
-    // let history = useHistory();
-    // alert(history);
-    // console.log(history);
-    debugger;
+    
     if (this.state.password.length === 0)
       this.setState({passwordError: true});
     
@@ -96,28 +85,30 @@ export class App extends React.Component {
     // test code to check login credentials - use try catch when API is ready
     if (this.state.username === 'admin@optus.com.au' && this.state.password === 'test123') {
       await this.setState({isLoggedIn : true});
-      alert('login successful.. redirecting');
-      // e.preventDefault();
-      alert('redirecting to agent dashboard');
-      // history.push('/dashboard');
+      alert('login successful.. redirecting to dashboard');
     } else {
       alert('login failed');
     }
 
-    e.preventDefault();
+    e.persist();
     // on auth successful handle redirection here
   }
 
   render() {
     const { classes } = this.props as any;
 
+    if (this.state.isLoggedIn) {
+      return (
+        <Redirect to={{
+          pathname: '/dashboard',
+          state: { isLoggedIn: this.state.isLoggedIn }
+          }}
+        />
+      );
+    }
+
     return (
       <div>
-      {/* <Switch>
-      <Route path="/dashboard">
-          <Dashboard />
-      </Route>
-      </Switch> */}
       <Header {...this.props}
       isLoggedIn={this.state.isLoggedIn}
       />

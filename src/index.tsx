@@ -12,8 +12,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 
 ReactDOM.render(
   <Router>
-    <App/>
     <div>
+      <Route exact path="/" component={App} />
       <Route exact path="/dashboard" component={Dashboard} />
     </div>
   </Router>,

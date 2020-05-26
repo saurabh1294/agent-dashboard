@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -31,7 +31,7 @@ const styles = (theme: any) => ({
   });
 
 
-class Dashboard extends React.Component {
+class Dashboard extends Component {
     render() {
         console.log('in dashboard component ', this.props);
         return (
@@ -51,3 +51,4 @@ class Dashboard extends React.Component {
 }
 
 export default withStyles(styles as any)(Dashboard);
+

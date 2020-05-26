@@ -1,12 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -15,13 +13,13 @@ import Container from '@material-ui/core/Container';
 import { Footer } from './components/Footer/Footer';
 import { Header } from './components/Header/Header';
 
-import {
-  Switch,
-  Route,
-  useHistory
-} from "react-router-dom";
+// import {
+//   Switch,
+//   Route,
+//   useHistory
+// } from "react-router-dom";
 
-import Dashboard from "./components/Dashboard/Dashboard";
+
 
 
 // default style hook from material-ui
@@ -47,13 +45,13 @@ const styles = (theme: any) => ({
 });
 
 
-export class App extends Component {
+export class App extends React.Component {
   state = {
-    email: '', 
+    username: '', 
     password: '',
-    emailError: false,
+    usernameError: false,
     passwordError: false, 
-    email_error_text: null, 
+    username_error_text: null, 
     password_error_text: null,
     isLoggedIn: false
   };
@@ -64,8 +62,8 @@ export class App extends Component {
     if (type === 'password')
       await this.setState({password : value});
 
-    if (type === 'email')
-      await this.setState({email : value});
+    if (type === 'username')
+      await this.setState({username : value});
 
     if (type === 'password') {
       if (this.state.password.length === 0)
@@ -74,39 +72,39 @@ export class App extends Component {
         await this.setState({passwordError: false});
     }
     
-    if (type === 'email') {
-      if (this.state.email.length === 0)
-        await this.setState({emailError: true});
+    if (type === 'username') {
+      if (this.state.username.length === 0)
+        await this.setState({usernameError: true});
       else
-        await this.setState({emailError: false});
+        await this.setState({usernameError: false});
     }   
   }
 
   async handleLogin(e: any) {
     console.log(this.state);
     // fix useHistory
-    let history = useHistory();
+    // let history = useHistory();
     // alert(history);
-    console.log(history);
+    // console.log(history);
     debugger;
     if (this.state.password.length === 0)
       this.setState({passwordError: true});
     
-    if (this.state.email.length === 0)
-      this.setState({emailError: true});
+    if (this.state.username.length === 0)
+      this.setState({usernameError: true});
 
     // test code to check login credentials - use try catch when API is ready
-    if (this.state.email === 'admin@optus.com.au' && this.state.password === 'test123') {
+    if (this.state.username === 'admin@optus.com.au' && this.state.password === 'test123') {
       await this.setState({isLoggedIn : true});
-      // alert('login successful.. redirecting');
-      //e.preventDefault();
-      alert('pushing dashboard');
-      history.push('/dashboard');
+      alert('login successful.. redirecting');
+      // e.preventDefault();
+      alert('redirecting to agent dashboard');
+      // history.push('/dashboard');
     } else {
       alert('login failed');
     }
 
-    // e.preventDefault();
+    e.preventDefault();
     // on auth successful handle redirection here
   }
 
@@ -115,11 +113,11 @@ export class App extends Component {
 
     return (
       <div>
-      <Switch>
+      {/* <Switch>
       <Route path="/dashboard">
           <Dashboard />
       </Route>
-      </Switch>
+      </Switch> */}
       <Header {...this.props}
       isLoggedIn={this.state.isLoggedIn}
       />
@@ -138,13 +136,13 @@ export class App extends Component {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              error={this.state.email === '' && this.state.emailError}
-              helperText={this.state.email === '' && this.state.emailError ? 'Email is required!' : ' '}
-              onChange={e => this.handleChange(e, 'email')}
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              error={this.state.username === '' && this.state.usernameError}
+              helperText={this.state.username === '' && this.state.usernameError ? 'Username is required!' : ' '}
+              onChange={e => this.handleChange(e, 'username')}
               autoFocus
             />
 
@@ -176,18 +174,6 @@ export class App extends Component {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
         <Box mt={8}>

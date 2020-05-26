@@ -27,7 +27,18 @@ const styles = (theme: any) => ({
     submit: {
       margin: theme.spacing(3, 0, 2),
       background: 'teal'
+    },
+
+    tileContainer: {
+      height:"550px", 
+      width:"100%", 
+      textAlign:"center", 
+      border: "2px solid black",
+      display:"inline-block",
+      margin:"0 auto",
+      marginTop: "20px"
     }
+
   });
 
 
@@ -35,16 +46,20 @@ class Dashboard extends Component <any> {
     render() {
         console.log('in dashboard component ', this.props, 
         this.props.location.state.isLoggedIn);
-        
+
+        const { classes } = this.props as any;
+
         return (
             <div>
             <Header {...this.props}
             />
             <Container component="main" maxWidth="xs">
               <CssBaseline />
+              <div className={classes.tileContainer}> Tiled view layout placeholder </div>
               <Box mt={8}>
                 <Footer />
               </Box>
+            
             </Container>
             </div>
           );

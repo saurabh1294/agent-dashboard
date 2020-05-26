@@ -5,9 +5,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 
+
+import Avatar from '@material-ui/core/Avatar';
 import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+
+import { deepPurple } from '@material-ui/core/colors';
 
 // default style hook from material-ui
 const styles = makeStyles((theme) => ({
@@ -63,6 +67,10 @@ const styles = makeStyles((theme) => ({
       },
     }
   },
+  purple: {
+    color: theme.palette.getContrastText(deepPurple[500]),
+    backgroundColor: deepPurple[500]
+  },
 }));
 
 
@@ -90,7 +98,8 @@ export class Header extends React.Component <any, any> {
                 <span style={{color: 'yellow'}}>it</span><span style={{color: '#80FFF2'}}> ʸᵉˢ</span>
               </Typography>
 
-              {this.props.location && this.props.location?.state?.isLoggedIn && <div className={classes.search}>
+              {this.props.location && 
+              this.props.location?.state?.isLoggedIn && <div className={classes.search}>
                 <InputBase
                   startAdornment={<SearchIcon />}
                   placeholder="Search Customer"
@@ -99,11 +108,19 @@ export class Header extends React.Component <any, any> {
                     input: classes.inputInput,
                   }}
                   style={{'color': 'white', 'fontWeight': 'bold', 
-                  'background': '#00332E', 'marginLeft': '75px'}}
+                  'background': '#00332E', 'marginLeft': '50px'}}
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </div>}
-              {/* show a profile icon with logout in menu dropdown here is isLoggedIn is true */}
+
+              {this.props.location && 
+              this.props.location?.state?.isLoggedIn &&
+              <div style={{marginLeft:"55%", paddingTop:"20px", display: "inline-flex"}}>
+                LoggedIn Agent
+                <Avatar alt="Profile Avatar" className={classes.purple} 
+                style={{display: "flex", marginLeft:"10px", bottom:"10px"}}>AD</Avatar>
+              </div>
+              }
             </Toolbar>
           </AppBar>
         </div>

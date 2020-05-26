@@ -90,7 +90,7 @@ export class Header extends React.Component <any, any> {
                 <span style={{color: 'yellow'}}>it</span><span style={{color: '#80FFF2'}}> ʸᵉˢ</span>
               </Typography>
 
-              {this.props.isLoggedIn && <div className={classes.search}>
+              {this.props.location && this.props.location?.state?.isLoggedIn && <div className={classes.search}>
                 <InputBase
                   startAdornment={<SearchIcon />}
                   placeholder="Search Customer"

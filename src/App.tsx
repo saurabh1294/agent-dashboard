@@ -34,6 +34,10 @@ const styles = (theme: any) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     background: 'teal'
+  },
+  error: {
+    color: 'red',
+    textAlign: 'left'
   }
 });
 
@@ -44,8 +48,7 @@ export class App extends React.Component {
     password: '',
     usernameError: false,
     passwordError: false, 
-    username_error_text: null, 
-    password_error_text: null,
+    authError: false,
     isLoggedIn: false
   };
 
@@ -75,6 +78,7 @@ export class App extends React.Component {
 
   async handleLogin(e: any) {
     console.log(this.state);
+    e.preventDefault();
     
     if (this.state.password.length === 0)
       this.setState({passwordError: true});
@@ -83,15 +87,11 @@ export class App extends React.Component {
       this.setState({usernameError: true});
 
     // test code to check login credentials - use try catch when API is ready
-    if (this.state.username === 'admin@optus.com.au' && this.state.password === 'test123') {
+    if (this.state.username === 'admin' && this.state.password === 'test123') {
       await this.setState({isLoggedIn : true});
-      alert('login successful.. redirecting to dashboard');
     } else {
-      alert('login failed');
+      await this.setState({authError : true});
     }
-
-    e.persist();
-    // on auth successful handle redirection here
   }
 
   render() {
@@ -155,6 +155,7 @@ export class App extends React.Component {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {this.state.authError && <p className={classes.error}>Authentication failed</p>}
             <Button
               type="submit"
               fullWidth

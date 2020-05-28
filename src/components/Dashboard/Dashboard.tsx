@@ -61,12 +61,15 @@ const styles = (theme: any) => ({
       textAlign: 'center',
     },
 
-    // topTile: {
-    //   display: 'flex',
-    //   flexDirection: 'row wrap',
-    //   padding: 20,
-    //   width: '100%'
-    // }
+    topTile: {
+      display: 'flex',
+      flexDirection: 'row wrap',
+      padding: 20,
+      width: '80%',
+      marginTop: '15px',
+      marginLeft: '10%',
+      backgroundColor: 'white'
+    }
 
   });
 
@@ -83,7 +86,7 @@ class Dashboard extends Component <any> {
             <Header {...this.props}
             />
 
-            <div style={{marginTop:"20px", marginLeft: "20px"}}>
+            <div style={{marginTop:"20px", marginLeft: "10%"}}>
               <Grid id="top-row" container >
                 <Grid item xs={1}>
                   <Typography  variant="h6" style={{color:"teal"}}>
@@ -113,7 +116,7 @@ class Dashboard extends Component <any> {
             <div className={classes.topTile}>
               <Grid item xs={12}>
                 {/* <Paper className={classes.paper}>xs=12</Paper> */}
-              <div  style={{margin: "20px", width:"80%", height:"100px", border:"1px solid gray"}}></div>
+              <div  style={{margin: "20px", width:"80%", height:"100px"}}></div>
               </Grid>
             </div>
 

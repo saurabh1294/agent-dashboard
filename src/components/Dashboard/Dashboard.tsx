@@ -62,13 +62,12 @@ const styles = (theme: any) => ({
     },
 
     topTile: {
-      display: 'flex',
-      flexDirection: 'row wrap',
-      padding: 20,
-      width: '80%',
-      marginTop: '15px',
-      marginLeft: '10%',
-      backgroundColor: 'white'
+      borderRadius: '0',
+      height: '200px',
+      color: 'white',
+      fontWeight: 'bold',
+      lineHeight:'25px',
+      padding:'15px'
     },
 
     header1: {
@@ -96,6 +95,30 @@ const styles = (theme: any) => ({
       height: 'auto',
       backgroundColor: '#4B0082',
       color: 'white',
+      fontWeight: 'bold',
+      lineHeight:'25px',
+      padding:'15px'
+    },
+
+    serviceInfoTile1: {
+      borderRadius: '0',
+      minHeight: '300px',
+      fontWeight: 'bold',
+      lineHeight:'25px',
+      padding:'15px'
+    },
+
+    serviceInfoTile2: {
+      borderRadius: '0',
+      minHeight: '300px',
+      fontWeight: 'bold',
+      lineHeight:'25px',
+      padding:'15px'
+    },
+
+    connectivityTile : {
+      borderRadius: '0',
+      minHeight: '150px',
       fontWeight: 'bold',
       lineHeight:'25px',
       padding:'15px'
@@ -143,10 +166,18 @@ class Dashboard extends Component <any> {
               </Grid>
             </div>
 
-            <div className={classes.topTile}>
+            {/* <div className={classes.topTile}>
               <Grid item xs={12}>
-                {/* <Paper className={classes.paper}>xs=12</Paper> */}
+                <Paper className={classes.paper}>xs=12</Paper>
               <div  style={{margin: "20px", width:"80%", height:"100px"}}></div>
+              </Grid>
+            </div> */}
+
+            <div style={{marginLeft:"10%", marginTop:"-50px", width:"80%"}}>
+              <Grid container spacing={1}>
+                <Grid item xs={6} sm={12}>
+                <Paper className={`${classes.paper} ${classes.topTile}`}>Service Information</Paper>
+                </Grid>
               </Grid>
             </div>
 
@@ -159,23 +190,40 @@ class Dashboard extends Component <any> {
 
             <div style={{marginLeft:"10%", marginTop:"-50px", width:"80%"}}>
               <Grid container spacing={1}>
-                <Grid item xs={6} sm={5}>
+                <Grid item xs={6} sm={6}>
                 <Paper className={`${classes.paper} ${classes.header1}`}>Service Information</Paper>
                 </Grid>
                 <Grid item xs={6} sm={2}>
                   <Paper className={`${classes.paper} ${classes.header2}`}>Connectivity</Paper>
                 </Grid>
-                <Grid item xs={6} sm={5}>
+                <Grid item xs={6} sm={4}>
                   <Paper className={`${classes.paper} ${classes.header3}`}>Performance & Stability</Paper>
                 </Grid>
               </Grid>
             </div>
-            {/* <div className={classes.header2}>
-              <Grid item xs={5}>
-                <Paper className={classes.paper}>xs=12</Paper>
-              <div  style={{margin: "20px"}}></div>
+
+            <div style={{marginLeft:"10%", marginTop:"-50px", width:"80%"}}>
+              <Grid container spacing={1}>
+                <Grid item xs={6} sm={3}>
+                <Paper className={`${classes.paper} ${classes.serviceInfoTile1}`}>Service Information</Paper>
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <Paper className={`${classes.paper} ${classes.serviceInfoTile2}`}>Connectivity</Paper>
+                </Grid>
+
+                <Grid item xs={6} sm={2}>
+                  <Paper className={`${classes.paper} ${classes.connectivityTile}`}>Service Information</Paper>
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <Paper className={`${classes.paper} ${classes.connectivityTile}`}>Connectivity</Paper>
+                </Grid>
+
+                <Grid item xs={6} sm={2}>
+                  <Paper className={`${classes.paper} ${classes.connectivityTile}`}>Connectivity</Paper>
+                </Grid>
               </Grid>
-            </div> */}
+            </div>
+
             <Container component="main" maxWidth="xs">
               <CssBaseline />
               {/* <div className={classes.tileContainer}> Tiled view layout placeholder </div> */}

@@ -86,7 +86,7 @@ class Dashboard extends Component <any> {
             <Header {...this.props}
             />
 
-            <div style={{marginTop:"20px", marginLeft: "10%"}}>
+            <div style={{marginTop:"20px", marginLeft: "11%"}}>
               <Grid id="top-row" container >
                 <Grid item xs={1}>
                   <Typography  variant="h6" style={{color:"teal"}}>

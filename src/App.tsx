@@ -87,7 +87,7 @@ export class App extends React.Component {
       this.setState({usernameError: true});
 
     // test code to check login credentials - use try catch when API is ready
-    if (this.state.username === 'admin' && this.state.password === 'test123') {
+    if (this.state.username === '1331234' && this.state.password === 'test123') {
       await this.setState({isLoggedIn : true});
     } else {
       await this.setState({authError : true});
@@ -128,7 +128,7 @@ export class App extends React.Component {
               required
               fullWidth
               id="username"
-              label="Username"
+              label="Staff Auth ID"
               name="username"
               autoComplete="username"
               error={this.state.username === '' && this.state.usernameError}

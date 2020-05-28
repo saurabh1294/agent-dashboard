@@ -1,3 +1,6 @@
+import "react-app-polyfill/ie11"; // fix IE script 1002 error
+import "react-app-polyfill/stable"; // fix IE script 1002 error
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

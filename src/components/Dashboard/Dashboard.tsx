@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-// import { Paper } from '@material-ui/core';
+import { Paper, withTheme } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -69,6 +69,36 @@ const styles = (theme: any) => ({
       marginTop: '15px',
       marginLeft: '10%',
       backgroundColor: 'white'
+    },
+
+    header1: {
+      backgroundColor: 'orange',
+      borderRadius: '0',
+      height: 'auto',
+      color: 'white',
+      fontWeight: 'bold',
+      lineHeight:'25px',
+      padding:'15px'
+    },
+
+    header2: {
+      borderRadius: '0',
+      height: 'auto',
+      backgroundColor: 'purple',
+      color: 'white',
+      fontWeight: 'bold',
+      lineHeight:'25px',
+      padding:'15px'
+    },
+
+    header3: {
+      borderRadius: '0',
+      height: 'auto',
+      backgroundColor: '#4B0082',
+      color: 'white',
+      fontWeight: 'bold',
+      lineHeight:'25px',
+      padding:'15px'
     }
 
   });
@@ -120,8 +150,32 @@ class Dashboard extends Component <any> {
               </Grid>
             </div>
 
-           
-           
+            {/* <div className={classes.header1}>
+              <Grid item xs={5}>
+                <Paper className={classes.paper}>xs=12</Paper>
+              <div  style={{margin: "20px"}}></div>
+              </Grid>
+            </div> */}
+
+            <div style={{marginLeft:"10%", marginTop:"-50px", width:"80%"}}>
+              <Grid container spacing={1}>
+                <Grid item xs={6} sm={5}>
+                <Paper className={`${classes.paper} ${classes.header1}`}>Service Information</Paper>
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <Paper className={`${classes.paper} ${classes.header2}`}>Connectivity</Paper>
+                </Grid>
+                <Grid item xs={6} sm={5}>
+                  <Paper className={`${classes.paper} ${classes.header3}`}>Performance & Stability</Paper>
+                </Grid>
+              </Grid>
+            </div>
+            {/* <div className={classes.header2}>
+              <Grid item xs={5}>
+                <Paper className={classes.paper}>xs=12</Paper>
+              <div  style={{margin: "20px"}}></div>
+              </Grid>
+            </div> */}
             <Container component="main" maxWidth="xs">
               <CssBaseline />
               {/* <div className={classes.tileContainer}> Tiled view layout placeholder </div> */}

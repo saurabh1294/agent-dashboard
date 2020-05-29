@@ -16,7 +16,7 @@ const styles = (theme: any) => ({
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "left"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -63,8 +63,10 @@ const styles = (theme: any) => ({
   topTile: {
     borderRadius: "0",
     height: "200px",
-    color: "white",
+    color: "black",
     fontWeight: "bold",
+    fontSize: "24px",
+    fontFamily: "Arial",
     lineHeight: "25px",
     padding: "15px"
   },
@@ -167,7 +169,7 @@ class Dashboard extends Component<any> {
           <Grid container spacing={1}>
             <Grid item xs={6} sm={12}>
               <Paper className={`${classes.paper} ${classes.topTile}`}>
-                Service Information
+                General Service Status
               </Paper>
             </Grid>
           </Grid>

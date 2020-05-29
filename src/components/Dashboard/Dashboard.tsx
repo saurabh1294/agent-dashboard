@@ -121,7 +121,7 @@ const styles = (theme: any) => ({
       minHeight: '130px',
       fontWeight: 'bold',
       lineHeight:'25px',
-      padding:'19px'
+      padding:'20px'
     },
 
     provisioningTile: {
@@ -129,7 +129,7 @@ const styles = (theme: any) => ({
       minHeight: '150px',
       fontWeight: 'bold',
       lineHeight:'25px',
-      padding:'19px'
+      padding:'20px'
     },
 
     radiusDropoutTile: {
@@ -137,7 +137,7 @@ const styles = (theme: any) => ({
       minHeight: '150px',
       fontWeight: 'bold',
       lineHeight:'25px',
-      padding:'19px'
+      padding:'20px'
     }
 
   });

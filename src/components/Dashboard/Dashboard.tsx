@@ -121,7 +121,7 @@ const styles = (theme: any) => ({
       minHeight: '130px',
       fontWeight: 'bold',
       lineHeight:'25px',
-      padding:'15px'
+      padding:'19px'
     },
 
     provisioningTile: {
@@ -129,7 +129,7 @@ const styles = (theme: any) => ({
       minHeight: '150px',
       fontWeight: 'bold',
       lineHeight:'25px',
-      padding:'15px'
+      padding:'19px'
     },
 
     radiusDropoutTile: {
@@ -137,7 +137,7 @@ const styles = (theme: any) => ({
       minHeight: '150px',
       fontWeight: 'bold',
       lineHeight:'25px',
-      padding:'15px'
+      padding:'19px'
     }
 
   });
@@ -256,16 +256,16 @@ class Dashboard extends Component <any> {
                 <Grid item xs={6} sm={6}>
                 <Paper className={`${classes.papers} ${classes.provisioningTile}`}>Service Information</Paper>
                 </Grid>
-                <Grid item container xs={6} sm={2}>
+                <Grid item container  xs={6} sm={2}>
                   <Paper className={`${classes.papers} ${classes.radiusDropoutTile}`}>Service Information</Paper>
                 </Grid>
 
-                <Grid item container xs={6} sm={2}>
-                  <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                <Grid item container  xs={6} sm={2}>
+                  <Paper className={`${classes.papers} ${classes.radiusDropoutTile}`}>Service Information</Paper>
                 </Grid>
 
-                <Grid item container xs={6} sm={2}>
-                  <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                <Grid item container  xs={6} sm={2}>
+                  <Paper className={`${classes.papers} ${classes.radiusDropoutTile}`}>Service Information</Paper>
                 </Grid>
               </Grid>
             </div>

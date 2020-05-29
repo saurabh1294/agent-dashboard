@@ -118,7 +118,7 @@ const styles = (theme: any) => ({
 
     connectivityTile : {
       borderRadius: '0',
-      minHeight: '150px',
+      minHeight: '130px',
       fontWeight: 'bold',
       lineHeight:'25px',
       padding:'15px'
@@ -202,7 +202,7 @@ class Dashboard extends Component <any> {
               </Grid>
             </div>
 
-            <div style={{marginLeft:"10%", marginTop:"-50px", width:"80%"}}>
+            {/* <div style={{marginLeft:"10%", marginTop:"-50px", width:"80%"}}>
               <Grid container spacing={1}>
                 <Grid item xs={6} sm={3}>
                 <Paper className={`${classes.paper} ${classes.serviceInfoTile1}`}>Service Information</Paper>
@@ -222,7 +222,88 @@ class Dashboard extends Component <any> {
                   <Paper className={`${classes.paper} ${classes.connectivityTile}`}>Connectivity</Paper>
                 </Grid>
               </Grid>
+            </div> */}
+
+            <div style={{marginLeft:"10%", marginTop:"20px", width:"80%"}}>
+              <Grid container spacing={1}>
+                {/* <Grid item xs={6} sm={3}>
+                <Paper className={`${classes.paper} ${classes.serviceInfoTile1}`}>Service Information</Paper>
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <Paper className={`${classes.paper} ${classes.serviceInfoTile2}`}>Connectivity</Paper>
+                </Grid>
+
+                <Grid item xs={6} sm={2}>
+                  <Paper className={`${classes.paper} ${classes.connectivityTile}`}>Service Information</Paper>
+                </Grid>
+                <Grid item xs={6} sm={2}>
+                  <Paper className={`${classes.paper} ${classes.connectivityTile}`}>Connectivity</Paper>
+                </Grid>
+
+                <Grid item xs={6} sm={2}>
+                  <Paper className={`${classes.paper} ${classes.connectivityTile}`}>Connectivity</Paper>
+                </Grid> */}
+
+                <Grid item xs={6} sm={3}>
+                <Paper className={`${classes.papers} ${classes.serviceInfoTile1}`}>Service Information</Paper>
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <Paper className={`${classes.papers} ${classes.serviceInfoTile2}`}>Connectivity</Paper>
+                </Grid>
+
+                
+                <Grid item container xs={6} sm={2}>
+                  <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                  <Grid item container style={{marginTop:'10px'}} xs={12} sm={12}>
+                <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                </Grid>
+                </Grid>
+
+                <Grid item container xs={6} sm={2}>
+                  <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                  <Grid item container style={{marginTop:'10px'}} xs={12} sm={12}>
+                <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                </Grid>
+                </Grid>
+
+                <Grid item container xs={6} sm={2}>
+                  <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                  <Grid item container style={{marginTop:'10px'}} xs={12} sm={12}>
+                <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                </Grid>
+                </Grid>
+
+                {/* <Grid item container xs={6} sm={2}>
+                <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Service Information</Paper>
+                </Grid> */}
+
+                    {/* <Grid container style={{marginTop:'10px'}} xs={12}>
+                    <Grid item xs={4} md={4} style={{backgroundColor: 'green', height: '0px'}}>
+                    <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Connectivity</Paper>
+                    </Grid>
+                    <Grid item xs={4} md={4} style={{backgroundColor: 'orange', height: '50px'}}>
+                    <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Connectivity</Paper>
+                    </Grid>
+                </Grid> */}
+              </Grid>
             </div>
+
+
+            {/* <div style={{marginLeft:"10%", marginTop:"20px", width:"80%"}}>
+            <Grid container spacing={1}>
+      
+      <Grid item xs={4} style={{backgroundColor: 'blue', height: '100px'}}></Grid>
+      <Grid item xs={4} style={{backgroundColor: 'grey', height: '100px'}}></Grid>
+            <Grid container style={{marginTop:'10px'}} xs={12}>
+        <Grid item xs={4} md={4} style={{backgroundColor: 'green', height: '0px'}}>
+        <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Connectivity</Paper>
+        </Grid>
+        <Grid item xs={4} md={4} style={{backgroundColor: 'orange', height: '50px'}}>
+        <Paper className={`${classes.papers} ${classes.connectivityTile}`}>Connectivity</Paper>
+        </Grid>
+      </Grid>
+      </Grid>
+      </div> */}
 
             <Container component="main" maxWidth="xs">
               <CssBaseline />

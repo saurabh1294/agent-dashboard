@@ -128,7 +128,7 @@ export class Header extends React.Component<any, any> {
                     backgroundColor: "teal"
                   }}
                 >
-                  AD
+                  JB
                 </Avatar>
               </div>
             )}

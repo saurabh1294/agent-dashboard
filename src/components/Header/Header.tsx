@@ -10,8 +10,6 @@ import { fade, withStyles, makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { deepPurple } from "@material-ui/core/colors";
-
 // default style hook from material-ui
 const styles = makeStyles(theme => ({
   root: {
@@ -65,13 +63,6 @@ const styles = makeStyles(theme => ({
         width: "20ch"
       }
     }
-  },
-  purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: "teal"
-  },
-  avatar: {
-    backgroundColor: "teal"
   }
 }));
 
@@ -130,11 +121,11 @@ export class Header extends React.Component<any, any> {
                 LoggedIn Agent
                 <Avatar
                   alt="Profile Avatar"
-                  className={classes.purple}
                   style={{
                     display: "flex",
                     marginLeft: "10px",
-                    bottom: "10px"
+                    bottom: "10px",
+                    backgroundColor: "teal"
                   }}
                 >
                   AD

@@ -108,7 +108,8 @@ const styles = (theme: any) => ({
     minHeight: "300px",
     fontWeight: "bold",
     lineHeight: "25px",
-    padding: "15px"
+    padding: "15px",
+    marginTop: "20px"
   },
 
   serviceInfoTile2: {
@@ -116,15 +117,17 @@ const styles = (theme: any) => ({
     minHeight: "300px",
     fontWeight: "bold",
     lineHeight: "25px",
-    padding: "15px"
+    padding: "15px",
+    marginTop: "20px"
   },
 
   connectivityTile: {
     borderRadius: "0",
-    minHeight: "130px",
+    minHeight: "146px",
     fontWeight: "bold",
     lineHeight: "25px",
-    padding: "20px"
+    padding: "20px",
+    marginTop: "20px"
   },
 
   provisioningTile: {
@@ -308,27 +311,140 @@ class Dashboard extends Component<any> {
 
         <div style={{ marginLeft: "10%", marginTop: "-50px", width: "80%" }}>
           <Grid container spacing={1}>
-            <Grid item xs={6} sm={6}>
+            <Grid item xs={12} sm={6}>
               <Paper className={`${classes.paper} ${classes.header1}`}>
                 Service Information
               </Paper>
+
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={6}>
+                  <Paper
+                    className={`${classes.papers} ${classes.serviceInfoTile1}`}
+                  >
+                    <Typography gutterBottom variant="subtitle1">
+                      PRI
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      Co-existence
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Yes
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Paper
+                    className={`${classes.papers} ${classes.serviceInfoTile2}`}
+                  >
+                    <Typography gutterBottom variant="subtitle1">
+                      PRI
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      Co-existence
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Yes
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={6} sm={2}>
+            <Grid item xs={12} sm={2}>
               <Paper className={`${classes.paper} ${classes.header2}`}>
                 Connectivity
               </Paper>
+
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={12}>
+                  <Paper
+                    className={`${classes.papers} ${classes.connectivityTile}`}
+                  >
+                    <Typography gutterBottom variant="subtitle1">
+                      PRI
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      Co-existence
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Yes
+                    </Typography>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12} sm={12} style={{ marginTop: "-20px" }}>
+                  <Paper
+                    className={`${classes.papers} ${classes.connectivityTile}`}
+                  >
+                    <Typography gutterBottom variant="subtitle1">
+                      PRI
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      Co-existence
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Yes
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={6} sm={4}>
+
+            <Grid item xs={12} sm={4}>
               <Paper className={`${classes.paper} ${classes.header3}`}>
                 Performance & Stability
               </Paper>
+
+              <Grid container spacing={1}>
+                <Grid item container xs={6} sm={6}>
+                  <Paper
+                    className={`${classes.papers} ${classes.connectivityTile}`}
+                  >
+                    Service Information
+                  </Paper>
+
+                  <Grid
+                    item
+                    container
+                    style={{ marginTop: "-12px" }}
+                    xs={12}
+                    sm={12}
+                  >
+                    <Paper
+                      className={`${classes.papers} ${classes.connectivityTile}`}
+                    >
+                      Service Information
+                    </Paper>
+                  </Grid>
+                </Grid>
+
+                <Grid item container xs={6} sm={6}>
+                  <Paper
+                    className={`${classes.papers} ${classes.connectivityTile}`}
+                  >
+                    Service Information
+                  </Paper>
+                  <Grid
+                    item
+                    container
+                    style={{ marginTop: "-12px" }}
+                    xs={12}
+                    sm={12}
+                  >
+                    <Paper
+                      className={`${classes.papers} ${classes.connectivityTile}`}
+                    >
+                      Service Information
+                    </Paper>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </div>
 
         <div style={{ marginLeft: "10%", marginTop: "20px", width: "80%" }}>
           <Grid container spacing={1}>
-            <Grid item xs={6} sm={3}>
+            {/* <Grid item xs={6} sm={3}>
               <Paper
                 className={`${classes.papers} ${classes.serviceInfoTile1}`}
               >
@@ -341,9 +457,30 @@ class Dashboard extends Component<any> {
               >
                 Connectivity
               </Paper>
-            </Grid>
+            </Grid> */}
 
-            <Grid item container xs={6} sm={2}>
+            {/* <Grid item container xs={6} sm={2}>
+              <Paper
+                className={`${classes.papers} ${classes.connectivityTile}`}
+              >
+                Service Information
+              </Paper>
+              <Grid
+                item
+                container
+                style={{ marginTop: "10px" }}
+                xs={12}
+                sm={12}
+              >
+                <Paper
+                  className={`${classes.papers} ${classes.connectivityTile}`}
+                >
+                  Service Information
+                </Paper>
+              </Grid>
+            </Grid> */}
+
+            {/* <Grid item container xs={6} sm={2}>
               <Paper
                 className={`${classes.papers} ${classes.connectivityTile}`}
               >
@@ -383,28 +520,7 @@ class Dashboard extends Component<any> {
                   Service Information
                 </Paper>
               </Grid>
-            </Grid>
-
-            <Grid item container xs={6} sm={2}>
-              <Paper
-                className={`${classes.papers} ${classes.connectivityTile}`}
-              >
-                Service Information
-              </Paper>
-              <Grid
-                item
-                container
-                style={{ marginTop: "10px" }}
-                xs={12}
-                sm={12}
-              >
-                <Paper
-                  className={`${classes.papers} ${classes.connectivityTile}`}
-                >
-                  Service Information
-                </Paper>
-              </Grid>
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
 
@@ -414,7 +530,15 @@ class Dashboard extends Component<any> {
               <Paper
                 className={`${classes.papers} ${classes.provisioningTile}`}
               >
-                Service Information
+                <Typography gutterBottom variant="subtitle1">
+                  PRI
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Co-existence
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Yes
+                </Typography>
               </Paper>
             </Grid>
             <Grid item container xs={6} sm={2}>

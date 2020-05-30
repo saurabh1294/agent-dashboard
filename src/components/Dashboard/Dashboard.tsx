@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
 
-import ButtonBase from '@material-ui/core/ButtonBase';
+import Divider from "@material-ui/core/Divider";
 
 // default style hook from material-ui
 const styles = (theme: any) => ({
@@ -141,6 +141,12 @@ const styles = (theme: any) => ({
     fontWeight: "bold",
     lineHeight: "25px",
     padding: "20px"
+  },
+
+  title: {
+    fontWeight: "bold",
+    fontSize: "24px",
+    margin: "15px 15px -2px"
   }
 });
 
@@ -167,7 +173,7 @@ class Dashboard extends Component<any> {
             </Box>
           </Box>
         </div>
-        <div style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }}>
+        {/* <div style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }}>
           <Grid container spacing={1}>
             <Grid item xs={6} sm={12}>
               <Paper className={`${classes.paper} ${classes.topTile}`}>
@@ -175,119 +181,131 @@ class Dashboard extends Component<any> {
               </Paper>
             </Grid>
           </Grid>
+        </div> */}
+
+        <div
+          style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }}
+          className={classes.root}
+        >
+          <Paper className={`${classes.paper} ${classes.topTile}`}>
+            <Grid container spacing={2}>
+              <Grid item className={classes.title}>
+                General Service Status
+              </Grid>
+              <Grid item xs={12} sm={12} container>
+                <Grid
+                  item
+                  xs={2}
+                  container
+                  direction="column"
+                  style={{ padding: "15px", marginRight: "50px" }}
+                  spacing={2}
+                >
+                  <Grid item xs>
+                    <Typography gutterBottom variant="subtitle1">
+                      Service Status
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      DIMPS
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Online
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Divider orientation="vertical" flexItem />
+
+                <Grid
+                  item
+                  xs={2}
+                  container
+                  direction="column"
+                  style={{ padding: "15px", marginRight: "50px" }}
+                  spacing={2}
+                >
+                  <Grid item xs>
+                    <Typography gutterBottom variant="subtitle1">
+                      Account Status
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      ISE Prov DB
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Suspended
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Divider orientation="vertical" flexItem />
+
+                <Grid
+                  item
+                  xs={2}
+                  container
+                  direction="column"
+                  style={{ padding: "15px", marginRight: "50px" }}
+                  spacing={2}
+                >
+                  <Grid item xs>
+                    <Typography gutterBottom variant="subtitle1">
+                      NBN Network
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      AVC
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      No Outage
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Divider orientation="vertical" flexItem />
+
+                <Grid
+                  item
+                  xs={2}
+                  container
+                  direction="column"
+                  style={{ padding: "15px", marginRight: "50px" }}
+                  spacing={2}
+                >
+                  <Grid item xs>
+                    <Typography gutterBottom variant="subtitle1">
+                      PRI
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      NBN
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Active
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Divider orientation="vertical" flexItem />
+
+                <Grid
+                  item
+                  xs={2}
+                  container
+                  direction="column"
+                  style={{ padding: "15px", marginRight: "0px" }}
+                  spacing={2}
+                >
+                  <Grid item xs>
+                    <Typography gutterBottom variant="subtitle1">
+                      PRI
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      Co-existence
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Yes
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Divider orientation="vertical" flexItem />
+              </Grid>
+            </Grid>
+          </Paper>
         </div>
-
-        <div style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }} className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item>
-            General Service Status
-          </Grid>
-          <Grid item xs={12} sm={12} container>
-            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  Standard license
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Item 1
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  ID: 1030114
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  Remove
-                </Typography>
-              </Grid>
-            </Grid>
-
-            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  Standard license
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Item 1
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  ID: 1030114
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  Remove
-                </Typography>
-              </Grid>
-            </Grid>
-
-
-            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  Standard license
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Item 1
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  ID: 1030114
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  Remove
-                </Typography>
-              </Grid>
-            </Grid>
-
-
-            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  Standard license
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Item 1
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  ID: 1030114
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  Remove
-                </Typography>
-              </Grid>
-            </Grid>
-
-            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"0px"}} spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  Standard license
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Item 1
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  ID: 1030114
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  Remove
-                </Typography>
-              </Grid>
-            </Grid>
-            
-            
-
-
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
 
         <div style={{ marginLeft: "10%", marginTop: "-50px", width: "80%" }}>
           <Grid container spacing={1}>

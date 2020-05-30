@@ -10,6 +10,8 @@ import Container from "@material-ui/core/Container";
 import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
 
+import ButtonBase from '@material-ui/core/ButtonBase';
+
 // default style hook from material-ui
 const styles = (theme: any) => ({
   paper: {
@@ -174,6 +176,118 @@ class Dashboard extends Component<any> {
             </Grid>
           </Grid>
         </div>
+
+        <div style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }} className={classes.root}>
+      <Paper className={classes.paper}>
+        <Grid container spacing={2}>
+          <Grid item>
+            General Service Status
+          </Grid>
+          <Grid item xs={12} sm={12} container>
+            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
+              <Grid item xs>
+                <Typography gutterBottom variant="subtitle1">
+                  Standard license
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Item 1
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  ID: 1030114
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  Remove
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
+              <Grid item xs>
+                <Typography gutterBottom variant="subtitle1">
+                  Standard license
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Item 1
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  ID: 1030114
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  Remove
+                </Typography>
+              </Grid>
+            </Grid>
+
+
+            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
+              <Grid item xs>
+                <Typography gutterBottom variant="subtitle1">
+                  Standard license
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Item 1
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  ID: 1030114
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  Remove
+                </Typography>
+              </Grid>
+            </Grid>
+
+
+            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"50px"}} spacing={2}>
+              <Grid item xs>
+                <Typography gutterBottom variant="subtitle1">
+                  Standard license
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Item 1
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  ID: 1030114
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  Remove
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={2} container direction="column" style={{padding:"15px", marginRight:"0px"}} spacing={2}>
+              <Grid item xs>
+                <Typography gutterBottom variant="subtitle1">
+                  Standard license
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Item 1
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  ID: 1030114
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  Remove
+                </Typography>
+              </Grid>
+            </Grid>
+            
+            
+
+
+          </Grid>
+        </Grid>
+      </Paper>
+    </div>
 
         <div style={{ marginLeft: "10%", marginTop: "-50px", width: "80%" }}>
           <Grid container spacing={1}>

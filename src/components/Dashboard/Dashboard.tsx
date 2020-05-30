@@ -64,7 +64,7 @@ const styles = (theme: any) => ({
 
   topTile: {
     borderRadius: "0",
-    height: "200px",
+    height: "auto",
     color: "black",
     fontWeight: "bold",
     fontSize: "24px",
@@ -301,7 +301,6 @@ class Dashboard extends Component<any> {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Divider orientation="vertical" flexItem />
               </Grid>
             </Grid>
           </Paper>

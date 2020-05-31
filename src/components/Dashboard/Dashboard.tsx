@@ -127,7 +127,8 @@ const styles = (theme: any) => ({
     fontWeight: "bold",
     lineHeight: "25px",
     padding: "20px",
-    marginTop: "20px"
+    marginTop: "20px",
+    width: "100%"
   },
 
   provisioningTile: {
@@ -135,7 +136,8 @@ const styles = (theme: any) => ({
     minHeight: "150px",
     fontWeight: "bold",
     lineHeight: "25px",
-    padding: "20px"
+    padding: "20px",
+    width: "100%"
   },
 
   radiusDropoutTile: {
@@ -143,7 +145,8 @@ const styles = (theme: any) => ({
     minHeight: "150px",
     fontWeight: "bold",
     lineHeight: "25px",
-    padding: "20px"
+    padding: "20px",
+    width: "100%"
   },
 
   title: {
@@ -359,14 +362,29 @@ class Dashboard extends Component<any> {
                   <Paper
                     className={`${classes.papers} ${classes.connectivityTile}`}
                   >
-                    <Typography gutterBottom variant="subtitle1">
-                      PRI
+                    <Typography
+                      style={{
+                        marginBottom: "10px",
+                        fontSize: "12px",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      Line State Test
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      Co-existence
+                    <Typography
+                      style={{ fontSize: "14px" }}
+                      color="textSecondary"
+                    >
+                      Service Status
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Yes
+                    <Typography
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        color: "#00CCFF"
+                      }}
+                    >
+                      FTTN/B
                     </Typography>
                   </Paper>
                 </Grid>
@@ -399,7 +417,20 @@ class Dashboard extends Component<any> {
                   <Paper
                     className={`${classes.papers} ${classes.connectivityTile}`}
                   >
-                    Service Information
+                    <Typography
+                      style={{
+                        marginBottom: "10px",
+                        fontSize: "12px",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      Wifi Status
+                    </Typography>
+                    <Typography style={{ fontSize: "14px" }}>
+                      2.4 GHz{" "}
+                    </Typography>
+
+                    <Typography style={{ fontSize: "14px" }}>5 GHz</Typography>
                   </Paper>
 
                   <Grid
@@ -553,7 +584,27 @@ class Dashboard extends Component<any> {
               <Paper
                 className={`${classes.papers} ${classes.radiusDropoutTile}`}
               >
-                Service Information
+                <Typography
+                  style={{
+                    marginBottom: "10px",
+                    fontSize: "12px",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Radius Dropouts
+                </Typography>
+                <Typography style={{ fontSize: "14px" }} color="textSecondary">
+                  Last 24/48 hours
+                </Typography>
+                <Typography
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    color: "rgba(233,77,84,0.81)"
+                  }}
+                >
+                  15 drops
+                </Typography>
               </Paper>
             </Grid>
 
@@ -561,7 +612,27 @@ class Dashboard extends Component<any> {
               <Paper
                 className={`${classes.papers} ${classes.radiusDropoutTile}`}
               >
-                Service Information
+                <Typography
+                  style={{
+                    marginBottom: "10px",
+                    fontSize: "12px",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Last Modem Reboot
+                </Typography>
+                <Typography style={{ fontSize: "14px" }} color="textSecondary">
+                  Date
+                </Typography>
+                <Typography
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: "#ffae42"
+                  }}
+                >
+                  25/03/20
+                </Typography>
               </Paper>
             </Grid>
           </Grid>

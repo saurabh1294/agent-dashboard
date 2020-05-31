@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-// import Typography from '@material-ui/core/Typography';
 import { withStyles } from "@material-ui/core/styles";
-import { Paper, withTheme } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -153,8 +152,7 @@ const styles = (theme: any) => ({
 
   title: {
     fontWeight: "bold",
-    fontSize: "24px",
-    margin: "15px 15px -2px"
+    fontSize: "20px"
   }
 });
 

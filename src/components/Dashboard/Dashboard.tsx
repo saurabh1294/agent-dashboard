@@ -213,10 +213,21 @@ class Dashboard extends Component<any> {
                     <Typography gutterBottom variant="subtitle1">
                       Service Status
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      gutterBottom
+                    >
                       DIMPS
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
+                    <Typography
+                      variant="body2"
+                      style={{
+                        color: "#00CCFF",
+                        fontWeight: "bold",
+                        fontSize: "18px"
+                      }}
+                    >
                       Online
                     </Typography>
                   </Grid>
@@ -235,10 +246,22 @@ class Dashboard extends Component<any> {
                     <Typography gutterBottom variant="subtitle1">
                       Account Status
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      gutterBottom
+                    >
                       ISE Prov DB
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      style={{
+                        color: "rgba(233, 77, 84, 0.81)",
+                        fontWeight: "bold",
+                        fontSize: "18px"
+                      }}
+                    >
                       Suspended
                     </Typography>
                   </Grid>
@@ -257,10 +280,21 @@ class Dashboard extends Component<any> {
                     <Typography gutterBottom variant="subtitle1">
                       NBN Network
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      gutterBottom
+                    >
                       AVC
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
+                    <Typography
+                      variant="body2"
+                      style={{
+                        color: "#00CCFF",
+                        fontWeight: "bold",
+                        fontSize: "18px"
+                      }}
+                    >
                       No Outage
                     </Typography>
                   </Grid>
@@ -279,10 +313,22 @@ class Dashboard extends Component<any> {
                     <Typography gutterBottom variant="subtitle1">
                       PRI
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      gutterBottom
+                    >
                       NBN
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      style={{
+                        color: "#00CCFF",
+                        fontWeight: "bold",
+                        fontSize: "18px"
+                      }}
+                    >
                       Active
                     </Typography>
                   </Grid>
@@ -301,10 +347,21 @@ class Dashboard extends Component<any> {
                     <Typography gutterBottom variant="subtitle1">
                       PRI
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      gutterBottom
+                    >
                       Co-existence
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
+                    <Typography
+                      variant="body2"
+                      style={{
+                        color: "#00CCFF",
+                        fontWeight: "bold",
+                        fontSize: "18px"
+                      }}
+                    >
                       Yes
                     </Typography>
                   </Grid>
@@ -326,14 +383,70 @@ class Dashboard extends Component<any> {
                   <Paper
                     className={`${classes.papers} ${classes.serviceInfoTile1}`}
                   >
-                    <Typography gutterBottom variant="subtitle1">
-                      PRI
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ fontSize: "11px" }}
+                    >
+                      AVC
                     </Typography>
                     <Typography variant="body2" gutterBottom>
-                      Co-existence
+                      XXXXXXXX
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Yes
+
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ fontSize: "11px" }}
+                    >
+                      Technology Type
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXXXXX
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ fontSize: "11px" }}
+                    >
+                      Username
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXXXXX111222
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ fontSize: "11px" }}
+                    >
+                      FNN Number
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXXXXX
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ fontSize: "11px" }}
+                    >
+                      PRI Number
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXXXXX
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ fontSize: "11px" }}
+                    >
+                      CVC
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXXXXX
                     </Typography>
                   </Paper>
                 </Grid>
@@ -341,14 +454,45 @@ class Dashboard extends Component<any> {
                   <Paper
                     className={`${classes.papers} ${classes.serviceInfoTile2}`}
                   >
-                    <Typography gutterBottom variant="subtitle1">
-                      PRI
+                    <Typography
+                      gutterBottom
+                      style={{ fontSize: "12px", fontWeight: "bold" }}
+                    >
+                      Modem Connected
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ marginTop: "20px", fontSize: "11px" }}
+                    >
+                      Modem Model
                     </Typography>
                     <Typography variant="body2" gutterBottom>
-                      Co-existence
+                      XXXX XXXXX
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Yes
+
+                    <Typography
+                      gutterBottom
+                      color="textSecondary"
+                      style={{ fontSize: "11px" }}
+                    >
+                      Modem Specs
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXX
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXXX
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXXXXXXX
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XXXXX XXXX
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      XX/XXXX
                     </Typography>
                   </Paper>
                 </Grid>

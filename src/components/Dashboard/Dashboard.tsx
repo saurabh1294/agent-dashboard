@@ -710,22 +710,71 @@ class Dashboard extends Component<any> {
               <Paper
                 className={`${classes.papers} ${classes.provisioningTile}`}
               >
-                <Typography gutterBottom variant="subtitle1">
-                  PRI
+                <Typography
+                  style={{
+                    marginBottom: "10px",
+                    fontSize: "12px",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Provisioning Match
                 </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Co-existence
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Yes
-                </Typography>
+                <Grid container>
+                  <Typography color="textSecondary">Speed</Typography>
+                  <Typography
+                    style={{ marginLeft: "200px" }}
+                    color="textSecondary"
+                  >
+                    AVC
+                  </Typography>
+                </Grid>
+
+                <Grid container>
+                  <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
+                    XXXX XXXXXXX
+                  </Typography>
+                  <Typography
+                    style={{
+                      marginLeft: "138px",
+                      fontWeight: "bold",
+                      fontSize: "14px"
+                    }}
+                  >
+                    XXXX XXXXXXX
+                  </Typography>
+                </Grid>
+
+                <Grid container>
+                  <Typography color="textSecondary">CVC</Typography>
+                  <Typography
+                    style={{ marginLeft: "210px" }}
+                    color="textSecondary"
+                  >
+                    CTAG
+                  </Typography>
+                </Grid>
+
+                <Grid container>
+                  <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
+                    XXXX XXXXXXX
+                  </Typography>
+                  <Typography
+                    style={{
+                      marginLeft: "138px",
+                      fontWeight: "bold",
+                      fontSize: "14px"
+                    }}
+                  >
+                    XXXX XXXXXXX
+                  </Typography>
+                </Grid>
               </Paper>
             </Grid>
             <Grid item container xs={6} sm={2}>
               <Paper
                 className={`${classes.papers} ${classes.radiusDropoutTile}`}
               >
-                Service Information
+                TBD - What info to show here?
               </Paper>
             </Grid>
 

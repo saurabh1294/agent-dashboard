@@ -11,6 +11,8 @@ import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
 
 import Divider from "@material-ui/core/Divider";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 // default style hook from material-ui
 const styles = (theme: any) => ({
@@ -393,14 +395,29 @@ class Dashboard extends Component<any> {
                   <Paper
                     className={`${classes.papers} ${classes.connectivityTile}`}
                   >
-                    <Typography gutterBottom variant="subtitle1">
-                      PRI
+                    <Typography
+                      style={{
+                        marginBottom: "10px",
+                        fontSize: "12px",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      DIMPS
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      Co-existence
+                    <Typography
+                      style={{ fontSize: "14px" }}
+                      color="textSecondary"
+                    >
+                      Phone Line Status
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Yes
+                    <Typography
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        color: "#00CCFF"
+                      }}
+                    >
+                      Active
                     </Typography>
                   </Paper>
                 </Grid>
@@ -426,11 +443,41 @@ class Dashboard extends Component<any> {
                     >
                       Wifi Status
                     </Typography>
-                    <Typography style={{ fontSize: "14px" }}>
-                      2.4 GHz{" "}
-                    </Typography>
+                    <Grid container>
+                      <Typography
+                        style={{ fontSize: "14px", fontWeight: "bold" }}
+                      >
+                        2.4 GHz
+                      </Typography>
+                      <Typography
+                        style={{
+                          marginLeft: "20px",
+                          color: "#00CCFF",
+                          fontWeight: "bold",
+                          fontSize: "14px"
+                        }}
+                      >
+                        Enabled
+                      </Typography>
+                    </Grid>
 
-                    <Typography style={{ fontSize: "14px" }}>5 GHz</Typography>
+                    <Grid container>
+                      <Typography
+                        style={{ fontSize: "14px", fontWeight: "bold" }}
+                      >
+                        5 GHz
+                      </Typography>
+                      <Typography
+                        style={{
+                          marginLeft: "20px",
+                          color: "#00CCFF",
+                          fontWeight: "bold",
+                          fontSize: "14px"
+                        }}
+                      >
+                        Enabled
+                      </Typography>
+                    </Grid>
                   </Paper>
 
                   <Grid
@@ -443,7 +490,26 @@ class Dashboard extends Component<any> {
                     <Paper
                       className={`${classes.papers} ${classes.connectivityTile}`}
                     >
-                      Service Information
+                      <Typography
+                        style={{
+                          marginBottom: "10px",
+                          fontSize: "12px",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        Connected Devices
+                      </Typography>
+
+                      <Typography
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: "bold",
+                          color: "purple",
+                          textAlign: "center"
+                        }}
+                      >
+                        12
+                      </Typography>
                     </Paper>
                   </Grid>
                 </Grid>
@@ -452,7 +518,51 @@ class Dashboard extends Component<any> {
                   <Paper
                     className={`${classes.papers} ${classes.connectivityTile}`}
                   >
-                    Service Information
+                    <Typography
+                      style={{
+                        marginBottom: "10px",
+                        fontSize: "12px"
+                      }}
+                    >
+                      TR143
+                    </Typography>
+                    <Grid container>
+                      <Typography
+                        style={{ fontSize: "14px", fontWeight: "bold" }}
+                      >
+                        19Mbps
+                      </Typography>
+                      <Typography
+                        style={{
+                          marginLeft: "5px",
+                          color: "#00CCFF",
+                          fontWeight: "bold",
+                          fontSize: "14px"
+                        }}
+                      >
+                        <ArrowUpwardIcon></ArrowUpwardIcon>
+                        <span style={{ position: "absolute" }}>Up</span>
+                      </Typography>
+                    </Grid>
+
+                    <Grid container>
+                      <Typography
+                        style={{ fontSize: "14px", fontWeight: "bold" }}
+                      >
+                        43Mbps
+                      </Typography>
+                      <Typography
+                        style={{
+                          marginLeft: "5px",
+                          color: "rgba(233,77,84,0.81)",
+                          fontWeight: "bold",
+                          fontSize: "14px"
+                        }}
+                      >
+                        <ArrowDownwardIcon> </ArrowDownwardIcon>
+                        <span style={{ position: "absolute" }}>Down</span>
+                      </Typography>
+                    </Grid>
                   </Paper>
                   <Grid
                     item
@@ -464,7 +574,46 @@ class Dashboard extends Component<any> {
                     <Paper
                       className={`${classes.papers} ${classes.connectivityTile}`}
                     >
-                      Service Information
+                      <Typography
+                        style={{
+                          marginBottom: "10px",
+                          fontSize: "12px",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        Line State Test
+                      </Typography>
+                      <Typography
+                        style={{ fontSize: "14px" }}
+                        color="textSecondary"
+                      >
+                        Stability
+                      </Typography>
+                      <Typography
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          color: "#00CCFF"
+                        }}
+                      >
+                        FTTN/B
+                      </Typography>
+
+                      <Typography
+                        style={{ fontSize: "14px" }}
+                        color="textSecondary"
+                      >
+                        In Home Wiring LQD
+                      </Typography>
+                      <Typography
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          color: "#00CCFF"
+                        }}
+                      >
+                        FTTN/B
+                      </Typography>
                     </Paper>
                   </Grid>
                 </Grid>

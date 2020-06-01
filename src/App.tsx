@@ -47,7 +47,9 @@ export class App extends React.Component {
     usernameError: false,
     passwordError: false,
     authError: false,
-    isLoggedIn: false
+    isLoggedIn: false,
+    isLoggedOut: false,
+    isCustInfoLoaded: false
   };
 
   async handleChange(e: any, type: any) {
@@ -182,9 +184,5 @@ export class App extends React.Component {
     );
   }
 }
-
-// App.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
 
 export default withStyles(styles as any)(App);

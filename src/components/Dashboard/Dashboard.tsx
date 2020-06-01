@@ -180,15 +180,6 @@ class Dashboard extends Component<any> {
             </Box>
           </Box>
         </div>
-        {/* <div style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }}>
-          <Grid container spacing={1}>
-            <Grid item xs={6} sm={12}>
-              <Paper className={`${classes.paper} ${classes.topTile}`}>
-                General Service Status
-              </Paper>
-            </Grid>
-          </Grid>
-        </div> */}
 
         <div
           style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }}
@@ -762,88 +753,6 @@ class Dashboard extends Component<any> {
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </div>
-
-        <div style={{ marginLeft: "10%", marginTop: "20px", width: "80%" }}>
-          <Grid container spacing={1}>
-            {/* <Grid item xs={6} sm={3}>
-              <Paper
-                className={`${classes.papers} ${classes.serviceInfoTile1}`}
-              >
-                Service Information
-              </Paper>
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <Paper
-                className={`${classes.papers} ${classes.serviceInfoTile2}`}
-              >
-                Connectivity
-              </Paper>
-            </Grid> */}
-
-            {/* <Grid item container xs={6} sm={2}>
-              <Paper
-                className={`${classes.papers} ${classes.connectivityTile}`}
-              >
-                Service Information
-              </Paper>
-              <Grid
-                item
-                container
-                style={{ marginTop: "10px" }}
-                xs={12}
-                sm={12}
-              >
-                <Paper
-                  className={`${classes.papers} ${classes.connectivityTile}`}
-                >
-                  Service Information
-                </Paper>
-              </Grid>
-            </Grid> */}
-
-            {/* <Grid item container xs={6} sm={2}>
-              <Paper
-                className={`${classes.papers} ${classes.connectivityTile}`}
-              >
-                Service Information
-              </Paper>
-              <Grid
-                item
-                container
-                style={{ marginTop: "10px" }}
-                xs={12}
-                sm={12}
-              >
-                <Paper
-                  className={`${classes.papers} ${classes.connectivityTile}`}
-                >
-                  Service Information
-                </Paper>
-              </Grid>
-            </Grid>
-
-            <Grid item container xs={6} sm={2}>
-              <Paper
-                className={`${classes.papers} ${classes.connectivityTile}`}
-              >
-                Service Information
-              </Paper>
-              <Grid
-                item
-                container
-                style={{ marginTop: "10px" }}
-                xs={12}
-                sm={12}
-              >
-                <Paper
-                  className={`${classes.papers} ${classes.connectivityTile}`}
-                >
-                  Service Information
-                </Paper>
-              </Grid>
-            </Grid> */}
           </Grid>
         </div>
 

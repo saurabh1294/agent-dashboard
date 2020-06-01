@@ -13,6 +13,12 @@ import Divider from "@material-ui/core/Divider";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
+import { connect } from "react-redux";
+
+const mapStateToProps = undefined; // initialize it properly
+
+const mapDispatchToProps = undefined; // initialize it properly
+
 // default style hook from material-ui
 const styles = (theme: any) => ({
   paper: {
@@ -899,4 +905,9 @@ class Dashboard extends Component<any> {
   }
 }
 
-export default withStyles(styles as any)(Dashboard);
+// export default withStyles(styles as any)(Dashboard);
+// connect to the store
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles as any)(Dashboard));

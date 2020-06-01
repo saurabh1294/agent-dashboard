@@ -14,6 +14,12 @@ import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
 import { Redirect } from "react-router";
 
+import { connect } from "react-redux";
+
+const mapStateToProps = undefined; // initialize it properly
+
+const mapDispatchToProps = undefined; // initialize it properly
+
 // default style hook from material-ui
 const styles = (theme: any) => ({
   paper: {
@@ -83,6 +89,9 @@ export class App extends React.Component {
       this.setState({ usernameError: true });
 
     // test code to check login credentials - use try catch when API is ready
+    /* As suggested by the business and Peter, trim leading and trailing spaces
+    from username and passwd before auth API call */
+    // fire API call to authenticate here and based on it's success or failure, state will be set
     if (
       this.state.username === "1331234" &&
       this.state.password === "test123"
@@ -185,4 +194,9 @@ export class App extends React.Component {
   }
 }
 
-export default withStyles(styles as any)(App);
+// export default withStyles(styles as any)(App);
+// connect to the store
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles as any)(App));

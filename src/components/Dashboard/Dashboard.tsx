@@ -71,7 +71,8 @@ const styles = (theme: any) => ({
     fontSize: "24px",
     fontFamily: "Arial",
     lineHeight: "25px",
-    padding: "15px"
+    padding: "15px",
+    minHeight: "200px"
   },
 
   header1: {
@@ -106,7 +107,7 @@ const styles = (theme: any) => ({
 
   serviceInfoTile1: {
     borderRadius: "0",
-    minHeight: "300px",
+    minHeight: "320px",
     fontWeight: "bold",
     lineHeight: "25px",
     padding: "15px",
@@ -115,7 +116,7 @@ const styles = (theme: any) => ({
 
   serviceInfoTile2: {
     borderRadius: "0",
-    minHeight: "300px",
+    minHeight: "320px",
     fontWeight: "bold",
     lineHeight: "25px",
     padding: "15px",
@@ -124,7 +125,7 @@ const styles = (theme: any) => ({
 
   connectivityTile: {
     borderRadius: "0",
-    minHeight: "146px",
+    minHeight: "156px",
     fontWeight: "bold",
     lineHeight: "25px",
     padding: "20px",
@@ -134,7 +135,7 @@ const styles = (theme: any) => ({
 
   provisioningTile: {
     borderRadius: "0",
-    minHeight: "150px",
+    minHeight: "156px",
     fontWeight: "bold",
     lineHeight: "25px",
     padding: "20px",
@@ -143,7 +144,7 @@ const styles = (theme: any) => ({
 
   radiusDropoutTile: {
     borderRadius: "0",
-    minHeight: "150px",
+    minHeight: "156px",
     fontWeight: "bold",
     lineHeight: "25px",
     padding: "20px",
@@ -848,7 +849,7 @@ class Dashboard extends Component<any> {
 
         <div style={{ marginLeft: "10%", width: "80%" }}>
           <Grid container spacing={1}>
-            <Grid item xs={6} sm={6}>
+            <Grid item xs={12} sm={6}>
               <Paper
                 className={`${classes.papers} ${classes.provisioningTile}`}
               >
@@ -861,23 +862,23 @@ class Dashboard extends Component<any> {
                 >
                   Provisioning Match
                 </Typography>
-                <Grid container>
+                <Grid container xs={12}>
                   <Typography color="textSecondary">Speed</Typography>
                   <Typography
-                    style={{ marginLeft: "200px" }}
+                    style={{ marginLeft: "47%" }}
                     color="textSecondary"
                   >
                     AVC
                   </Typography>
                 </Grid>
 
-                <Grid container>
+                <Grid container xs={12}>
                   <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
                     XXXX XXXXXXX
                   </Typography>
                   <Typography
                     style={{
-                      marginLeft: "138px",
+                      marginLeft: "34%",
                       fontWeight: "bold",
                       fontSize: "14px"
                     }}
@@ -886,23 +887,23 @@ class Dashboard extends Component<any> {
                   </Typography>
                 </Grid>
 
-                <Grid container>
+                <Grid container xs={12}>
                   <Typography color="textSecondary">CVC</Typography>
                   <Typography
-                    style={{ marginLeft: "210px" }}
+                    style={{ marginLeft: "49%" }}
                     color="textSecondary"
                   >
                     CTAG
                   </Typography>
                 </Grid>
 
-                <Grid container>
+                <Grid container xs={12}>
                   <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
                     XXXX XXXXXXX
                   </Typography>
                   <Typography
                     style={{
-                      marginLeft: "138px",
+                      marginLeft: "34%",
                       fontWeight: "bold",
                       fontSize: "14px"
                     }}

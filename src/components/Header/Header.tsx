@@ -115,7 +115,7 @@ export class Header extends React.Component<any, any> {
                 style={{
                   marginLeft: "55%",
                   paddingTop: "20px",
-                  display: "inline-flex"
+                  display: "flex"
                 }}
               >
                 LoggedIn Agent

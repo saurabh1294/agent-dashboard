@@ -165,10 +165,11 @@ const styles = (theme: any) => ({
 
 class Dashboard extends Component<any> {
   render() {
+    // TODO check if user is logged in or not, if yes then render this else redirect to home page
     console.log(
       "in dashboard component ",
       this.props,
-      this.props.location.state.isLoggedIn
+      this.props.location.state?.isLoggedIn
     );
 
     const { classes } = this.props as any;
@@ -777,7 +778,7 @@ class Dashboard extends Component<any> {
                 >
                   Provisioning Match
                 </Typography>
-                <Grid container xs={12}>
+                <Grid item container xs={12}>
                   <Typography color="textSecondary">Speed</Typography>
                   <Typography
                     style={{ marginLeft: "47%" }}
@@ -787,7 +788,7 @@ class Dashboard extends Component<any> {
                   </Typography>
                 </Grid>
 
-                <Grid container xs={12}>
+                <Grid item container xs={12}>
                   <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
                     XXXX XXXXXXX
                   </Typography>
@@ -802,7 +803,7 @@ class Dashboard extends Component<any> {
                   </Typography>
                 </Grid>
 
-                <Grid container xs={12}>
+                <Grid item container xs={12}>
                   <Typography color="textSecondary">CVC</Typography>
                   <Typography
                     style={{ marginLeft: "49%" }}
@@ -812,7 +813,7 @@ class Dashboard extends Component<any> {
                   </Typography>
                 </Grid>
 
-                <Grid container xs={12}>
+                <Grid item container xs={12}>
                   <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
                     XXXX XXXXXXX
                   </Typography>

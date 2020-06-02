@@ -43,10 +43,10 @@ export const fetchCustomerInfoFailure = (data: any) => {
   };
 };
 
-export const authenticate = () => {
+export const authenticate = (username: string, password: string) => {
   return (dispatch: any) => {
     return axios
-      .get(`${authApiUrl}`)
+      .get(`http://api.plos.org/search?q=title:DNA`)
       .then(response => {
         dispatch(loginSuccess(response.data));
       })
@@ -89,3 +89,20 @@ export const logoutFailure = (data: any) => {
     response: data
   };
 };
+
+/* call graphql like this 
+function foo(bar) {
+  return async (dispatch, getState, { client }) => {
+    const request = await client.query({
+      query: someQuery,
+      variables: {
+        input: bar
+      }
+    });
+    const result = await request;
+    dispatch({
+      type: DEFAULT_ACTION,
+      payload: result
+    })
+  }
+}*/

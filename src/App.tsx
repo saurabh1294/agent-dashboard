@@ -12,13 +12,27 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
+
 import { Redirect } from "react-router";
-
 import { connect } from "react-redux";
+import { authenticate } from "./actions/actions";
 
-const mapStateToProps = undefined; // initialize it properly
+const mapStateToProps = (state: any) => {
+  console.log("this is the state", state);
+  return {};
+};
 
-const mapDispatchToProps = undefined; // initialize it properly
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    // same effect
+    authCredentials: (username: string, password: string) =>
+      dispatch(authenticate(username, password))
+  };
+};
+
+interface AuthCallbackProperties {
+  authCredentials: Function;
+}
 
 // default style hook from material-ui
 const styles = (theme: any) => ({
@@ -46,7 +60,7 @@ const styles = (theme: any) => ({
   }
 });
 
-export class App extends React.Component {
+export class App extends React.Component<AuthCallbackProperties, any> {
   state = {
     username: "",
     password: "",
@@ -57,6 +71,11 @@ export class App extends React.Component {
     isLoggedOut: false,
     isCustInfoLoaded: false
   };
+
+  // componentDidMount() {
+  //   console.log('componentDidMount', this.props);
+  //   this.props.authCredentials('', '');
+  // }
 
   async handleChange(e: any, type: any) {
     const value = e.target.value;
@@ -92,12 +111,24 @@ export class App extends React.Component {
     /* As suggested by the business and Peter, trim leading and trailing spaces
     from username and passwd before auth API call */
     // fire API call to authenticate here and based on it's success or failure, state will be set
+    //this.props.authenticate();
+    // dispatch login in progress action here
+    // TODO fix this
+    // const response = await this.props.authCredentials(
+    //   this.state.username,
+    //   this.state.password
+    // );
+    // console.log(response);
+    // dispatch login complete action here and set the auth token in the session cookie
+
     if (
       this.state.username === "1331234" &&
       this.state.password === "test123"
     ) {
+      // dispatch action here which will set state
       await this.setState({ isLoggedIn: true });
     } else {
+      // dispatch action here which will set state
       await this.setState({ authError: true });
     }
   }

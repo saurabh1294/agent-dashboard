@@ -70,7 +70,7 @@ export class Header extends React.Component<any, any> {
   render() {
     const { classes } = this.props as any;
 
-    console.log(this.props, "props");
+    console.log(this.props, "props in header.tsx");
 
     return (
       <div className={classes.root}>

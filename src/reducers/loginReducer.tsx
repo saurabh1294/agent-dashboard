@@ -8,6 +8,7 @@ import {
 } from "../actions/actionTypes";
 
 export default function faqReducer(state = [], action: any) {
+  alert(action.type);
   switch (action.type) {
     case LOGGED_IN_SUCCESS:
       console.log("LOGGED_IN");

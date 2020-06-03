@@ -2,15 +2,17 @@ import {
   LOGGED_IN_SUCCESS,
   LOGGED_IN_FAILURE,
   LOGGED_OUT_FAILURE,
-  LOGGED_OUT_SUCCESS,
+  // LOGGED_OUT_SUCCESS,
+  AGENT_AUTHENTICATE,
   FETCH_CUSTOMER_INFO_SUCCESS,
   FETCH_CUSTOMER_INFO_FAILURE
 } from "./actionTypes";
 import axios from "axios";
+import gql from "graphql-tag";
 
-const baseURL = "http://localhost:3456/agent-dashboard/public/api/v1/static"; // actual endpoint from Brett
+const baseURL = "http://stile.pt.optusnet.com.au"; // actual endpoint from Brett
 const custInfoUrl = `${baseURL}/custInfo`;
-const authApiUrl = `${baseURL}/auth`;
+// const authApiUrl = `${baseURL}/auth`;
 
 export const fetchCustomerInfo = () => {
   return (dispatch: any) => {
@@ -43,20 +45,20 @@ export const fetchCustomerInfoFailure = (data: any) => {
   };
 };
 
-export const authenticate = (username: string, password: string) => {
-  return (dispatch: any) => {
-    return axios
-      .get(`http://api.plos.org/search?q=title:DNA`)
-      .then(response => {
-        dispatch(loginSuccess(response.data));
-      })
-      .catch(error => {
-        console.log("ERROR in authenticate api call");
-        dispatch(loginFailure(error));
-        throw error;
-      });
-  };
-};
+// export const authenticate = (username: string, password: string) => {
+//   return (dispatch: any) => {
+//     return axios
+//       .get(`http://api.plos.org/search?q=title:DNA`)
+//       .then(response => {
+//         dispatch(loginSuccess(response.data));
+//       })
+//       .catch(error => {
+//         console.log("ERROR in authenticate api call");
+//         dispatch(loginFailure(error));
+//         throw error;
+//       });
+//   };
+// };
 
 export const loginSuccess = (data: any) => {
   return {
@@ -90,19 +92,17 @@ export const logoutFailure = (data: any) => {
   };
 };
 
-/* call graphql like this 
-function foo(bar) {
-  return async (dispatch, getState, { client }) => {
+export const authenticate = (username: string, password: string) => {
+  const someQuery = gql`query mutation { newSessionStaffauth(username: ${username}, password: ${password}) { stok }}`;
+  return async (dispatch: any, getState: any, client: any) => {
     const request = await client.query({
       query: someQuery,
-      variables: {
-        input: bar
-      }
+      variables: {}
     });
     const result = await request;
     dispatch({
-      type: DEFAULT_ACTION,
+      type: AGENT_AUTHENTICATE,
       payload: result
-    })
-  }
-}*/
+    });
+  };
+};

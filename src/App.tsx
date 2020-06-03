@@ -114,13 +114,19 @@ export class App extends React.Component<AuthCallbackProperties, any> {
     //this.props.authenticate();
     // dispatch login in progress action here
     // TODO fix this
-    // const response = await this.props.authCredentials(
-    //   this.state.username,
-    //   this.state.password
-    // );
-    // console.log(response);
-    // dispatch login complete action here and set the auth token in the session cookie
+    try {
+      const response = await this.props.authCredentials(
+        this.state.username,
+        this.state.password
+      );
+      console.log(response);
+    } catch (err) {
+      console.log("error hitting graphql endpoint");
+    } finally {
+      console.log("in finally block");
+    }
 
+    // dispatch login complete action here and set the auth token in the session cookie
     if (
       this.state.username === "1331234" &&
       this.state.password === "test123"

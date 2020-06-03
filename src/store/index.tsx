@@ -6,7 +6,9 @@ import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 export const client = new ApolloClient({
-  link: createHttpLink({ uri: `http://sample.com/graphql` }) as any,
+  link: createHttpLink({
+    uri: `http://stile.pt.optusnet.com.au/graphql`
+  }) as any,
   cache: new InMemoryCache()
 });
 

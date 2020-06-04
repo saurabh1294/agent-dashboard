@@ -93,13 +93,23 @@ export const logoutFailure = (data: any) => {
 };
 
 export const authenticate = (username: string, password: string) => {
-  const someQuery = gql`query mutation { newSessionStaffauth(username: ${username}, password: ${password}) { stok }}`;
+  //const someQuery = gql`query { fake }`;
+  const someQuery = gql`
+    mutation NewStaffAuthSession($username: String!, $password: String!) {
+      newSessionStaffauth(username: $username, password: $password) {
+        stok
+      }
+    }
+  `;
+
+  console.log("firing graphql query", someQuery);
   return async (dispatch: any, getState: any, client: any) => {
-    const request = await client.query({
-      query: someQuery,
-      variables: {}
+    const request = await client.mutate({
+      mutation: someQuery,
+      variables: { username, password }
     });
     const result = await request;
+    console.log("this is the result from graphql endpoint", result);
     dispatch({
       type: AGENT_AUTHENTICATE,
       payload: result

@@ -8,29 +8,32 @@ import {
   FETCH_CUSTOMER_INFO_FAILURE
 } from "../actions/actionTypes";
 
-
 export interface State {
-  username: string,
-    password: string,
-    authToken: string,
-    isLoggedIn: boolean,
-    isLoggedOut: boolean,
-    isCustInfoLoaded: boolean
+  username: string;
+  password: string;
+  authToken: string;
+  isLoggedIn: boolean;
+  isLoggedOut: boolean;
+  isCustInfoLoaded: boolean;
 }
 
 const initialState: State = {
-  username: '',
-  password: '',
-  authToken: '',
+  username: "",
+  password: "",
+  authToken: "",
   isLoggedIn: false,
   isLoggedOut: true,
   isCustInfoLoaded: false
-}
+};
 
 export default function loginReducer(state = initialState, action: any) {
   switch (action.type) {
     case AGENT_AUTHENTICATE:
-      console.log(state, 'authenticate agent payload received from backend', action.payload);
+      console.log(
+        state,
+        "authenticate agent payload received from backend",
+        action.payload
+      );
       // set state here based on payload value
       break;
 

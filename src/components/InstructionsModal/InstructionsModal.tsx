@@ -65,13 +65,13 @@ export default function CustomizedDialogs() {
 
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open dialog
-      </Button> */}
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        PaperProps={{
+          style: { borderRadius: 0 }
+        }}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Modal title

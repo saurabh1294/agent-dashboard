@@ -10,7 +10,6 @@ import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
 
 import CustomizedDialogs from "../InstructionsModal/InstructionsModal";
-import Modal from "@material-ui/core/Modal";
 
 import Divider from "@material-ui/core/Divider";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";

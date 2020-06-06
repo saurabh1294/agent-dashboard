@@ -9,6 +9,9 @@ import Container from "@material-ui/core/Container";
 import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
 
+import CustomizedDialogs from "../InstructionsModal/InstructionsModal";
+import Modal from "@material-ui/core/Modal";
+
 import Divider from "@material-ui/core/Divider";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
@@ -164,6 +167,10 @@ const styles = (theme: any) => ({
 });
 
 class Dashboard extends Component<any> {
+  state = {
+    modalOpen: true
+  };
+
   render() {
     // TODO check if user is logged in or not, if yes then render this else redirect to home page
     console.log(
@@ -176,6 +183,7 @@ class Dashboard extends Component<any> {
 
     return (
       <div>
+        <CustomizedDialogs />
         <Header {...this.props} />
 
         <div style={{ marginTop: "10px", marginLeft: "9%" }}>

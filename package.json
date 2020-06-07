@@ -38,10 +38,11 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "PORT=80 react-scripts start",
+    "start-windows": "set PORT=80 && react-scripts start",
+    "build": "PORT=80 react-scripts build",
+    "test": "PORT=80 react-scripts test",
+    "eject": "PORT=80 react-scripts eject",
     "lint:fix": "prettier --write --config ./prettier.config.js --list-different \"{src,components}/**/*{.tsx,.json}\""
   },
   "eslintConfig": {

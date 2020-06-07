@@ -15,6 +15,8 @@ import Divider from "@material-ui/core/Divider";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
+import CachedIcon from "@material-ui/icons/Cached";
+
 import { connect } from "react-redux";
 
 const mapStateToProps = undefined; // initialize it properly
@@ -162,6 +164,20 @@ const styles = (theme: any) => ({
   title: {
     fontWeight: "bold",
     fontSize: "20px"
+  },
+
+  cachedIcon: {
+    display: "inline",
+    position: "absolute",
+    marginLeft: "50px",
+    color: "gray"
+  },
+
+  cachedIconSmallTile: {
+    display: "inline",
+    position: "absolute",
+    marginLeft: "30px",
+    color: "gray"
   }
 });
 
@@ -215,7 +231,8 @@ class Dashboard extends Component<any> {
                 >
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
-                      Service Status
+                      Service Status{" "}
+                      <CachedIcon className={classes.cachedIcon} />
                     </Typography>
                     <Typography
                       variant="body2"
@@ -248,7 +265,8 @@ class Dashboard extends Component<any> {
                 >
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
-                      Account Status
+                      Account Status{" "}
+                      <CachedIcon className={classes.cachedIcon} />
                     </Typography>
                     <Typography
                       variant="body2"
@@ -282,7 +300,7 @@ class Dashboard extends Component<any> {
                 >
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
-                      NBN Network
+                      NBN Network <CachedIcon className={classes.cachedIcon} />
                     </Typography>
                     <Typography
                       variant="body2"
@@ -315,7 +333,7 @@ class Dashboard extends Component<any> {
                 >
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
-                      PRI
+                      PRI <CachedIcon className={classes.cachedIcon} />
                     </Typography>
                     <Typography
                       variant="body2"
@@ -349,7 +367,7 @@ class Dashboard extends Component<any> {
                 >
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
-                      PRI
+                      PRI <CachedIcon className={classes.cachedIcon} />
                     </Typography>
                     <Typography
                       variant="body2"
@@ -462,7 +480,8 @@ class Dashboard extends Component<any> {
                       gutterBottom
                       style={{ fontSize: "12px", fontWeight: "bold" }}
                     >
-                      Modem Connected
+                      Modem Connected{" "}
+                      <CachedIcon className={classes.cachedIcon} />
                     </Typography>
 
                     <Typography
@@ -519,7 +538,8 @@ class Dashboard extends Component<any> {
                         fontWeight: "bold"
                       }}
                     >
-                      Line State Test
+                      Line State Test{" "}
+                      <CachedIcon className={classes.cachedIconSmallTile} />
                     </Typography>
                     <Typography
                       style={{ fontSize: "14px" }}
@@ -550,7 +570,8 @@ class Dashboard extends Component<any> {
                         fontWeight: "bold"
                       }}
                     >
-                      DIMPS
+                      DIMPS{" "}
+                      <CachedIcon className={classes.cachedIconSmallTile} />
                     </Typography>
                     <Typography
                       style={{ fontSize: "14px" }}
@@ -589,7 +610,8 @@ class Dashboard extends Component<any> {
                         fontWeight: "bold"
                       }}
                     >
-                      Wifi Status
+                      Wifi Status{" "}
+                      <CachedIcon className={classes.cachedIconSmallTile} />
                     </Typography>
                     <Grid container>
                       <Typography
@@ -645,7 +667,11 @@ class Dashboard extends Component<any> {
                           fontWeight: "bold"
                         }}
                       >
-                        Connected Devices
+                        Connected Devices{" "}
+                        <CachedIcon
+                          style={{ marginLeft: "15px" }}
+                          className={classes.cachedIconSmallTile}
+                        />
                       </Typography>
 
                       <Typography
@@ -672,7 +698,8 @@ class Dashboard extends Component<any> {
                         fontSize: "12px"
                       }}
                     >
-                      TR143
+                      TR143{" "}
+                      <CachedIcon className={classes.cachedIconSmallTile} />
                     </Typography>
                     <Grid container>
                       <Typography
@@ -729,7 +756,8 @@ class Dashboard extends Component<any> {
                           fontWeight: "bold"
                         }}
                       >
-                        Line State Test
+                        Line State Test{" "}
+                        <CachedIcon className={classes.cachedIconSmallTile} />
                       </Typography>
                       <Typography
                         style={{ fontSize: "14px" }}
@@ -783,7 +811,8 @@ class Dashboard extends Component<any> {
                     fontWeight: "bold"
                   }}
                 >
-                  Provisioning Match
+                  Provisioning Match{" "}
+                  <CachedIcon className={classes.cachedIcon} />
                 </Typography>
                 <Grid item container xs={12}>
                   <Typography color="textSecondary">Speed</Typography>
@@ -855,7 +884,8 @@ class Dashboard extends Component<any> {
                     fontWeight: "bold"
                   }}
                 >
-                  Radius Dropouts
+                  Radius Dropouts{" "}
+                  <CachedIcon className={classes.cachedIconSmallTile} />
                 </Typography>
                 <Typography style={{ fontSize: "14px" }} color="textSecondary">
                   Last 24/48 hours
@@ -883,7 +913,11 @@ class Dashboard extends Component<any> {
                     fontWeight: "bold"
                   }}
                 >
-                  Last Modem Reboot
+                  Last Modem Reboot{" "}
+                  <CachedIcon
+                    style={{ marginLeft: "10px" }}
+                    className={classes.cachedIconSmallTile}
+                  />
                 </Typography>
                 <Typography style={{ fontSize: "14px" }} color="textSecondary">
                   Date

@@ -9,7 +9,7 @@ import Container from "@material-ui/core/Container";
 import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
 
-import CustomizedDialogs from "../InstructionsModal/InstructionsModal";
+import { InstructionsModal } from "../InstructionsModal/InstructionsModal";
 
 import Divider from "@material-ui/core/Divider";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
@@ -182,7 +182,7 @@ class Dashboard extends Component<any> {
 
     return (
       <div>
-        <CustomizedDialogs />
+        <InstructionsModal />
         <Header {...this.props} />
 
         <div style={{ marginTop: "10px", marginLeft: "9%" }}>

@@ -24,6 +24,7 @@ const styles = (theme: any) => ({
 
 const DialogTitle = withStyles(styles as any)((props: any) => {
   const { children, classes, onClose, ...other } = props;
+
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -53,12 +54,9 @@ const DialogActions = withStyles(theme => ({
   }
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs() {
+export function CustomizedDialogs() {
   const [open, setOpen] = React.useState(true);
 
-  //   const handleClickOpen = () => {
-  //     setOpen(true);
-  //   };
   const handleClose = () => {
     setOpen(false);
   };
@@ -102,3 +100,11 @@ export default function CustomizedDialogs() {
     </div>
   );
 }
+
+export class InstructionsModal extends React.Component<any, any> {
+  render() {
+    return <CustomizedDialogs />;
+  }
+}
+
+export default withStyles(styles as any)(InstructionsModal);

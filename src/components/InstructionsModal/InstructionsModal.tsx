@@ -11,6 +11,10 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
 
+import { useCookies } from "react-cookie";
+
+// let isCheckboxChecked = false;
+
 const styles = (theme: any) => ({
   "@global": {
     html: {
@@ -75,82 +79,92 @@ const DialogContent = withStyles(theme => ({
 
 export function CustomizedDialogs() {
   const [open, setOpen] = React.useState(true);
+  const [cookies, setCookie] = useCookies(["hideModal"]);
+
+  let [checked, setChecked] = React.useState(false);
 
   const handleClose = () => {
+    if (!cookies.hasOwnProperty("hideModal") || !cookies["hideModal"]) {
+      setCookie("hideModal", checked);
+    }
+    console.log("cookies", cookies);
     setOpen(false);
   };
 
-  const [checked, setChecked] = React.useState(false);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    checked = event.target.checked;
     setChecked(event.target.checked);
   };
 
+  console.log("cookies", cookies);
+
   return (
-    <div>
-      <Grid container spacing={2} style={{ margin: "auto" }}>
-        <Dialog
-          onClose={handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={open}
-          PaperProps={{
-            style: { borderRadius: 0 }
-          }}
-        >
-          <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-            Instructions
-          </DialogTitle>
-          <DialogContent dividers>
-            <p style={{ fontWeight: "bold", fontSize: "18px" }}>
-              Welcome to Just Fix it Dashboard
-            </p>
-            <Typography gutterBottom>
-              1. Search for a customer in the top bar to pull up their current
-              status, and useful information about their accounts performance
-              and stability
-            </Typography>
-            <Typography gutterBottom style={{ marginTop: "15px" }}>
-              2. Wait for important data to load into the
-              <br />
-              panels provided
-            </Typography>
-            <Typography
-              gutterBottom
-              style={{
-                fontSize: "12px",
-                fontWeight: "bold",
-                margin: "15px 0px 15px 0px"
-              }}
-            >
-              <i>*Note: Some panels take longer than other to load due</i>
-              <i>to their connection to different external systems</i>
-            </Typography>
-            <Button
-              size="large"
-              style={{
-                background: "yellow",
-                fontWeight: "bold",
-                width: "100%",
-                height: "50px",
-                borderRadius: "0"
-              }}
-              onClick={handleClose}
-            >
-              Got it !
-            </Button>
-            <Checkbox
-              checked={checked}
-              onChange={handleChange}
-              inputProps={{ "aria-label": "primary checkbox" }}
-            />{" "}
-            <p style={{ fontWeight: "bold", display: "inline" }}>
-              {" "}
-              Don't show this again{" "}
-            </p>
-          </DialogContent>
-        </Dialog>
-      </Grid>
-    </div>
+    (!cookies.hasOwnProperty("hideModal") || cookies["hideModal"]) && (
+      <div>
+        <Grid container spacing={2} style={{ margin: "auto" }}>
+          <Dialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+            PaperProps={{
+              style: { borderRadius: 0 }
+            }}
+          >
+            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+              Instructions
+            </DialogTitle>
+            <DialogContent dividers>
+              <p style={{ fontWeight: "bold", fontSize: "18px" }}>
+                Welcome to Just Fix it Dashboard
+              </p>
+              <Typography gutterBottom>
+                1. Search for a customer in the top bar to pull up their current
+                status, and useful information about their accounts performance
+                and stability
+              </Typography>
+              <Typography gutterBottom style={{ marginTop: "15px" }}>
+                2. Wait for important data to load into the
+                <br />
+                panels provided
+              </Typography>
+              <Typography
+                gutterBottom
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  margin: "15px 0px 15px 0px"
+                }}
+              >
+                <i>*Note: Some panels take longer than other to load due</i>
+                <i>to their connection to different external systems</i>
+              </Typography>
+              <Button
+                size="large"
+                style={{
+                  background: "yellow",
+                  fontWeight: "bold",
+                  width: "100%",
+                  height: "50px",
+                  borderRadius: "0"
+                }}
+                onClick={handleClose}
+              >
+                Got it !
+              </Button>
+              <Checkbox
+                checked={checked}
+                onChange={handleChange}
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />{" "}
+              <p style={{ fontWeight: "bold", display: "inline" }}>
+                {" "}
+                Don't show this again{" "}
+              </p>
+            </DialogContent>
+          </Dialog>
+        </Grid>
+      </div>
+    )
   );
 }
 

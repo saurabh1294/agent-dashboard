@@ -17,6 +17,8 @@ import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { authenticate } from "./actions/actions";
 
+import Image from "./assets/images/login_bg.jpg"; // Import using relative path
+
 const mapStateToProps = (state: any) => {
   console.log("this is the state", state);
   return {};
@@ -36,6 +38,25 @@ interface AuthCallbackProperties {
 
 // default style hook from material-ui
 const styles = (theme: any) => ({
+  textField: {
+    [`& fieldset`]: {
+      borderRadius: 0
+    }
+  },
+  paperContainer: {
+    backgroundImage: `url(${Image})`
+  },
+  loginTitle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: "18px",
+    textAlign: "center",
+    background: "#39749B",
+    height: "60px",
+    minWidth: "444px",
+    padding: "20px",
+    margin: "0px 0px 20px 0px"
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -52,11 +73,21 @@ const styles = (theme: any) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    background: "teal"
+    background: "yellow",
+    color: "black",
+    fontWeight: "bold",
+    borderRadius: "0",
+    height: "50px"
   },
   error: {
-    color: "red",
+    color: "#F44336",
     textAlign: "left"
+  },
+  loginDashboardTitle: {
+    color: "white",
+    textAlign: "center",
+    fontSize: "48px",
+    margin: "20px 0px -50px 0px"
   }
 });
 
@@ -154,17 +185,32 @@ export class App extends React.Component<AuthCallbackProperties, any> {
     }
 
     return (
-      <div>
+      <div className={classes.paperContainer}>
         <Header {...this.props} isLoggedIn={this.state.isLoggedIn} />
-        <Container component="main" maxWidth="xs">
+        <Typography className={classes.loginDashboardTitle} variant="h6">
+          Just<span style={{ fontWeight: "bold" }}>Fix</span>
+          <span style={{ color: "yellow" }}>it</span>
+          <span
+            style={{ color: "white", position: "absolute", fontSize: "24px" }}
+          >
+            {/* {" "} */}
+            ᵈᵃˢʰᵇᵒᵃʳᵈ
+          </span>
+        </Typography>
+        <Container
+          component="main"
+          maxWidth="xs"
+          style={{ background: "white" }}
+        >
           <CssBaseline />
           <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
+            {/* <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
-            </Typography>
+            </Typography> */}
+            <div className={classes.loginTitle}>Agent Login</div>
             <form className={classes.form} noValidate>
               <TextField
                 variant="outlined"
@@ -218,7 +264,7 @@ export class App extends React.Component<AuthCallbackProperties, any> {
                 className={classes.submit}
                 onClick={e => this.handleLogin(e)}
               >
-                Sign In
+                Login
               </Button>
             </form>
           </div>

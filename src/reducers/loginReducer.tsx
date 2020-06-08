@@ -8,22 +8,27 @@ import {
   FETCH_CUSTOMER_INFO_FAILURE
 } from "../actions/actionTypes";
 
-export interface State {
-  username: string;
-  password: string;
-  authToken: string;
-  isLoggedIn: boolean;
-  isLoggedOut: boolean;
-  isCustInfoLoaded: boolean;
-}
+// export interface State {
+//   username: string;
+//   password: string;
+//   authToken: string;
+//   isLoggedIn: boolean;
+//   isLoggedOut: boolean;
+//   isCustInfoLoaded: boolean;
+//   set: Function;
+//   setIn: Function;
+// }
 
-const initialState: State = {
+const initialState: any = {
   username: "",
   password: "",
   authToken: "",
+  authError: "",
   isLoggedIn: false,
   isLoggedOut: true,
   isCustInfoLoaded: false
+  // set: Function,
+  // setIn: Function
 };
 
 export default function loginReducer(state = initialState, action: any) {
@@ -34,8 +39,23 @@ export default function loginReducer(state = initialState, action: any) {
         "authenticate agent payload received from backend",
         action.payload
       );
-      // set state here based on payload value
-      break;
+
+      // TODO use seamless immutable npm package here
+      // return state.setIn(["isLoggedIn", "authToken", "authError"],
+      // action.payload.data.newSessionStaffauth.result === "GOOD",
+      // action.payload.data.newSessionStaffauth.stok,
+      // action.payload.data.newSessionStaffauth.result);
+
+      // TODO below code is for testing purpose only
+      return [
+        {
+          isLoggedIn: action.payload.data.newSessionStaffauth.result === "GOOD",
+          authToken: action.payload.data.newSessionStaffauth.stok,
+          authError: action.payload.data.newSessionStaffauth.result
+        },
+        action
+      ];
+    // set state here based on payload value
 
     case LOGGED_IN_SUCCESS:
       console.log("LOGGED_IN");

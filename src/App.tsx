@@ -19,7 +19,9 @@ import Image from "./assets/images/login_bg.jpg"; // Import using relative path
 
 const mapStateToProps = (state: any) => {
   console.log("this is the state", state);
-  return {};
+  return {
+    data: state.data
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {

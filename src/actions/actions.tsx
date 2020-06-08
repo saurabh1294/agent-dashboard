@@ -9,12 +9,13 @@ import {
 } from "./actionTypes";
 import axios from "axios";
 import gql from "graphql-tag";
+import loginReducer from "../reducers/loginReducer";
 
 const baseURL = "http://stile.pt.optusnet.com.au"; // actual endpoint from Brett
 const custInfoUrl = `${baseURL}/custInfo`;
 // const authApiUrl = `${baseURL}/auth`;
 
-export const fetchCustomerInfo = () => {
+export const fetchCustomerInfo = (searchQuery: string) => {
   return (dispatch: any) => {
     return axios
       .get(`${custInfoUrl}`)
@@ -44,21 +45,6 @@ export const fetchCustomerInfoFailure = (data: any) => {
     response: data
   };
 };
-
-// export const authenticate = (username: string, password: string) => {
-//   return (dispatch: any) => {
-//     return axios
-//       .get(`http://api.plos.org/search?q=title:DNA`)
-//       .then(response => {
-//         dispatch(loginSuccess(response.data));
-//       })
-//       .catch(error => {
-//         console.log("ERROR in authenticate api call");
-//         dispatch(loginFailure(error));
-//         throw error;
-//       });
-//   };
-// };
 
 export const loginSuccess = (data: any) => {
   return {
@@ -92,6 +78,14 @@ export const logoutFailure = (data: any) => {
   };
 };
 
+export const checkAuth = (data: any) => {
+  return {
+    type: AGENT_AUTHENTICATE,
+    state: "AGENT_AUTHENTICATE",
+    response: data
+  };
+};
+
 export const authenticate = (username: string, password: string) => {
   //const someQuery = gql`query { fake }`;
   const someQuery = gql`
@@ -104,15 +98,38 @@ export const authenticate = (username: string, password: string) => {
 
   console.log("firing graphql query", someQuery);
   return async (dispatch: any, getState: any, client: any) => {
-    const request = await client.mutate({
-      mutation: someQuery,
-      variables: { username, password }
-    });
-    const result = await request;
+    // TODO uncomment the below 5 lines later
+    // const request = await client.mutate({
+    //   mutation: someQuery,
+    //   variables: { username, password }
+    // });
+    // const result = await request;
+
+    // TODO comment below code later on - stub for testing different API responses
+    const result = {
+      data: {
+        newSessionStaffauth: {
+          result: "GOOD",
+          stok: "fake:token123:fred"
+        }
+      }
+    };
     console.log("this is the result from graphql endpoint", result);
-    dispatch({
-      type: AGENT_AUTHENTICATE,
-      payload: result
-    });
+    dispatch(
+      loginReducer(
+        {
+          username,
+          password,
+          authToken: "",
+          isLoggedIn: false,
+          isLoggedOut: true,
+          isCustInfoLoaded: false
+        } as any,
+        {
+          type: AGENT_AUTHENTICATE,
+          payload: result
+        }
+      )
+    );
   };
 };

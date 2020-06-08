@@ -16,12 +16,24 @@ import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 import CachedIcon from "@material-ui/icons/Cached";
+import { fetchCustomerInfo } from "../../actions/actions";
 
 import { connect } from "react-redux";
 
-const mapStateToProps = undefined; // initialize it properly
+const mapStateToProps = (state: any) => {
+  console.log("this is the state in dashboard component", state);
+  return {
+    data: state.data
+  };
+};
 
-const mapDispatchToProps = undefined; // initialize it properly
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    // same effect
+    fetchCustomerInfo: (searchQuery: string) =>
+      dispatch(fetchCustomerInfo(searchQuery))
+  };
+};
 
 // default style hook from material-ui
 const styles = (theme: any) => ({
@@ -182,16 +194,17 @@ const styles = (theme: any) => ({
 });
 
 class Dashboard extends Component<any> {
-  state = {
-    modalOpen: true
-  };
+  // state = {
+  //   modalOpen: true
+  // };
 
   render() {
     // TODO check if user is logged in or not, if yes then render this else redirect to home page
     console.log(
       "in dashboard component ",
       this.props,
-      this.props.location.state?.isLoggedIn
+      this.props.location.state?.isLoggedIn,
+      this.state
     );
 
     const { classes } = this.props as any;

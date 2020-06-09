@@ -9,7 +9,7 @@ import {
 } from "./actionTypes";
 import axios from "axios";
 import gql from "graphql-tag";
-import loginReducer from "../reducers/loginReducer";
+// import loginReducer from "../reducers/loginReducer";
 
 const baseURL = "http://stile.pt.optusnet.com.au"; // actual endpoint from Brett
 const custInfoUrl = `${baseURL}/custInfo`;
@@ -82,7 +82,7 @@ export const checkAuth = (data: any) => {
   return {
     type: AGENT_AUTHENTICATE,
     state: "AGENT_AUTHENTICATE",
-    response: data
+    payload: data
   };
 };
 
@@ -114,22 +114,16 @@ export const authenticate = (username: string, password: string) => {
         }
       }
     };
-    console.log("this is the result from graphql endpoint", result);
-    dispatch(
-      loginReducer(
-        {
-          username,
-          password,
-          authToken: "",
-          isLoggedIn: false,
-          isLoggedOut: true,
-          isCustInfoLoaded: false
-        } as any,
-        {
-          type: AGENT_AUTHENTICATE,
-          payload: result
-        }
-      )
-    );
+    console.log("this is the result from graphql endpoint", result, getState());
+    // dispatch(
+    //   loginReducer(
+    //     getState().data as any,
+    //     {
+    //       type: AGENT_AUTHENTICATE,
+    //       payload: result
+    //     }
+    //   )
+    // );
+    dispatch(checkAuth(result));
   };
 };

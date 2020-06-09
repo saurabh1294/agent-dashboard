@@ -20,11 +20,16 @@ import { fetchCustomerInfo } from "../../actions/actions";
 
 import { connect } from "react-redux";
 
+// const mapStateToProps = (state: any) => {
+//   console.log("this is the state in dashboard component", state);
+//   return {
+//     data: state.data
+//   };
+// };
+
 const mapStateToProps = (state: any) => {
-  console.log("this is the state in dashboard component", state);
-  return {
-    data: state.data
-  };
+  console.log("this is the state in mapStateToProps of Dashboard.tsx", state);
+  return state;
 };
 
 const mapDispatchToProps = (dispatch: any) => {

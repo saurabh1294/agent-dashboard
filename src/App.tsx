@@ -19,9 +19,7 @@ import Image from "./assets/images/login_bg.jpg"; // Import using relative path
 
 const mapStateToProps = (state: any) => {
   console.log("this is the state", state);
-  return {
-    data: state.data
-  };
+  return state;
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -103,10 +101,9 @@ export class App extends React.Component<AuthCallbackProperties, any> {
     isCustInfoLoaded: false
   };
 
-  // componentDidMount() {
-  //   console.log('componentDidMount', this.props);
-  //   this.props.authCredentials('', '');
-  // }
+  componentDidMount() {
+    console.log("componentDidMount", this.props);
+  }
 
   async handleChange(e: any, type: any) {
     const value = e.target.value;
@@ -137,6 +134,9 @@ export class App extends React.Component<AuthCallbackProperties, any> {
 
     if (this.state.username.length === 0)
       this.setState({ usernameError: true });
+
+    // TODO extract auth result value from login reducer here and compare with the value returned
+    // to validate the authentication
 
     // test code to check login credentials - use try catch when API is ready
     /* As suggested by the business and Peter, trim leading and trailing spaces

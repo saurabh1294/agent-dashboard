@@ -4,6 +4,8 @@ import ReduxAsyncQueue from "redux-async-queue";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+// import loginReducer from "../reducers/loginReducer";
+import rootReducer from "../reducers/rootReducer";
 
 export const client = new ApolloClient({
   link: createHttpLink({
@@ -13,9 +15,9 @@ export const client = new ApolloClient({
 });
 
 const configureStore = () => {
-  const reducer = (state = {}, action: any) => state;
+  // const reducer = (state = {}, action: any) => state;
   return createStore(
-    reducer,
+    rootReducer,
     applyMiddleware(thunk.withExtraArgument(client), ReduxAsyncQueue)
   );
 };

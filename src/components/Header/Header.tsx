@@ -20,6 +20,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 
 import NativeSelect from "@material-ui/core/NativeSelect";
+import Grid from "@material-ui/core/Grid";
 
 // default style hook from material-ui
 const BootstrapInput = withStyles((theme: Theme) =>
@@ -163,63 +164,64 @@ export class Header extends React.Component<any, any> {
 
             {this.props.location && this.props.location?.state?.isLoggedIn && (
               <div className={classes.search}>
-                <Typography
-                  style={{ position: "absolute", marginLeft: "15%" }}
-                  variant="h6"
-                >
-                  <span style={{ fontWeight: "bold" }}>Search</span>
-                </Typography>
+                <Grid item xs={2}>
+                  <Typography
+                    style={{ position: "absolute", marginLeft: "15%" }}
+                    variant="h6"
+                  >
+                    <span style={{ fontWeight: "bold" }}>Search</span>
+                  </Typography>
+                </Grid>
 
-                <NativeSelect
-                  style={{ position: "absolute", marginLeft: "22%" }}
-                  id="demo-customized-select-native"
-                  onChange={this.handleSelect}
-                  input={<BootstrapInput />}
-                >
-                  <option
-                    aria-label="None"
-                    value="ID Type"
-                    style={{ backgroundColor: "#00332E", color: "white" }}
+                <Grid item xs={2} spacing={5}>
+                  <NativeSelect
+                    style={{ position: "absolute", marginLeft: "22%" }}
+                    id="demo-customized-select-native"
+                    onChange={this.handleSelect}
+                    input={<BootstrapInput />}
                   >
-                    ID Type
-                  </option>
-                  <option
-                    value={"FNN Number"}
-                    style={{ backgroundColor: "#00332E", color: "white" }}
-                  >
-                    FNN Number
-                  </option>
-                  <option
-                    value={"Account Number"}
-                    style={{ backgroundColor: "#00332E", color: "white" }}
-                  >
-                    Account Number
-                  </option>
-                  <option
-                    value={"Email Address"}
-                    style={{ backgroundColor: "#00332E", color: "white" }}
-                  >
-                    Email Address
-                  </option>
-                </NativeSelect>
-                <InputBase
-                  startAdornment={<SearchIcon />}
-                  placeholder="Search"
-                  onKeyPress={this.handleSearch}
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                  style={{
-                    color: "white",
-                    fontWeight: "bold",
-                    background: "#00332E",
-                    marginLeft: "480px",
-                    width: "200px",
-                    padding: "4px 0px 0px 0px"
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                />
+                    <option
+                      aria-label="None"
+                      value="ID Type"
+                      style={{ backgroundColor: "#00332E", color: "white" }}
+                    >
+                      ID Type
+                    </option>
+                    <option
+                      value={"Username"}
+                      style={{ backgroundColor: "#00332E", color: "white" }}
+                    >
+                      Username
+                    </option>
+                    <option
+                      value={"FNN Number"}
+                      style={{ backgroundColor: "#00332E", color: "white" }}
+                    >
+                      FNN Number
+                    </option>
+                  </NativeSelect>
+                </Grid>
+
+                <Grid item xs={2}>
+                  <InputBase
+                    startAdornment={<SearchIcon />}
+                    placeholder="Search"
+                    onKeyPress={this.handleSearch}
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput
+                    }}
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      background: "#00332E",
+                      marginLeft: "480px",
+                      width: "200px",
+                      padding: "4px 0px 0px 0px"
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Grid>
               </div>
             )}
 

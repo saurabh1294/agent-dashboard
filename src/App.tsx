@@ -19,7 +19,17 @@ import Image from "./assets/images/login_bg.jpg"; // Import using relative path
 
 const mapStateToProps = (state: any) => {
   console.log("this is the state", state);
-  return state;
+
+  return {
+    username: state.loginReducer.username,
+    password: state.loginReducer.password,
+    authToken: state.loginReducer.authToken,
+    authError: state.loginReducer.authError,
+    isLoggedIn: state.loginReducer.isLoggedIn,
+    isLoggedOut: state.loginReducer.isLoggedOut,
+    isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
+    data: state.loginReducer.data
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -89,13 +99,13 @@ const styles = (theme: any) => ({
   }
 });
 
-export class App extends React.Component<AuthCallbackProperties, any> {
+export class App extends React.Component<any, any> {
   state = {
     username: "",
     password: "",
     usernameError: false,
     passwordError: false,
-    authError: false,
+    authError: "",
     isLoggedIn: false,
     isLoggedOut: false,
     isCustInfoLoaded: false
@@ -103,6 +113,13 @@ export class App extends React.Component<AuthCallbackProperties, any> {
 
   componentDidMount() {
     console.log("componentDidMount", this.props);
+  }
+
+  setCookie(cname: string, cvalue: string, minutes: number) {
+    var d = new Date();
+    d.setTime(d.getTime() + minutes * 60 * 1000);
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
   }
 
   async handleChange(e: any, type: any) {
@@ -135,9 +152,6 @@ export class App extends React.Component<AuthCallbackProperties, any> {
     if (this.state.username.length === 0)
       this.setState({ usernameError: true });
 
-    // TODO extract auth result value from login reducer here and compare with the value returned
-    // to validate the authentication
-
     // test code to check login credentials - use try catch when API is ready
     /* As suggested by the business and Peter, trim leading and trailing spaces
     from username and passwd before auth API call */
@@ -157,16 +171,18 @@ export class App extends React.Component<AuthCallbackProperties, any> {
       console.log("in finally block");
     }
 
+    const { data } = this.props;
     // dispatch login complete action here and set the auth token in the session cookie
-    if (
-      this.state.username === "1331234" &&
-      this.state.password === "test123"
-    ) {
-      // dispatch action here which will set state
+    if (data.newSessionStaffauth.result === "GOOD") {
+      // TODO dispatch action here which will set global state
+
+      // set auth token in cookie. Can get rid of this logic and save this in redux state
+      this.setCookie("stok", data.newSessionStaffauth.stok, 15);
+
       await this.setState({ isLoggedIn: true });
     } else {
       // dispatch action here which will set state
-      await this.setState({ authError: true });
+      await this.setState({ authError: data.newSessionStaffauth.result });
     }
   }
 
@@ -186,7 +202,7 @@ export class App extends React.Component<AuthCallbackProperties, any> {
 
     return (
       <div className={classes.paperContainer}>
-        <Header {...this.props} isLoggedIn={this.state.isLoggedIn} />
+        <Header {...this.props} isLoggedIn={this.props.isLoggedIn} />
         <Typography className={classes.loginDashboardTitle} variant="h6">
           Just<span style={{ fontWeight: "bold" }}>Fix</span>
           <span style={{ color: "yellow" }}>it</span>
@@ -204,12 +220,6 @@ export class App extends React.Component<AuthCallbackProperties, any> {
         >
           <CssBaseline />
           <div className={classes.paper}>
-            {/* <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography> */}
             <div className={classes.loginTitle}>Agent Login</div>
             <form className={classes.form} noValidate>
               <TextField
@@ -253,8 +263,16 @@ export class App extends React.Component<AuthCallbackProperties, any> {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              {this.state.authError && (
-                <p className={classes.error}>Authentication failed</p>
+              {this.state.authError !== "" ? (
+                this.state.authError === "BAD" ? (
+                  <p className={classes.error}>Authentication failed</p>
+                ) : (
+                  <p className={classes.error}>
+                    We are having issues logging you in. Please retry !!
+                  </p>
+                )
+              ) : (
+                ""
               )}
               <Button
                 type="submit"

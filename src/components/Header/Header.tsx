@@ -173,7 +173,6 @@ export class Header extends React.Component<any, any> {
                 <NativeSelect
                   style={{ position: "absolute", marginLeft: "22%" }}
                   id="demo-customized-select-native"
-                  // value={age}
                   onChange={this.handleSelect}
                   input={<BootstrapInput />}
                 >

@@ -45,34 +45,6 @@ export default function loginReducer(state = initialState, action: any) {
         ...action.payload
       };
 
-    // TODO use seamless immutable npm package here
-    // return state.setIn(["isLoggedIn", "authToken", "authError"],
-    // action.payload.data.newSessionStaffauth.result === "GOOD",
-    // action.payload.data.newSessionStaffauth.stok,
-    // action.payload.data.newSessionStaffauth.result);
-
-    // TODO below code is for testing purpose only
-    /*return [
-        // ...state,
-        {
-          isLoggedIn: action.payload.data.newSessionStaffauth.result === "GOOD",
-          authToken: action.payload.data.newSessionStaffauth.stok,
-          authError: action.payload.data.newSessionStaffauth.result
-        },
-        action
-      ];*/
-    // alert('returning state here from reducer');
-
-    // return [
-    //   {
-    //     isLoggedIn: action.payload.data.newSessionStaffauth.result === "GOOD",
-    //     authToken: action.payload.data.newSessionStaffauth.stok,
-    //     authError: action.payload.data.newSessionStaffauth.result
-    //   },
-    //   action
-    // ]
-    // set state here based on payload value
-
     case LOGGED_IN_SUCCESS:
       console.log("LOGGED_IN");
       // set login successful state here

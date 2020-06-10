@@ -97,21 +97,21 @@ export const authenticate = (username: string, password: string) => {
   console.log("firing graphql query", someQuery);
   return async (dispatch: any, getState: any, client: any) => {
     // TODO uncomment the below 5 lines later
-    // const request = await client.mutate({
-    //   mutation: someQuery,
-    //   variables: { username, password }
-    // });
-    // const result = await request;
+    const request = await client.mutate({
+      mutation: someQuery,
+      variables: { username, password }
+    });
+    const result = await request;
 
     // TODO comment below code later on - stub for testing different API responses
-    const result = {
-      data: {
-        newSessionStaffauth: {
-          result: "GOOD",
-          stok: "fake:token123:fred"
-        }
-      }
-    };
+    // const result = {
+    //   data: {
+    //     newSessionStaffauth: {
+    //       result: "GOOD",
+    //       stok: "fake:token123:fred"
+    //     }
+    //   }
+    // };
     console.log("this is the result from graphql endpoint", result, getState());
     dispatch(checkAuth(result));
   };

@@ -95,12 +95,15 @@ export const logout = () => {
   `;
 
   return async (dispatch: any, getState: any, client: any) => {
-    // TODO uncomment the below 4 lines later
+    // TODO comment the below 4 lines when running locally
     const request = await client.mutate({
       mutation: someQuery
     });
     const result = await request;
+
+    // TODO uncomment when running locally
     // const result = {};
+
     console.log("this is the result from graphql endpoint", result);
     dispatch(logoutSuccess(result));
   };
@@ -125,22 +128,23 @@ export const authenticate = (username: string, password: string) => {
     password
   );
   return async (dispatch: any, getState: any, client: any) => {
-    // TODO uncomment the below 5 lines later
-    /*const request = await client.mutate({
+    // TODO comment the below 5 lines when running locally
+    const request = await client.mutate({
       mutation: someQuery,
       variables: { username, password }
     });
-    const result = await request; */
+    const result = await request;
 
-    // TODO comment below code later on - stub for testing different API responses
-    const result = {
-      data: {
-        newSessionStaffauth: {
-          result: "GOOD",
-          stok: "fake:token123:fred"
-        }
-      }
-    };
+    // TODO uncomment below - stub for testing different API responses when testing locally
+    // const result = {
+    //   data: {
+    //     newSessionStaffauth: {
+    //       result: "GOOD",
+    //       stok: "fake:token123:fred"
+    //     }
+    //   }
+    // };
+
     console.log("this is the result from graphql endpoint", result, getState());
     dispatch(checkAuth(result));
   };

@@ -156,9 +156,6 @@ export class App extends React.Component<any, any> {
     /* As suggested by the business and Peter, trim leading and trailing spaces
     from username and passwd before auth API call */
     // fire API call to authenticate here and based on it's success or failure, state will be set
-    //this.props.authenticate();
-    // dispatch login in progress action here
-    // TODO fix this
     try {
       const response = await this.props.authCredentials(
         this.state.username,
@@ -178,7 +175,7 @@ export class App extends React.Component<any, any> {
 
       // set auth token in cookie. Can get rid of this logic and save this in redux state
       this.setCookie("stok", data.newSessionStaffauth.stok, 15);
-
+      await this.setState({ isLoggedOut: false });
       await this.setState({ isLoggedIn: true });
     } else {
       // dispatch action here which will set state
@@ -194,104 +191,106 @@ export class App extends React.Component<any, any> {
         <Redirect
           to={{
             pathname: "/dashboard",
-            state: { isLoggedIn: this.state.isLoggedIn }
+            state: {
+              isLoggedIn: this.state.isLoggedIn,
+              isLoggedOut: this.state.isLoggedOut
+            }
           }}
         />
       );
-    }
-
-    return (
-      <div className={classes.paperContainer}>
-        <Header {...this.props} isLoggedIn={this.props.isLoggedIn} />
-        <Typography className={classes.loginDashboardTitle} variant="h6">
-          Just<span style={{ fontWeight: "bold" }}>Fix</span>
-          <span style={{ color: "yellow" }}>it</span>
-          <span
-            style={{ color: "white", position: "absolute", fontSize: "24px" }}
+    } else
+      return (
+        <div className={classes.paperContainer}>
+          <Header {...this.props} isLoggedIn={this.props.isLoggedIn} />
+          <Typography className={classes.loginDashboardTitle} variant="h6">
+            Just<span style={{ fontWeight: "bold" }}>Fix</span>
+            <span style={{ color: "yellow" }}>it</span>
+            <span
+              style={{ color: "white", position: "absolute", fontSize: "24px" }}
+            >
+              {/* {" "} */}
+              ᵈᵃˢʰᵇᵒᵃʳᵈ
+            </span>
+          </Typography>
+          <Container
+            component="main"
+            maxWidth="xs"
+            style={{ background: "white" }}
           >
-            {/* {" "} */}
-            ᵈᵃˢʰᵇᵒᵃʳᵈ
-          </span>
-        </Typography>
-        <Container
-          component="main"
-          maxWidth="xs"
-          style={{ background: "white" }}
-        >
-          <CssBaseline />
-          <div className={classes.paper}>
-            <div className={classes.loginTitle}>Agent Login</div>
-            <form className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Staff Auth ID"
-                name="username"
-                autoComplete="username"
-                error={this.state.username === "" && this.state.usernameError}
-                helperText={
-                  this.state.username === "" && this.state.usernameError
-                    ? "Username is required!"
-                    : " "
-                }
-                onChange={e => this.handleChange(e, "username")}
-                autoFocus
-              />
+            <CssBaseline />
+            <div className={classes.paper}>
+              <div className={classes.loginTitle}>Agent Login</div>
+              <form className={classes.form} noValidate>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Staff Auth ID"
+                  name="username"
+                  autoComplete="username"
+                  error={this.state.username === "" && this.state.usernameError}
+                  helperText={
+                    this.state.username === "" && this.state.usernameError
+                      ? "Username is required!"
+                      : " "
+                  }
+                  onChange={e => this.handleChange(e, "username")}
+                  autoFocus
+                />
 
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                error={this.state.password === "" && this.state.passwordError}
-                helperText={
-                  this.state.password === "" && this.state.passwordError
-                    ? "Password is required!"
-                    : " "
-                }
-                onChange={e => this.handleChange(e, "password")}
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              {this.state.authError !== "" ? (
-                this.state.authError === "BAD" ? (
-                  <p className={classes.error}>Authentication failed</p>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  error={this.state.password === "" && this.state.passwordError}
+                  helperText={
+                    this.state.password === "" && this.state.passwordError
+                      ? "Password is required!"
+                      : " "
+                  }
+                  onChange={e => this.handleChange(e, "password")}
+                  autoComplete="current-password"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                {this.state.authError !== "" ? (
+                  this.state.authError === "BAD" ? (
+                    <p className={classes.error}>Authentication failed</p>
+                  ) : (
+                    <p className={classes.error}>
+                      We are having issues logging you in. Please retry !!
+                    </p>
+                  )
                 ) : (
-                  <p className={classes.error}>
-                    We are having issues logging you in. Please retry !!
-                  </p>
-                )
-              ) : (
-                ""
-              )}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={e => this.handleLogin(e)}
-              >
-                Login
-              </Button>
-            </form>
-          </div>
-          <Box mt={8}>
-            <Footer />
-          </Box>
-        </Container>
-      </div>
-    );
+                  ""
+                )}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={e => this.handleLogin(e)}
+                >
+                  Login
+                </Button>
+              </form>
+            </div>
+            <Box mt={8}>
+              <Footer />
+            </Box>
+          </Container>
+        </div>
+      );
   }
 }
 

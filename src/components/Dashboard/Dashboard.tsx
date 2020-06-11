@@ -22,12 +22,7 @@ import { connect } from "react-redux";
 
 import { logout } from "../../actions/actions";
 
-// const mapStateToProps = (state: any) => {
-//   console.log("this is the state in dashboard component", state);
-//   return {
-//     data: state.data
-//   };
-// };
+import { Redirect } from "react-router";
 
 const mapStateToProps = (state: any) => {
   console.log("this is the state in mapStateToProps of Dashboard.tsx", state);
@@ -211,7 +206,7 @@ const styles = (theme: any) => ({
   }
 });
 
-class Dashboard extends Component<any> {
+class Dashboard extends Component<any, any> {
   // state = {
   //   modalOpen: true
   // };
@@ -222,561 +217,346 @@ class Dashboard extends Component<any> {
       "in dashboard component ",
       this.props,
       this.props.location.state?.isLoggedIn,
+      this.props.location.state?.isLoggedOut,
       this.state
     );
 
     const { classes } = this.props as any;
 
-    return (
-      <div>
-        <InstructionsModal />
-        <Header {...this.props} />
+    if (this.props.location.state?.isLoggedIn) {
+      return (
+        <div>
+          <InstructionsModal />
+          <Header {...this.props} />
 
-        <div style={{ marginTop: "10px", marginLeft: "9%" }}>
-          <Box display="flex" flexDirection="row" p={1} m={1}>
-            <Box p={1}>
-              <Typography variant="h6" style={{ color: "teal" }}>
-                Customer <span style={{ color: "black" }}> Jane Bird</span>
-              </Typography>
+          <div style={{ marginTop: "10px", marginLeft: "9%" }}>
+            <Box display="flex" flexDirection="row" p={1} m={1}>
+              <Box p={1}>
+                <Typography variant="h6" style={{ color: "teal" }}>
+                  Customer <span style={{ color: "black" }}> Jane Bird</span>
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-        </div>
+          </div>
 
-        <div
-          style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }}
-          className={classes.root}
-        >
-          <Paper className={`${classes.paper} ${classes.topTile}`}>
-            <Grid container spacing={2}>
-              <Grid item className={classes.title}>
-                General Service Status
-              </Grid>
-              <Grid item xs={12} sm={12} container>
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  direction="column"
-                  style={{ padding: "15px", marginRight: "50px" }}
-                  spacing={2}
-                >
-                  <Grid item xs>
-                    <Typography gutterBottom variant="subtitle1">
-                      Service Status{" "}
-                      <CachedIcon className={classes.cachedIcon} />
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      gutterBottom
-                    >
-                      DIMPS
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      style={{
-                        color: "#00CCFF",
-                        fontWeight: "bold",
-                        fontSize: "18px"
-                      }}
-                    >
-                      Online
-                    </Typography>
-                  </Grid>
+          <div
+            style={{ marginLeft: "10%", marginTop: "-70px", width: "80%" }}
+            className={classes.root}
+          >
+            <Paper className={`${classes.paper} ${classes.topTile}`}>
+              <Grid container spacing={2}>
+                <Grid item className={classes.title}>
+                  General Service Status
                 </Grid>
-                <Divider orientation="vertical" flexItem />
-
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  direction="column"
-                  style={{ padding: "15px", marginRight: "50px" }}
-                  spacing={2}
-                >
-                  <Grid item xs>
-                    <Typography gutterBottom variant="subtitle1">
-                      Account Status{" "}
-                      <CachedIcon className={classes.cachedIcon} />
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      gutterBottom
-                    >
-                      ISE Prov DB
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      style={{
-                        color: "rgba(233, 77, 84, 0.81)",
-                        fontWeight: "bold",
-                        fontSize: "18px"
-                      }}
-                    >
-                      Suspended
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Divider orientation="vertical" flexItem />
-
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  direction="column"
-                  style={{ padding: "15px", marginRight: "50px" }}
-                  spacing={2}
-                >
-                  <Grid item xs>
-                    <Typography gutterBottom variant="subtitle1">
-                      NBN Network <CachedIcon className={classes.cachedIcon} />
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      gutterBottom
-                    >
-                      AVC
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      style={{
-                        color: "#00CCFF",
-                        fontWeight: "bold",
-                        fontSize: "18px"
-                      }}
-                    >
-                      No Outage
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Divider orientation="vertical" flexItem />
-
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  direction="column"
-                  style={{ padding: "15px", marginRight: "50px" }}
-                  spacing={2}
-                >
-                  <Grid item xs>
-                    <Typography gutterBottom variant="subtitle1">
-                      PRI <CachedIcon className={classes.cachedIcon} />
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      gutterBottom
-                    >
-                      NBN
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      style={{
-                        color: "#00CCFF",
-                        fontWeight: "bold",
-                        fontSize: "18px"
-                      }}
-                    >
-                      Active
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Divider orientation="vertical" flexItem />
-
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  direction="column"
-                  style={{ padding: "15px", marginRight: "0px" }}
-                  spacing={2}
-                >
-                  <Grid item xs>
-                    <Typography gutterBottom variant="subtitle1">
-                      PRI <CachedIcon className={classes.cachedIcon} />
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      gutterBottom
-                    >
-                      Co-existence
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      style={{
-                        color: "#00CCFF",
-                        fontWeight: "bold",
-                        fontSize: "18px"
-                      }}
-                    >
-                      Yes
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-        </div>
-
-        <div style={{ marginLeft: "10%", marginTop: "-50px", width: "80%" }}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={6}>
-              <Paper className={`${classes.paper} ${classes.header1}`}>
-                Service Information
-              </Paper>
-
-              <Grid container spacing={1}>
-                <Grid item xs={12} sm={6}>
-                  <Paper
-                    className={`${classes.papers} ${classes.serviceInfoTile1}`}
+                <Grid item xs={12} sm={12} container>
+                  <Grid
+                    item
+                    xs={2}
+                    container
+                    direction="column"
+                    style={{ padding: "15px", marginRight: "50px" }}
+                    spacing={2}
                   >
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ fontSize: "11px" }}
-                    >
-                      AVC
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXXXX
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ fontSize: "11px" }}
-                    >
-                      Technology Type
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXXXX
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ fontSize: "11px" }}
-                    >
-                      Username
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXXXX111222
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ fontSize: "11px" }}
-                    >
-                      FNN Number
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXXXX
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ fontSize: "11px" }}
-                    >
-                      PRI Number
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXXXX
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ fontSize: "11px" }}
-                    >
-                      CVC
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXXXX
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Paper
-                    className={`${classes.papers} ${classes.serviceInfoTile2}`}
-                  >
-                    <Typography
-                      gutterBottom
-                      style={{ fontSize: "12px", fontWeight: "bold" }}
-                    >
-                      Modem Connected{" "}
-                      <CachedIcon className={classes.cachedIcon} />
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ marginTop: "20px", fontSize: "11px" }}
-                    >
-                      Modem Model
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXX XXXXX
-                    </Typography>
-
-                    <Typography
-                      gutterBottom
-                      color="textSecondary"
-                      style={{ fontSize: "11px" }}
-                    >
-                      Modem Specs
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXX
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXX
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXXXXXXX
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XXXXX XXXX
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      XX/XXXX
-                    </Typography>
-                  </Paper>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sm={2}>
-              <Paper className={`${classes.paper} ${classes.header2}`}>
-                Connectivity
-              </Paper>
-
-              <Grid container spacing={1}>
-                <Grid item xs={12} sm={12}>
-                  <Paper
-                    className={`${classes.papers} ${classes.connectivityTile}`}
-                  >
-                    <Typography
-                      style={{
-                        marginBottom: "10px",
-                        fontSize: "12px",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      Line State Test{" "}
-                      <CachedIcon className={classes.cachedIconSmallTile} />
-                    </Typography>
-                    <Typography
-                      style={{ fontSize: "14px" }}
-                      color="textSecondary"
-                    >
-                      Service Status
-                    </Typography>
-                    <Typography
-                      style={{
-                        fontSize: "24px",
-                        fontWeight: "bold",
-                        color: "#00CCFF"
-                      }}
-                    >
-                      FTTN/B
-                    </Typography>
-                  </Paper>
-                </Grid>
-
-                <Grid item xs={12} sm={12} style={{ marginTop: "-20px" }}>
-                  <Paper
-                    className={`${classes.papers} ${classes.connectivityTile}`}
-                  >
-                    <Typography
-                      style={{
-                        marginBottom: "10px",
-                        fontSize: "12px",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      DIMPS{" "}
-                      <CachedIcon className={classes.cachedIconSmallTile} />
-                    </Typography>
-                    <Typography
-                      style={{ fontSize: "14px" }}
-                      color="textSecondary"
-                    >
-                      Phone Line Status
-                    </Typography>
-                    <Typography
-                      style={{
-                        fontSize: "24px",
-                        fontWeight: "bold",
-                        color: "#00CCFF"
-                      }}
-                    >
-                      Active
-                    </Typography>
-                  </Paper>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item xs={12} sm={4}>
-              <Paper className={`${classes.paper} ${classes.header3}`}>
-                Performance & Stability
-              </Paper>
-
-              <Grid container spacing={1}>
-                <Grid item container xs={6} sm={6}>
-                  <Paper
-                    className={`${classes.papers} ${classes.connectivityTile}`}
-                  >
-                    <Typography
-                      style={{
-                        marginBottom: "10px",
-                        fontSize: "12px",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      Wifi Status{" "}
-                      <CachedIcon className={classes.cachedIconSmallTile} />
-                    </Typography>
-                    <Grid container>
-                      <Typography
-                        style={{ fontSize: "14px", fontWeight: "bold" }}
-                      >
-                        2.4 GHz
+                    <Grid item xs>
+                      <Typography gutterBottom variant="subtitle1">
+                        Service Status{" "}
+                        <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        DIMPS
+                      </Typography>
+                      <Typography
+                        variant="body2"
                         style={{
-                          marginLeft: "20px",
                           color: "#00CCFF",
                           fontWeight: "bold",
-                          fontSize: "14px"
+                          fontSize: "18px"
                         }}
                       >
-                        Enabled
+                        Online
                       </Typography>
                     </Grid>
-
-                    <Grid container>
-                      <Typography
-                        style={{ fontSize: "14px", fontWeight: "bold" }}
-                      >
-                        5 GHz
-                      </Typography>
-                      <Typography
-                        style={{
-                          marginLeft: "20px",
-                          color: "#00CCFF",
-                          fontWeight: "bold",
-                          fontSize: "14px"
-                        }}
-                      >
-                        Enabled
-                      </Typography>
-                    </Grid>
-                  </Paper>
+                  </Grid>
+                  <Divider orientation="vertical" flexItem />
 
                   <Grid
                     item
+                    xs={2}
                     container
-                    style={{ marginTop: "-12px" }}
-                    xs={12}
-                    sm={12}
+                    direction="column"
+                    style={{ padding: "15px", marginRight: "50px" }}
+                    spacing={2}
                   >
-                    <Paper
-                      className={`${classes.papers} ${classes.connectivityTile}`}
-                    >
+                    <Grid item xs>
+                      <Typography gutterBottom variant="subtitle1">
+                        Account Status{" "}
+                        <CachedIcon className={classes.cachedIcon} />
+                      </Typography>
                       <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        ISE Prov DB
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
                         style={{
-                          marginBottom: "10px",
-                          fontSize: "12px",
-                          fontWeight: "bold"
+                          color: "rgba(233, 77, 84, 0.81)",
+                          fontWeight: "bold",
+                          fontSize: "18px"
                         }}
                       >
-                        Connected Devices{" "}
-                        <CachedIcon
-                          style={{ marginLeft: "15px" }}
-                          className={classes.cachedIconSmallTile}
-                        />
+                        Suspended
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Divider orientation="vertical" flexItem />
+
+                  <Grid
+                    item
+                    xs={2}
+                    container
+                    direction="column"
+                    style={{ padding: "15px", marginRight: "50px" }}
+                    spacing={2}
+                  >
+                    <Grid item xs>
+                      <Typography gutterBottom variant="subtitle1">
+                        NBN Network{" "}
+                        <CachedIcon className={classes.cachedIcon} />
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        AVC
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        style={{
+                          color: "#00CCFF",
+                          fontWeight: "bold",
+                          fontSize: "18px"
+                        }}
+                      >
+                        No Outage
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Divider orientation="vertical" flexItem />
+
+                  <Grid
+                    item
+                    xs={2}
+                    container
+                    direction="column"
+                    style={{ padding: "15px", marginRight: "50px" }}
+                    spacing={2}
+                  >
+                    <Grid item xs>
+                      <Typography gutterBottom variant="subtitle1">
+                        PRI <CachedIcon className={classes.cachedIcon} />
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        NBN
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        style={{
+                          color: "#00CCFF",
+                          fontWeight: "bold",
+                          fontSize: "18px"
+                        }}
+                      >
+                        Active
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Divider orientation="vertical" flexItem />
+
+                  <Grid
+                    item
+                    xs={2}
+                    container
+                    direction="column"
+                    style={{ padding: "15px", marginRight: "0px" }}
+                    spacing={2}
+                  >
+                    <Grid item xs>
+                      <Typography gutterBottom variant="subtitle1">
+                        PRI <CachedIcon className={classes.cachedIcon} />
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        Co-existence
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        style={{
+                          color: "#00CCFF",
+                          fontWeight: "bold",
+                          fontSize: "18px"
+                        }}
+                      >
+                        Yes
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+          </div>
+
+          <div style={{ marginLeft: "10%", marginTop: "-50px", width: "80%" }}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={6}>
+                <Paper className={`${classes.paper} ${classes.header1}`}>
+                  Service Information
+                </Paper>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={6}>
+                    <Paper
+                      className={`${classes.papers} ${classes.serviceInfoTile1}`}
+                    >
+                      <Typography
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ fontSize: "11px" }}
+                      >
+                        AVC
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXXXX
                       </Typography>
 
                       <Typography
-                        style={{
-                          fontSize: "24px",
-                          fontWeight: "bold",
-                          color: "purple",
-                          textAlign: "center"
-                        }}
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ fontSize: "11px" }}
                       >
-                        12
+                        Technology Type
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXXXX
+                      </Typography>
+
+                      <Typography
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ fontSize: "11px" }}
+                      >
+                        Username
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXXXX111222
+                      </Typography>
+
+                      <Typography
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ fontSize: "11px" }}
+                      >
+                        FNN Number
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXXXX
+                      </Typography>
+
+                      <Typography
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ fontSize: "11px" }}
+                      >
+                        PRI Number
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXXXX
+                      </Typography>
+
+                      <Typography
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ fontSize: "11px" }}
+                      >
+                        CVC
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXXXX
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Paper
+                      className={`${classes.papers} ${classes.serviceInfoTile2}`}
+                    >
+                      <Typography
+                        gutterBottom
+                        style={{ fontSize: "12px", fontWeight: "bold" }}
+                      >
+                        Modem Connected{" "}
+                        <CachedIcon className={classes.cachedIcon} />
+                      </Typography>
+
+                      <Typography
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ marginTop: "20px", fontSize: "11px" }}
+                      >
+                        Modem Model
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXX XXXXX
+                      </Typography>
+
+                      <Typography
+                        gutterBottom
+                        color="textSecondary"
+                        style={{ fontSize: "11px" }}
+                      >
+                        Modem Specs
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXX
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXX
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXXXXXXX
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XXXXX XXXX
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        XX/XXXX
                       </Typography>
                     </Paper>
                   </Grid>
                 </Grid>
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <Paper className={`${classes.paper} ${classes.header2}`}>
+                  Connectivity
+                </Paper>
 
-                <Grid item container xs={6} sm={6}>
-                  <Paper
-                    className={`${classes.papers} ${classes.connectivityTile}`}
-                  >
-                    <Typography
-                      style={{
-                        marginBottom: "10px",
-                        fontSize: "12px"
-                      }}
-                    >
-                      TR143{" "}
-                      <CachedIcon className={classes.cachedIconSmallTile} />
-                    </Typography>
-                    <Grid container>
-                      <Typography
-                        style={{ fontSize: "14px", fontWeight: "bold" }}
-                      >
-                        19Mbps
-                      </Typography>
-                      <Typography
-                        style={{
-                          marginLeft: "5px",
-                          color: "#00CCFF",
-                          fontWeight: "bold",
-                          fontSize: "14px"
-                        }}
-                      >
-                        <ArrowUpwardIcon></ArrowUpwardIcon>
-                        <span style={{ position: "absolute" }}>Up</span>
-                      </Typography>
-                    </Grid>
-
-                    <Grid container>
-                      <Typography
-                        style={{ fontSize: "14px", fontWeight: "bold" }}
-                      >
-                        43Mbps
-                      </Typography>
-                      <Typography
-                        style={{
-                          marginLeft: "5px",
-                          color: "rgba(233,77,84,0.81)",
-                          fontWeight: "bold",
-                          fontSize: "14px"
-                        }}
-                      >
-                        <ArrowDownwardIcon> </ArrowDownwardIcon>
-                        <span style={{ position: "absolute" }}>Down</span>
-                      </Typography>
-                    </Grid>
-                  </Paper>
-                  <Grid
-                    item
-                    container
-                    style={{ marginTop: "-12px" }}
-                    xs={12}
-                    sm={12}
-                  >
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12}>
                     <Paper
                       className={`${classes.papers} ${classes.connectivityTile}`}
                     >
@@ -794,27 +574,11 @@ class Dashboard extends Component<any> {
                         style={{ fontSize: "14px" }}
                         color="textSecondary"
                       >
-                        Stability
+                        Service Status
                       </Typography>
                       <Typography
                         style={{
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                          color: "#00CCFF"
-                        }}
-                      >
-                        FTTN/B
-                      </Typography>
-
-                      <Typography
-                        style={{ fontSize: "14px" }}
-                        color="textSecondary"
-                      >
-                        In Home Wiring LQD
-                      </Typography>
-                      <Typography
-                        style={{
-                          fontSize: "12px",
+                          fontSize: "24px",
                           fontWeight: "bold",
                           color: "#00CCFF"
                         }}
@@ -823,158 +587,412 @@ class Dashboard extends Component<any> {
                       </Typography>
                     </Paper>
                   </Grid>
+
+                  <Grid item xs={12} sm={12} style={{ marginTop: "-20px" }}>
+                    <Paper
+                      className={`${classes.papers} ${classes.connectivityTile}`}
+                    >
+                      <Typography
+                        style={{
+                          marginBottom: "10px",
+                          fontSize: "12px",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        DIMPS{" "}
+                        <CachedIcon className={classes.cachedIconSmallTile} />
+                      </Typography>
+                      <Typography
+                        style={{ fontSize: "14px" }}
+                        color="textSecondary"
+                      >
+                        Phone Line Status
+                      </Typography>
+                      <Typography
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: "bold",
+                          color: "#00CCFF"
+                        }}
+                      >
+                        Active
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12} sm={4}>
+                <Paper className={`${classes.paper} ${classes.header3}`}>
+                  Performance & Stability
+                </Paper>
+
+                <Grid container spacing={1}>
+                  <Grid item container xs={6} sm={6}>
+                    <Paper
+                      className={`${classes.papers} ${classes.connectivityTile}`}
+                    >
+                      <Typography
+                        style={{
+                          marginBottom: "10px",
+                          fontSize: "12px",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        Wifi Status{" "}
+                        <CachedIcon className={classes.cachedIconSmallTile} />
+                      </Typography>
+                      <Grid container>
+                        <Typography
+                          style={{ fontSize: "14px", fontWeight: "bold" }}
+                        >
+                          2.4 GHz
+                        </Typography>
+                        <Typography
+                          style={{
+                            marginLeft: "20px",
+                            color: "#00CCFF",
+                            fontWeight: "bold",
+                            fontSize: "14px"
+                          }}
+                        >
+                          Enabled
+                        </Typography>
+                      </Grid>
+
+                      <Grid container>
+                        <Typography
+                          style={{ fontSize: "14px", fontWeight: "bold" }}
+                        >
+                          5 GHz
+                        </Typography>
+                        <Typography
+                          style={{
+                            marginLeft: "20px",
+                            color: "#00CCFF",
+                            fontWeight: "bold",
+                            fontSize: "14px"
+                          }}
+                        >
+                          Enabled
+                        </Typography>
+                      </Grid>
+                    </Paper>
+
+                    <Grid
+                      item
+                      container
+                      style={{ marginTop: "-12px" }}
+                      xs={12}
+                      sm={12}
+                    >
+                      <Paper
+                        className={`${classes.papers} ${classes.connectivityTile}`}
+                      >
+                        <Typography
+                          style={{
+                            marginBottom: "10px",
+                            fontSize: "12px",
+                            fontWeight: "bold"
+                          }}
+                        >
+                          Connected Devices{" "}
+                          <CachedIcon
+                            style={{ marginLeft: "15px" }}
+                            className={classes.cachedIconSmallTile}
+                          />
+                        </Typography>
+
+                        <Typography
+                          style={{
+                            fontSize: "24px",
+                            fontWeight: "bold",
+                            color: "purple",
+                            textAlign: "center"
+                          }}
+                        >
+                          12
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item container xs={6} sm={6}>
+                    <Paper
+                      className={`${classes.papers} ${classes.connectivityTile}`}
+                    >
+                      <Typography
+                        style={{
+                          marginBottom: "10px",
+                          fontSize: "12px"
+                        }}
+                      >
+                        TR143{" "}
+                        <CachedIcon className={classes.cachedIconSmallTile} />
+                      </Typography>
+                      <Grid container>
+                        <Typography
+                          style={{ fontSize: "14px", fontWeight: "bold" }}
+                        >
+                          19Mbps
+                        </Typography>
+                        <Typography
+                          style={{
+                            marginLeft: "5px",
+                            color: "#00CCFF",
+                            fontWeight: "bold",
+                            fontSize: "14px"
+                          }}
+                        >
+                          <ArrowUpwardIcon></ArrowUpwardIcon>
+                          <span style={{ position: "absolute" }}>Up</span>
+                        </Typography>
+                      </Grid>
+
+                      <Grid container>
+                        <Typography
+                          style={{ fontSize: "14px", fontWeight: "bold" }}
+                        >
+                          43Mbps
+                        </Typography>
+                        <Typography
+                          style={{
+                            marginLeft: "5px",
+                            color: "rgba(233,77,84,0.81)",
+                            fontWeight: "bold",
+                            fontSize: "14px"
+                          }}
+                        >
+                          <ArrowDownwardIcon> </ArrowDownwardIcon>
+                          <span style={{ position: "absolute" }}>Down</span>
+                        </Typography>
+                      </Grid>
+                    </Paper>
+                    <Grid
+                      item
+                      container
+                      style={{ marginTop: "-12px" }}
+                      xs={12}
+                      sm={12}
+                    >
+                      <Paper
+                        className={`${classes.papers} ${classes.connectivityTile}`}
+                      >
+                        <Typography
+                          style={{
+                            marginBottom: "10px",
+                            fontSize: "12px",
+                            fontWeight: "bold"
+                          }}
+                        >
+                          Line State Test{" "}
+                          <CachedIcon className={classes.cachedIconSmallTile} />
+                        </Typography>
+                        <Typography
+                          style={{ fontSize: "14px" }}
+                          color="textSecondary"
+                        >
+                          Stability
+                        </Typography>
+                        <Typography
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                            color: "#00CCFF"
+                          }}
+                        >
+                          FTTN/B
+                        </Typography>
+
+                        <Typography
+                          style={{ fontSize: "14px" }}
+                          color="textSecondary"
+                        >
+                          In Home Wiring LQD
+                        </Typography>
+                        <Typography
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                            color: "#00CCFF"
+                          }}
+                        >
+                          FTTN/B
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </div>
+          </div>
 
-        <div style={{ marginLeft: "10%", width: "80%" }}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={6}>
-              <Paper
-                className={`${classes.papers} ${classes.provisioningTile}`}
-              >
-                <Typography
-                  style={{
-                    marginBottom: "10px",
-                    fontSize: "12px",
-                    fontWeight: "bold"
-                  }}
+          <div style={{ marginLeft: "10%", width: "80%" }}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={6}>
+                <Paper
+                  className={`${classes.papers} ${classes.provisioningTile}`}
                 >
-                  Provisioning Match{" "}
-                  <CachedIcon className={classes.cachedIcon} />
-                </Typography>
-                <Grid item container xs={12}>
-                  <Typography color="textSecondary">Speed</Typography>
                   <Typography
-                    style={{ marginLeft: "47%" }}
+                    style={{
+                      marginBottom: "10px",
+                      fontSize: "12px",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    Provisioning Match{" "}
+                    <CachedIcon className={classes.cachedIcon} />
+                  </Typography>
+                  <Grid item container xs={12}>
+                    <Typography color="textSecondary">Speed</Typography>
+                    <Typography
+                      style={{ marginLeft: "47%" }}
+                      color="textSecondary"
+                    >
+                      AVC
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12}>
+                    <Typography
+                      style={{ fontSize: "14px", fontWeight: "bold" }}
+                    >
+                      XXXX XXXXXXX
+                    </Typography>
+                    <Typography
+                      style={{
+                        marginLeft: "34%",
+                        fontWeight: "bold",
+                        fontSize: "14px"
+                      }}
+                    >
+                      XXXX XXXXXXX
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12}>
+                    <Typography color="textSecondary">CVC</Typography>
+                    <Typography
+                      style={{ marginLeft: "49%" }}
+                      color="textSecondary"
+                    >
+                      CTAG
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12}>
+                    <Typography
+                      style={{ fontSize: "14px", fontWeight: "bold" }}
+                    >
+                      XXXX XXXXXXX
+                    </Typography>
+                    <Typography
+                      style={{
+                        marginLeft: "34%",
+                        fontWeight: "bold",
+                        fontSize: "14px"
+                      }}
+                    >
+                      XXXX XXXXXXX
+                    </Typography>
+                  </Grid>
+                </Paper>
+              </Grid>
+              <Grid item container xs={6} sm={2}>
+                <Paper
+                  className={`${classes.papers} ${classes.radiusDropoutTile}`}
+                >
+                  TBD - What info to show here?
+                </Paper>
+              </Grid>
+
+              <Grid item container xs={6} sm={2}>
+                <Paper
+                  className={`${classes.papers} ${classes.radiusDropoutTile}`}
+                >
+                  <Typography
+                    style={{
+                      marginBottom: "10px",
+                      fontSize: "12px",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    Radius Dropouts{" "}
+                    <CachedIcon className={classes.cachedIconSmallTile} />
+                  </Typography>
+                  <Typography
+                    style={{ fontSize: "14px" }}
                     color="textSecondary"
                   >
-                    AVC
-                  </Typography>
-                </Grid>
-
-                <Grid item container xs={12}>
-                  <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
-                    XXXX XXXXXXX
+                    Last 24/48 hours
                   </Typography>
                   <Typography
                     style={{
-                      marginLeft: "34%",
+                      fontSize: "24px",
                       fontWeight: "bold",
-                      fontSize: "14px"
+                      color: "rgba(233,77,84,0.81)"
                     }}
                   >
-                    XXXX XXXXXXX
+                    15 drops
                   </Typography>
-                </Grid>
+                </Paper>
+              </Grid>
 
-                <Grid item container xs={12}>
-                  <Typography color="textSecondary">CVC</Typography>
+              <Grid item container xs={6} sm={2}>
+                <Paper
+                  className={`${classes.papers} ${classes.radiusDropoutTile}`}
+                >
                   <Typography
-                    style={{ marginLeft: "49%" }}
+                    style={{
+                      marginBottom: "10px",
+                      fontSize: "12px",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    Last Modem Reboot{" "}
+                    <CachedIcon
+                      style={{ marginLeft: "10px" }}
+                      className={classes.cachedIconSmallTile}
+                    />
+                  </Typography>
+                  <Typography
+                    style={{ fontSize: "14px" }}
                     color="textSecondary"
                   >
-                    CTAG
-                  </Typography>
-                </Grid>
-
-                <Grid item container xs={12}>
-                  <Typography style={{ fontSize: "14px", fontWeight: "bold" }}>
-                    XXXX XXXXXXX
+                    Date
                   </Typography>
                   <Typography
                     style={{
-                      marginLeft: "34%",
+                      fontSize: "20px",
                       fontWeight: "bold",
-                      fontSize: "14px"
+                      color: "#ffae42"
                     }}
                   >
-                    XXXX XXXXXXX
+                    25/03/20
                   </Typography>
-                </Grid>
-              </Paper>
+                </Paper>
+              </Grid>
             </Grid>
-            <Grid item container xs={6} sm={2}>
-              <Paper
-                className={`${classes.papers} ${classes.radiusDropoutTile}`}
-              >
-                TBD - What info to show here?
-              </Paper>
-            </Grid>
+          </div>
 
-            <Grid item container xs={6} sm={2}>
-              <Paper
-                className={`${classes.papers} ${classes.radiusDropoutTile}`}
-              >
-                <Typography
-                  style={{
-                    marginBottom: "10px",
-                    fontSize: "12px",
-                    fontWeight: "bold"
-                  }}
-                >
-                  Radius Dropouts{" "}
-                  <CachedIcon className={classes.cachedIconSmallTile} />
-                </Typography>
-                <Typography style={{ fontSize: "14px" }} color="textSecondary">
-                  Last 24/48 hours
-                </Typography>
-                <Typography
-                  style={{
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    color: "rgba(233,77,84,0.81)"
-                  }}
-                >
-                  15 drops
-                </Typography>
-              </Paper>
-            </Grid>
-
-            <Grid item container xs={6} sm={2}>
-              <Paper
-                className={`${classes.papers} ${classes.radiusDropoutTile}`}
-              >
-                <Typography
-                  style={{
-                    marginBottom: "10px",
-                    fontSize: "12px",
-                    fontWeight: "bold"
-                  }}
-                >
-                  Last Modem Reboot{" "}
-                  <CachedIcon
-                    style={{ marginLeft: "10px" }}
-                    className={classes.cachedIconSmallTile}
-                  />
-                </Typography>
-                <Typography style={{ fontSize: "14px" }} color="textSecondary">
-                  Date
-                </Typography>
-                <Typography
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    color: "#ffae42"
-                  }}
-                >
-                  25/03/20
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box mt={8}>
+              <Footer />
+            </Box>
+          </Container>
         </div>
-
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box mt={8}>
-            <Footer />
-          </Box>
-        </Container>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { isLoggedIn: this.state?.isLoggedIn || false }
+          }}
+        />
+      );
+    }
   }
 }
 

@@ -132,10 +132,23 @@ export class Header extends React.Component<any, any> {
     console.log("ID Type", event.target.value);
   }
 
+  deleteCookie(cname: string) {
+    document.cookie =
+      cname + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  }
+
   async logout() {
     console.log(this.props, "this is the props here in logout");
     const { logoutUser } = this.props;
     const response = await logoutUser();
+    console.log(
+      "Logging out user and response from logout graphql endpoint is",
+      response
+    );
+    // Redirect user to login page here
+    this.props.history.push("/");
+    // delete auth session cookie
+    this.deleteCookie("stok");
   }
 
   async handleProfileDropdown(event: any) {

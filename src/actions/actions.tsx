@@ -85,7 +85,6 @@ export const checkAuth = (data: any) => {
 };
 
 export const logout = () => {
-  //const someQuery = gql`query { fake }`;
   const someQuery = gql`
     mutation Logout {
       logout {
@@ -96,19 +95,19 @@ export const logout = () => {
   `;
 
   return async (dispatch: any, getState: any, client: any) => {
-    // TODO uncomment the below 5 lines later
+    // TODO uncomment the below 4 lines later
     const request = await client.mutate({
       mutation: someQuery
     });
     const result = await request;
-
-    console.log("this is the result from graphql endpoint", result, getState());
+    // const result = {};
+    console.log("this is the result from graphql endpoint", result);
     dispatch(logoutSuccess(result));
   };
 };
 
 export const authenticate = (username: string, password: string) => {
-  //const someQuery = gql`query { fake }`;
+  // const someQuery = gql`query { fake }`;
   const someQuery = gql`
     mutation NewStaffAuthSession($username: String!, $password: String!) {
       newSessionStaffauth(username: $username, password: $password) {

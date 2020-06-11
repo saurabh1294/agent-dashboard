@@ -20,6 +20,8 @@ import { fetchCustomerInfo } from "../../actions/actions";
 
 import { connect } from "react-redux";
 
+import { logout } from "../../actions/actions";
+
 // const mapStateToProps = (state: any) => {
 //   console.log("this is the state in dashboard component", state);
 //   return {
@@ -29,14 +31,25 @@ import { connect } from "react-redux";
 
 const mapStateToProps = (state: any) => {
   console.log("this is the state in mapStateToProps of Dashboard.tsx", state);
-  return state;
+  return {
+    username: state.loginReducer.username,
+    password: state.loginReducer.password,
+    authToken: state.loginReducer.authToken,
+    authError: state.loginReducer.authError,
+    isLoggedIn: state.loginReducer.isLoggedIn,
+    isLoggedOut: state.loginReducer.isLoggedOut,
+    isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
+    data: state.loginReducer.data
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     // same effect
     fetchCustomerInfo: (searchQuery: string) =>
-      dispatch(fetchCustomerInfo(searchQuery))
+      dispatch(fetchCustomerInfo(searchQuery)),
+
+    logoutUser: () => dispatch(logout())
   };
 };
 

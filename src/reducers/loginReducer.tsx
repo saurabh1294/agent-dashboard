@@ -58,7 +58,10 @@ export default function loginReducer(state = initialState, action: any) {
     case LOGGED_OUT_SUCCESS:
       console.log("LOGGED_OUT_SUCCESS");
       // set logout successful state here
-      return [state, action];
+      return {
+        ...state,
+        ...action.payload
+      };
 
     case LOGGED_OUT_FAILURE:
       console.log("LOGGED_OUT_FAILURE");

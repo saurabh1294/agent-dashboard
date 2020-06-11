@@ -132,6 +132,12 @@ export class Header extends React.Component<any, any> {
     console.log("ID Type", event.target.value);
   }
 
+  async logout() {
+    console.log(this.props, "this is the props here in logout");
+    const { logoutUser } = this.props;
+    const response = await logoutUser();
+  }
+
   async handleProfileDropdown(event: any) {
     await this.setState({ profileClicked: !this.state.profileClicked });
   }
@@ -173,7 +179,7 @@ export class Header extends React.Component<any, any> {
                   </Typography>
                 </Grid>
 
-                <Grid item xs={2} spacing={5}>
+                <Grid item xs={2}>
                   <NativeSelect
                     style={{ position: "absolute", marginLeft: "22%" }}
                     id="demo-customized-select-native"
@@ -261,7 +267,9 @@ export class Header extends React.Component<any, any> {
                     <MenuList>
                       <MenuItem>Profile</MenuItem>
                       <MenuItem>My account</MenuItem>
-                      <MenuItem>Logout</MenuItem>
+                      <MenuItem onClick={this.logout.bind(this)}>
+                        Logout
+                      </MenuItem>
                     </MenuList>
                   </Paper>
                 )}

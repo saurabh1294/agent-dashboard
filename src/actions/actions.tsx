@@ -2,7 +2,7 @@ import {
   LOGGED_IN_SUCCESS,
   LOGGED_IN_FAILURE,
   LOGGED_OUT_FAILURE,
-  // LOGGED_OUT_SUCCESS,
+  LOGGED_OUT_SUCCESS,
   AGENT_AUTHENTICATE,
   FETCH_CUSTOMER_INFO_SUCCESS,
   FETCH_CUSTOMER_INFO_FAILURE
@@ -62,8 +62,8 @@ export const loginFailure = (data: any) => {
 
 export const logoutSuccess = (data: any) => {
   return {
-    type: LOGGED_IN_SUCCESS,
-    state: "LOGGED_IN_SUCCESS",
+    type: LOGGED_OUT_SUCCESS,
+    state: "LOGGED_OUT_SUCCESS",
     response: data
   };
 };
@@ -84,35 +84,64 @@ export const checkAuth = (data: any) => {
   };
 };
 
+export const logout = () => {
+  //const someQuery = gql`query { fake }`;
+  const someQuery = gql`
+    mutation Logout {
+      logout {
+        result
+        stok
+      }
+    }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO uncomment the below 5 lines later
+    const request = await client.mutate({
+      mutation: someQuery
+    });
+    const result = await request;
+
+    console.log("this is the result from graphql endpoint", result, getState());
+    dispatch(logoutSuccess(result));
+  };
+};
+
 export const authenticate = (username: string, password: string) => {
   //const someQuery = gql`query { fake }`;
   const someQuery = gql`
     mutation NewStaffAuthSession($username: String!, $password: String!) {
       newSessionStaffauth(username: $username, password: $password) {
         result
-	stok
+        stok
       }
     }
   `;
 
-  console.log("firing graphql query", someQuery, "with username and pass", username, password);
+  console.log(
+    "firing graphql query",
+    someQuery,
+    "with username and pass",
+    username,
+    password
+  );
   return async (dispatch: any, getState: any, client: any) => {
     // TODO uncomment the below 5 lines later
-    const request = await client.mutate({
+    /*const request = await client.mutate({
       mutation: someQuery,
       variables: { username, password }
     });
-    const result = await request;
+    const result = await request; */
 
     // TODO comment below code later on - stub for testing different API responses
-    // const result = {
-    //   data: {
-    //     newSessionStaffauth: {
-    //       result: "GOOD",
-    //       stok: "fake:token123:fred"
-    //     }
-    //   }
-    // };
+    const result = {
+      data: {
+        newSessionStaffauth: {
+          result: "GOOD",
+          stok: "fake:token123:fred"
+        }
+      }
+    };
     console.log("this is the result from graphql endpoint", result, getState());
     dispatch(checkAuth(result));
   };

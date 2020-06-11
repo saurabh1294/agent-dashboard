@@ -5,7 +5,8 @@ import {
   LOGGED_OUT_SUCCESS,
   AGENT_AUTHENTICATE,
   FETCH_CUSTOMER_INFO_SUCCESS,
-  FETCH_CUSTOMER_INFO_FAILURE
+  FETCH_CUSTOMER_INFO_FAILURE,
+  IS_AGENT_AUTHENTICATED
 } from "./actionTypes";
 import axios from "axios";
 import gql from "graphql-tag";
@@ -81,6 +82,41 @@ export const checkAuth = (data: any) => {
     type: AGENT_AUTHENTICATE,
     state: "AGENT_AUTHENTICATE",
     payload: data
+  };
+};
+
+export const isAuthenticatedResult = (data: any) => {
+  return {
+    type: IS_AGENT_AUTHENTICATED,
+    state: "IS_AGENT_AUTHENTICATED",
+    payload: data
+  };
+};
+
+export const isAuthenticated = () => {
+  const someQuery = gql`
+    query SessionInfo {
+      sessionInfo {
+        isAuthenticated
+        authenticatedUser
+        sessionExpires
+      }
+      dateTimeNow
+    }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    const request = await client.query({
+      query: someQuery
+    });
+    const result = await request;
+
+    // TODO uncomment when running locally
+    // const result = {};
+
+    console.log("this is the result from graphql endpoint", result);
+    dispatch(isAuthenticatedResult(result));
   };
 };
 

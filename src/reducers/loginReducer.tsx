@@ -5,7 +5,8 @@ import {
   LOGGED_IN_FAILURE,
   LOGGED_OUT_FAILURE,
   AGENT_AUTHENTICATE,
-  FETCH_CUSTOMER_INFO_FAILURE
+  FETCH_CUSTOMER_INFO_FAILURE,
+  IS_AGENT_AUTHENTICATED
 } from "../actions/actionTypes";
 
 // export interface State {
@@ -40,6 +41,13 @@ export default function loginReducer(state = initialState, action: any) {
         action.payload
       );
 
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case IS_AGENT_AUTHENTICATED:
+      console.log(state, "is agent authenticated result", action.payload);
       return {
         ...state,
         ...action.payload

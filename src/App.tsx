@@ -173,7 +173,7 @@ export class App extends React.Component<any, any> {
 
     const { data } = this.props;
     // dispatch login complete action here and set the auth token in the session cookie
-    if (data.newSessionStaffauth.result === "GOOD") {
+    if (data?.newSessionStaffauth?.result === "GOOD") {
       // TODO dispatch action here which will set global state
 
       // set auth token in cookie. Can get rid of this logic and save this in redux state
@@ -182,7 +182,7 @@ export class App extends React.Component<any, any> {
       await this.setState({ isLoggedIn: true });
     } else {
       // dispatch action here which will set state
-      await this.setState({ authError: data.newSessionStaffauth.result });
+      await this.setState({ authError: data?.newSessionStaffauth?.result });
     }
   }
 

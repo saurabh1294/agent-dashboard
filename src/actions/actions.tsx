@@ -89,12 +89,13 @@ export const authenticate = (username: string, password: string) => {
   const someQuery = gql`
     mutation NewStaffAuthSession($username: String!, $password: String!) {
       newSessionStaffauth(username: $username, password: $password) {
-        stok
+        result
+	stok
       }
     }
   `;
 
-  console.log("firing graphql query", someQuery);
+  console.log("firing graphql query", someQuery, "with username and pass", username, password);
   return async (dispatch: any, getState: any, client: any) => {
     // TODO uncomment the below 5 lines later
     const request = await client.mutate({

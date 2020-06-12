@@ -27,7 +27,8 @@ const initialState: any = {
   authError: "",
   isLoggedIn: false,
   isLoggedOut: true,
-  isCustInfoLoaded: false
+  isCustInfoLoaded: false,
+  isAgentAuthenticated: false
   // set: Function,
   // setIn: Function
 };

@@ -7,6 +7,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Paper from "@material-ui/core/Paper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
+import { connect } from "react-redux";
 
 import Avatar from "@material-ui/core/Avatar";
 import {
@@ -21,6 +22,8 @@ import SearchIcon from "@material-ui/icons/Search";
 
 import NativeSelect from "@material-ui/core/NativeSelect";
 import Grid from "@material-ui/core/Grid";
+
+import { isAuthenticated } from "../../actions/actions";
 
 // default style hook from material-ui
 const BootstrapInput = withStyles((theme: Theme) =>
@@ -117,6 +120,28 @@ const styles = makeStyles(theme => ({
   }
 }));
 
+const mapStateToProps = (state: any) => {
+  console.log("this is the state in mapStateToProps of Dashboard.tsx", state);
+  return {
+    username: state.loginReducer.username,
+    password: state.loginReducer.password,
+    authToken: state.loginReducer.authToken,
+    authError: state.loginReducer.authError,
+    isLoggedIn: state.loginReducer.isLoggedIn,
+    isLoggedOut: state.loginReducer.isLoggedOut,
+    isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
+    data: state.loginReducer.data,
+    isAuthenticated: state.loginReducer.data.sessionInfo.isAuthenticated
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    // same effect
+    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
+  };
+};
+
 export class Header extends React.Component<any, any> {
   state = {
     profileClicked: false
@@ -155,10 +180,22 @@ export class Header extends React.Component<any, any> {
     await this.setState({ profileClicked: !this.state.profileClicked });
   }
 
+  async getAuthenticationStatus() {
+    const { checkIfAgentAuthenticated } = this.props;
+    const response = await checkIfAgentAuthenticated();
+    return response;
+  }
+
   render() {
     const { classes } = this.props as any;
 
     console.log(this.props, "props in header.tsx");
+
+    console.log(
+      "Checking if agent is authenticated",
+      this.getAuthenticationStatus(),
+      this.state
+    );
 
     return (
       <div className={classes.root}>
@@ -181,6 +218,7 @@ export class Header extends React.Component<any, any> {
               </span>
             </Typography>
 
+            {/* TODO check if agentIsAuthenticated using sessionInfo query here instead */}
             {this.props.location && this.props.location?.state?.isLoggedIn && (
               <div className={classes.search}>
                 <Grid item xs={2}>
@@ -295,4 +333,12 @@ export class Header extends React.Component<any, any> {
   }
 }
 
-export default withStyles(styles as any)(Header);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )withStyles(styles as any)(Header);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles as any)(Header));

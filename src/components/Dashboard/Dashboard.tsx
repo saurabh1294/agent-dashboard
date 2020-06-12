@@ -20,7 +20,7 @@ import { fetchCustomerInfo } from "../../actions/actions";
 
 import { connect } from "react-redux";
 
-import { logout } from "../../actions/actions";
+import { logout, isAuthenticated } from "../../actions/actions";
 
 import { Redirect } from "react-router";
 
@@ -34,7 +34,8 @@ const mapStateToProps = (state: any) => {
     isLoggedIn: state.loginReducer.isLoggedIn,
     isLoggedOut: state.loginReducer.isLoggedOut,
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
-    data: state.loginReducer.data
+    data: state.loginReducer.data,
+    isAuthenticated: state.loginReducer.data.sessionInfo.isAuthenticated
   };
 };
 
@@ -44,7 +45,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchCustomerInfo: (searchQuery: string) =>
       dispatch(fetchCustomerInfo(searchQuery)),
 
-    logoutUser: () => dispatch(logout())
+    logoutUser: () => dispatch(logout()),
+    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
   };
 };
 
@@ -211,6 +213,12 @@ class Dashboard extends Component<any, any> {
   //   modalOpen: true
   // };
 
+  async getAuthenticationStatus() {
+    const { checkIfAgentAuthenticated } = this.props;
+    const response = await checkIfAgentAuthenticated();
+    return response;
+  }
+
   render() {
     // TODO check if user is logged in or not, if yes then render this else redirect to home page
     console.log(
@@ -223,6 +231,12 @@ class Dashboard extends Component<any, any> {
 
     const { classes } = this.props as any;
 
+    console.log(
+      "Checking if agent is authenticated",
+      this.getAuthenticationStatus(),
+      this.state
+    );
+    // TODO check isAgentAuthenticated here instead of this flag
     if (this.props.location.state?.isLoggedIn) {
       return (
         <div>

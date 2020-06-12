@@ -13,7 +13,7 @@ import { Header } from "./components/Header/Header";
 
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { authenticate } from "./actions/actions";
+import { authenticate, isAuthenticated } from "./actions/actions";
 
 import Image from "./assets/images/login_bg.jpg"; // Import using relative path
 
@@ -28,7 +28,8 @@ const mapStateToProps = (state: any) => {
     isLoggedIn: state.loginReducer.isLoggedIn,
     isLoggedOut: state.loginReducer.isLoggedOut,
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
-    data: state.loginReducer.data
+    data: state.loginReducer.data,
+    isAuthenticated: state.loginReducer.data.sessionInfo.isAuthenticated
   };
 };
 
@@ -36,7 +37,9 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     // same effect
     authCredentials: (username: string, password: string) =>
-      dispatch(authenticate(username, password))
+      dispatch(authenticate(username, password)),
+
+    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
   };
 };
 
@@ -183,9 +186,22 @@ export class App extends React.Component<any, any> {
     }
   }
 
+  async getAuthenticationStatus() {
+    const { checkIfAgentAuthenticated } = this.props;
+    const response = await checkIfAgentAuthenticated();
+    return response;
+  }
+
   render() {
     const { classes } = this.props as any;
 
+    console.log(
+      "Checking if agent is authenticated",
+      this.getAuthenticationStatus(),
+      this.state
+    );
+
+    // TODO check isAgentAuthenticated here instead
     if (this.state.isLoggedIn) {
       return (
         <Redirect

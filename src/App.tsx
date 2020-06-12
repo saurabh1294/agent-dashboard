@@ -29,7 +29,7 @@ const mapStateToProps = (state: any) => {
     isLoggedOut: state.loginReducer.isLoggedOut,
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
     data: state.loginReducer.data,
-    isAuthenticated: state.loginReducer.data.sessionInfo.isAuthenticated
+    isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
 

@@ -6,28 +6,14 @@ import {
   AGENT_AUTHENTICATE,
   FETCH_CUSTOMER_INFO_SUCCESS,
   FETCH_CUSTOMER_INFO_FAILURE,
-  IS_AGENT_AUTHENTICATED
+  IS_AGENT_AUTHENTICATED,
+  SEND_CUSTOMER_INFO
 } from "./actionTypes";
-import axios from "axios";
+// import axios from "axios";
 import gql from "graphql-tag";
 
-const baseURL = "http://stile.pt.optusnet.com.au"; // actual endpoint from Brett
-const custInfoUrl = `${baseURL}/custInfo`;
-
-export const fetchCustomerInfo = (searchQuery: string) => {
-  return (dispatch: any) => {
-    return axios
-      .get(`${custInfoUrl}`)
-      .then(response => {
-        dispatch(fetchCustomerInfoSuccess(response.data));
-      })
-      .catch(error => {
-        console.log("ERROR in api call");
-        dispatch(fetchCustomerInfoFailure(error));
-        throw error;
-      });
-  };
-};
+// const baseURL = "http://stile.pt.optusnet.com.au"; // actual endpoint from Brett
+// const custInfoUrl = `${baseURL}/custInfo`;
 
 export const fetchCustomerInfoSuccess = (data: any) => {
   return {
@@ -90,6 +76,50 @@ export const isAuthenticatedResult = (data: any) => {
     type: IS_AGENT_AUTHENTICATED,
     state: "IS_AGENT_AUTHENTICATED",
     payload: data
+  };
+};
+
+export const sendCustomerInfo = (data: any) => {
+  return {
+    type: SEND_CUSTOMER_INFO,
+    state: "SEND_CUSTOMER_INFO",
+    payload: data
+  };
+};
+
+export const fetchCustomerInfo = (searchQuery: string) => {
+  const someQuery = gql`
+  query GetCustomer {
+    getCustomer(with: USERNAME matching: ${searchQuery}) {
+      result
+      customer {
+        username
+        firstName
+        lastName
+        addressLines
+        speed
+        accessType
+        avcID
+        cvcID
+        priID
+        macID
+      }
+    }
+  }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    const request = await client.query({
+      query: someQuery
+    });
+    const result = await request;
+
+    // TODO uncomment when running locally
+    // const result = {};
+
+    console.log("this is the result from graphql endpoint", result);
+    dispatch(sendCustomerInfo(result));
   };
 };
 

@@ -221,7 +221,7 @@ class Dashboard extends Component<any, any> {
     } catch (err) {
       console.log("Error calling isAuthenticated API");
     } finally {
-      console.log('getAuthenticationStatus finally block');
+      console.log("getAuthenticationStatus finally block");
     }
   }
 

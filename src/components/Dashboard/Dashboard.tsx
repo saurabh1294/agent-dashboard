@@ -215,8 +215,14 @@ class Dashboard extends Component<any, any> {
 
   async getAuthenticationStatus() {
     const { checkIfAgentAuthenticated } = this.props;
-    const response = await checkIfAgentAuthenticated();
-    return response;
+    try {
+      const response = await checkIfAgentAuthenticated();
+      return response;
+    } catch (err) {
+      console.log("Error calling isAuthenticated API");
+    } finally {
+      console.log('getAuthenticationStatus finally block');
+    }
   }
 
   render() {

@@ -23,7 +23,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import Grid from "@material-ui/core/Grid";
 
-import { isAuthenticated } from "../../actions/actions";
+import { isAuthenticated, fetchCustomerInfo } from "../../actions/actions";
 
 // default style hook from material-ui
 const BootstrapInput = withStyles((theme: Theme) =>
@@ -138,7 +138,9 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     // same effect
-    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
+    checkIfAgentAuthenticated: () => dispatch(isAuthenticated()),
+    retrieveCustomerInfo: (searchQuery: string) =>
+      dispatch(fetchCustomerInfo(searchQuery))
   };
 };
 
@@ -147,9 +149,26 @@ export class Header extends React.Component<any, any> {
     profileClicked: false
   };
 
+  async getCustomerInfo(customerInfo: string) {
+    // fetch customer info here
+    const { retrieveCustomerInfo } = this.props;
+
+    try {
+      const response = await retrieveCustomerInfo(customerInfo);
+      console.log("got response from customer info graphql endpoint", response);
+    } catch (err) {
+      console.log("error fetching customer info for user", customerInfo);
+    }
+  }
   handleSearch(event: any) {
     if (event.charCode === 13) {
       console.log("Searching for", event.target.value);
+      const customerInfo = event.target.value;
+      console.log(
+        "Got customer info from the API for customer=",
+        customerInfo,
+        this.getCustomerInfo(customerInfo)
+      );
     }
   }
 
@@ -240,7 +259,7 @@ export class Header extends React.Component<any, any> {
                   <NativeSelect
                     style={{ position: "absolute", marginLeft: "22%" }}
                     id="demo-customized-select-native"
-                    onChange={this.handleSelect}
+                    onChange={this.handleSelect.bind(this)}
                     input={<BootstrapInput />}
                   >
                     <option
@@ -269,7 +288,7 @@ export class Header extends React.Component<any, any> {
                   <InputBase
                     startAdornment={<SearchIcon />}
                     placeholder="Search"
-                    onKeyPress={this.handleSearch}
+                    onKeyPress={this.handleSearch.bind(this)}
                     classes={{
                       root: classes.inputRoot,
                       input: classes.inputInput

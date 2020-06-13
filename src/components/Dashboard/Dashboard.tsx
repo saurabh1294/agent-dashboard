@@ -209,9 +209,13 @@ const styles = (theme: any) => ({
 });
 
 class Dashboard extends Component<any, any> {
-  // state = {
-  //   modalOpen: true
-  // };
+  state = {
+    avcId: "",
+    username: "",
+    priId: "",
+    cvcId: "",
+    isLoggedIn: false // TODO temp state remove it
+  };
 
   async getAuthenticationStatus() {
     const { checkIfAgentAuthenticated } = this.props;
@@ -227,6 +231,34 @@ class Dashboard extends Component<any, any> {
 
   getCustomerInfoCallback(data: any) {
     // TODO set state here to show info on tiles using data which has response from graphql
+    // const result = {
+    //   data: {
+    //     getCustomer: {
+    //       customer: {
+    //         accessType: "HFC",
+    //         addressLines: [
+    //           "Unit 2 23",
+    //           "CARRINGTON Street",
+    //           "NORTH STRATHFIELD NSW 2137"
+    //         ],
+    //         avcID: "AVC000000000001",
+    //         cvcID: "CVC000000000001",
+    //         firstName: "CHRISTINA",
+    //         lastName: "LIM",
+    //         macID: "123456789ABC",
+    //         priID: "PRI400035253337",
+    //         speed: "1138",
+    //         username: "limchristina"
+    //       },
+    //       result: "GOOD"
+    //     }
+    //   }
+    // };
+    const customer = data.getCustomer.customer;
+    this.setState({ avcId: customer.avcID });
+    this.setState({ priId: customer.priID });
+    this.setState({ username: customer.username });
+    this.setState({ cvcId: customer.cvcID });
   }
 
   render() {
@@ -288,7 +320,7 @@ class Dashboard extends Component<any, any> {
                   >
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        Service Status{" "}
+                        {/* Service Status{" "} */}
                         <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
@@ -296,7 +328,7 @@ class Dashboard extends Component<any, any> {
                         color="textSecondary"
                         gutterBottom
                       >
-                        DIMPS
+                        {/* DIMPS */}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -306,7 +338,7 @@ class Dashboard extends Component<any, any> {
                           fontSize: "18px"
                         }}
                       >
-                        Online
+                        {/* //TODO - use some state here instead//  Online */}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -322,7 +354,7 @@ class Dashboard extends Component<any, any> {
                   >
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        Account Status{" "}
+                        {/* Account Status{" "} */}
                         <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
@@ -330,7 +362,7 @@ class Dashboard extends Component<any, any> {
                         color="textSecondary"
                         gutterBottom
                       >
-                        ISE Prov DB
+                        {/* ISE Prov DB */}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -341,7 +373,7 @@ class Dashboard extends Component<any, any> {
                           fontSize: "18px"
                         }}
                       >
-                        Suspended
+                        {/* //TODO - use some state here instead// Suspended */}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -357,7 +389,7 @@ class Dashboard extends Component<any, any> {
                   >
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        NBN Network{" "}
+                        {/* NBN Network{" "} */}
                         <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
@@ -365,7 +397,7 @@ class Dashboard extends Component<any, any> {
                         color="textSecondary"
                         gutterBottom
                       >
-                        AVC
+                        {/* AVC */}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -375,7 +407,7 @@ class Dashboard extends Component<any, any> {
                           fontSize: "18px"
                         }}
                       >
-                        No Outage
+                        {/* //TODO - use some state here instead//  No Outage */}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -391,14 +423,15 @@ class Dashboard extends Component<any, any> {
                   >
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        PRI <CachedIcon className={classes.cachedIcon} />
+                        {/* PRI  */}
+                        <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
                         variant="body2"
                         color="textSecondary"
                         gutterBottom
                       >
-                        NBN
+                        {/* NBN */}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -409,7 +442,7 @@ class Dashboard extends Component<any, any> {
                           fontSize: "18px"
                         }}
                       >
-                        Active
+                        {/* //TODO - use some state here instead// Active */}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -425,14 +458,15 @@ class Dashboard extends Component<any, any> {
                   >
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        PRI <CachedIcon className={classes.cachedIcon} />
+                        {/* PRI  */}
+                        <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
                         variant="body2"
                         color="textSecondary"
                         gutterBottom
                       >
-                        Co-existence
+                        {/* Co-existence */}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -442,7 +476,7 @@ class Dashboard extends Component<any, any> {
                           fontSize: "18px"
                         }}
                       >
-                        Yes
+                        {/* //TODO - use some state here instead//  Yes */}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -471,7 +505,7 @@ class Dashboard extends Component<any, any> {
                         AVC
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXXXX
+                        {this.state.avcId}
                       </Typography>
 
                       <Typography
@@ -493,7 +527,7 @@ class Dashboard extends Component<any, any> {
                         Username
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXXXX111222
+                        {this.state.username}
                       </Typography>
 
                       <Typography
@@ -515,7 +549,7 @@ class Dashboard extends Component<any, any> {
                         PRI Number
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXXXX
+                        {this.state.priId}
                       </Typography>
 
                       <Typography
@@ -526,7 +560,7 @@ class Dashboard extends Component<any, any> {
                         CVC
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXXXX
+                        {this.state.cvcId}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -550,7 +584,7 @@ class Dashboard extends Component<any, any> {
                         Modem Model
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXX XXXXX
+                        {/* //TODO - use some state here instead// XXXX XXXXX */}
                       </Typography>
 
                       <Typography
@@ -561,19 +595,19 @@ class Dashboard extends Component<any, any> {
                         Modem Specs
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXX
+                        {/* //TODO - use some state here instead//  XXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXX
+                        {/* //TODO - use some state here instead//  XXXXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXXXXXX
+                        {/* //TODO - use some state here instead//  XXXXXXXXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXX XXXX
+                        {/* //TODO - use some state here instead// XXXXX XXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XX/XXXX
+                        {/* //TODO - use some state here instead// XX/XXXX */}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -603,7 +637,7 @@ class Dashboard extends Component<any, any> {
                         style={{ fontSize: "14px" }}
                         color="textSecondary"
                       >
-                        Service Status
+                        {/* Service Status */}
                       </Typography>
                       <Typography
                         style={{
@@ -612,7 +646,7 @@ class Dashboard extends Component<any, any> {
                           color: "#00CCFF"
                         }}
                       >
-                        FTTN/B
+                        {/* //TODO - use some state here instead//  FTTN/B */}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -635,7 +669,7 @@ class Dashboard extends Component<any, any> {
                         style={{ fontSize: "14px" }}
                         color="textSecondary"
                       >
-                        Phone Line Status
+                        {/* Phone Line Status */}
                       </Typography>
                       <Typography
                         style={{
@@ -644,7 +678,7 @@ class Dashboard extends Component<any, any> {
                           color: "#00CCFF"
                         }}
                       >
-                        Active
+                        {/* //TODO - use some state here instead// Active */}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -675,7 +709,7 @@ class Dashboard extends Component<any, any> {
                         <Typography
                           style={{ fontSize: "14px", fontWeight: "bold" }}
                         >
-                          2.4 GHz
+                          {/* //TODO - use some state here instead// 2.4 GHz */}
                         </Typography>
                         <Typography
                           style={{
@@ -685,7 +719,7 @@ class Dashboard extends Component<any, any> {
                             fontSize: "14px"
                           }}
                         >
-                          Enabled
+                          {/* //TODO - use some state here instead// Enabled */}
                         </Typography>
                       </Grid>
 
@@ -693,7 +727,7 @@ class Dashboard extends Component<any, any> {
                         <Typography
                           style={{ fontSize: "14px", fontWeight: "bold" }}
                         >
-                          5 GHz
+                          {/* //TODO - use some state here instead//  5 GHz */}
                         </Typography>
                         <Typography
                           style={{
@@ -703,7 +737,7 @@ class Dashboard extends Component<any, any> {
                             fontSize: "14px"
                           }}
                         >
-                          Enabled
+                          {/* //TODO - use some state here instead//  Enabled */}
                         </Typography>
                       </Grid>
                     </Paper>
@@ -740,7 +774,7 @@ class Dashboard extends Component<any, any> {
                             textAlign: "center"
                           }}
                         >
-                          12
+                          {/* //TODO - use some state here instead//  12 */}
                         </Typography>
                       </Paper>
                     </Grid>
@@ -763,7 +797,7 @@ class Dashboard extends Component<any, any> {
                         <Typography
                           style={{ fontSize: "14px", fontWeight: "bold" }}
                         >
-                          19Mbps
+                          {/* //TODO - use some state here instead//  19Mbps */}
                         </Typography>
                         <Typography
                           style={{
@@ -773,8 +807,8 @@ class Dashboard extends Component<any, any> {
                             fontSize: "14px"
                           }}
                         >
-                          <ArrowUpwardIcon></ArrowUpwardIcon>
-                          <span style={{ position: "absolute" }}>Up</span>
+                          {/* //TODO - use some state here instead//  <ArrowUpwardIcon></ArrowUpwardIcon> */}
+                          {/* //TODO - use some state here instead// <span style={{ position: "absolute" }}>Up</span> */}
                         </Typography>
                       </Grid>
 
@@ -782,7 +816,7 @@ class Dashboard extends Component<any, any> {
                         <Typography
                           style={{ fontSize: "14px", fontWeight: "bold" }}
                         >
-                          43Mbps
+                          {/* //TODO - use some state here instead//  43Mbps */}
                         </Typography>
                         <Typography
                           style={{
@@ -792,8 +826,8 @@ class Dashboard extends Component<any, any> {
                             fontSize: "14px"
                           }}
                         >
-                          <ArrowDownwardIcon> </ArrowDownwardIcon>
-                          <span style={{ position: "absolute" }}>Down</span>
+                          {/* //TODO - use some state here instead// <ArrowDownwardIcon> </ArrowDownwardIcon> */}
+                          {/* //TODO - use some state here instead//  <span style={{ position: "absolute" }}>Down</span> */}
                         </Typography>
                       </Grid>
                     </Paper>
@@ -821,7 +855,7 @@ class Dashboard extends Component<any, any> {
                           style={{ fontSize: "14px" }}
                           color="textSecondary"
                         >
-                          Stability
+                          {/* Stability */}
                         </Typography>
                         <Typography
                           style={{
@@ -830,14 +864,14 @@ class Dashboard extends Component<any, any> {
                             color: "#00CCFF"
                           }}
                         >
-                          FTTN/B
+                          {/* //TODO - use some state here instead//  FTTN/B */}
                         </Typography>
 
                         <Typography
                           style={{ fontSize: "14px" }}
                           color="textSecondary"
                         >
-                          In Home Wiring LQD
+                          {/* In Home Wiring LQD */}
                         </Typography>
                         <Typography
                           style={{
@@ -846,7 +880,7 @@ class Dashboard extends Component<any, any> {
                             color: "#00CCFF"
                           }}
                         >
-                          FTTN/B
+                          {/* //TODO - use some state here instead//  FTTN/B */}
                         </Typography>
                       </Paper>
                     </Grid>
@@ -873,12 +907,12 @@ class Dashboard extends Component<any, any> {
                     <CachedIcon className={classes.cachedIcon} />
                   </Typography>
                   <Grid item container xs={12}>
-                    <Typography color="textSecondary">Speed</Typography>
+                    <Typography color="textSecondary">{/* Speed */}</Typography>
                     <Typography
                       style={{ marginLeft: "47%" }}
                       color="textSecondary"
                     >
-                      AVC
+                      {/* AVC */}
                     </Typography>
                   </Grid>
 
@@ -886,7 +920,7 @@ class Dashboard extends Component<any, any> {
                     <Typography
                       style={{ fontSize: "14px", fontWeight: "bold" }}
                     >
-                      XXXX XXXXXXX
+                      {/* //TODO - use some state here instead//  XXXX XXXXXXX */}
                     </Typography>
                     <Typography
                       style={{
@@ -895,17 +929,17 @@ class Dashboard extends Component<any, any> {
                         fontSize: "14px"
                       }}
                     >
-                      XXXX XXXXXXX
+                      {/* //TODO - use some state here instead//  XXXX XXXXXXX */}
                     </Typography>
                   </Grid>
 
                   <Grid item container xs={12}>
-                    <Typography color="textSecondary">CVC</Typography>
+                    <Typography color="textSecondary">{/* CVC */}</Typography>
                     <Typography
                       style={{ marginLeft: "49%" }}
                       color="textSecondary"
                     >
-                      CTAG
+                      {/* CTAG */}
                     </Typography>
                   </Grid>
 
@@ -913,7 +947,7 @@ class Dashboard extends Component<any, any> {
                     <Typography
                       style={{ fontSize: "14px", fontWeight: "bold" }}
                     >
-                      XXXX XXXXXXX
+                      {/* //TODO - use some state here instead// XXXX XXXXXXX */}
                     </Typography>
                     <Typography
                       style={{
@@ -922,17 +956,17 @@ class Dashboard extends Component<any, any> {
                         fontSize: "14px"
                       }}
                     >
-                      XXXX XXXXXXX
+                      {/* //TODO - use some state here instead//  XXXX XXXXXXX */}
                     </Typography>
                   </Grid>
                 </Paper>
               </Grid>
               <Grid item container xs={6} sm={2}>
-                <Paper
+                {/* <Paper
                   className={`${classes.papers} ${classes.radiusDropoutTile}`}
                 >
                   TBD - What info to show here?
-                </Paper>
+                </Paper> */}
               </Grid>
 
               <Grid item container xs={6} sm={2}>
@@ -953,7 +987,7 @@ class Dashboard extends Component<any, any> {
                     style={{ fontSize: "14px" }}
                     color="textSecondary"
                   >
-                    Last 24/48 hours
+                    {/* Last 24/48 hours */}
                   </Typography>
                   <Typography
                     style={{
@@ -962,7 +996,7 @@ class Dashboard extends Component<any, any> {
                       color: "rgba(233,77,84,0.81)"
                     }}
                   >
-                    15 drops
+                    {/* //TODO - use some state here instead//  15 drops */}
                   </Typography>
                 </Paper>
               </Grid>
@@ -988,7 +1022,7 @@ class Dashboard extends Component<any, any> {
                     style={{ fontSize: "14px" }}
                     color="textSecondary"
                   >
-                    Date
+                    {/* Date */}
                   </Typography>
                   <Typography
                     style={{
@@ -997,7 +1031,7 @@ class Dashboard extends Component<any, any> {
                       color: "#ffae42"
                     }}
                   >
-                    25/03/20
+                    {/* //TODO - use some state here instead//  25/03/20 */}
                   </Typography>
                 </Paper>
               </Grid>

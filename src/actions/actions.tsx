@@ -116,7 +116,29 @@ export const fetchCustomerInfo = (searchQuery: string) => {
     const result = await request;
 
     // TODO uncomment when running locally
-    // const result = {};
+    // const result = {
+    //   data: {
+    //     getCustomer: {
+    //       customer: {
+    //         accessType: "HFC",
+    //         addressLines: [
+    //           "Unit 2 23",
+    //           "CARRINGTON Street",
+    //           "NORTH STRATHFIELD NSW 2137"
+    //         ],
+    //         avcID: "AVC000000000001",
+    //         cvcID: "CVC000000000001",
+    //         firstName: "CHRISTINA",
+    //         lastName: "LIM",
+    //         macID: "123456789ABC",
+    //         priID: "PRI400035253337",
+    //         speed: "1138",
+    //         username: "limchristina"
+    //       },
+    //       result: "GOOD"
+    //     }
+    //   }
+    // };
 
     console.log("this is the result from graphql endpoint", result);
     dispatch(sendCustomerInfo(result));
@@ -195,21 +217,21 @@ export const authenticate = (username: string, password: string) => {
   );
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 5 lines when running locally
-    const request = await client.mutate({
-      mutation: someQuery,
-      variables: { username, password }
-    });
-    const result = await request;
+    // const request = await client.mutate({
+    //   mutation: someQuery,
+    //   variables: { username, password }
+    // });
+    // const result = await request;
 
     // TODO uncomment below - stub for testing different API responses when testing locally
-    // const result = {
-    //   data: {
-    //     newSessionStaffauth: {
-    //       result: "GOOD",
-    //       stok: "fake:token123:fred"
-    //     }
-    //   }
-    // };
+    const result = {
+      data: {
+        newSessionStaffauth: {
+          result: "GOOD",
+          stok: "fake:token123:fred"
+        }
+      }
+    };
 
     console.log("this is the result from graphql endpoint", result, getState());
     dispatch(checkAuth(result));

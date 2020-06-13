@@ -23,7 +23,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import Grid from "@material-ui/core/Grid";
 
-import { isAuthenticated, fetchCustomerInfo } from "../../actions/actions";
+import { isAuthenticated } from "../../actions/actions";
 
 // default style hook from material-ui
 const BootstrapInput = withStyles((theme: Theme) =>
@@ -138,9 +138,9 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     // same effect
-    checkIfAgentAuthenticated: () => dispatch(isAuthenticated()),
-    retrieveCustomerInfo: (searchQuery: string) =>
-      dispatch(fetchCustomerInfo(searchQuery))
+    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
+    // retrieveCustomerInfo: (searchQuery: string) =>
+    //   dispatch(fetchCustomerInfo(searchQuery))
   };
 };
 
@@ -149,25 +149,37 @@ export class Header extends React.Component<any, any> {
     profileClicked: false
   };
 
-  async getCustomerInfo(customerInfo: string) {
+  getCustomerInfo(customerInfo: string) {
     // fetch customer info here
-    const { retrieveCustomerInfo } = this.props;
+    const { fetchCustomerInfo } = this.props;
+
+    console.log("this is the function &&&&&*****", this.props);
 
     try {
-      const response = await retrieveCustomerInfo(customerInfo);
-      console.log("got response from customer info graphql endpoint", response);
+      return fetchCustomerInfo(customerInfo);
+      // const {data} = this.props;
+      // return data;
     } catch (err) {
       console.log("error fetching customer info for user", customerInfo);
     }
   }
+
   handleSearch(event: any) {
     if (event.charCode === 13) {
       console.log("Searching for", event.target.value);
       const customerInfo = event.target.value;
+      const { getCustomerInfoCallback } = this.props;
+
+      this.getCustomerInfo(customerInfo).then((data: any) => {
+        // alert(JSON.stringify(this.props.data));
+        getCustomerInfoCallback(this.props.data);
+      });
+
+      console.log(this.props, "header passed props");
+
       console.log(
-        "Got customer info from the API for customer=",
-        customerInfo,
-        this.getCustomerInfo(customerInfo)
+        "Got customer info from the API for customer = ",
+        customerInfo
       );
     }
   }

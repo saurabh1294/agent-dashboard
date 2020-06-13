@@ -225,6 +225,10 @@ class Dashboard extends Component<any, any> {
     }
   }
 
+  getCustomerInfoCallback(data: any) {
+    // TODO set state here to show info on tiles using data which has response from graphql
+  }
+
   render() {
     // TODO check if user is logged in or not, if yes then render this else redirect to home page
     console.log(
@@ -247,7 +251,12 @@ class Dashboard extends Component<any, any> {
       return (
         <div>
           <InstructionsModal />
-          <Header {...this.props} />
+          <Header
+            {...this.props}
+            getCustomerInfoCallback={(data: any) =>
+              this.getCustomerInfoCallback(data)
+            }
+          />
 
           <div style={{ marginTop: "10px", marginLeft: "9%" }}>
             <Box display="flex" flexDirection="row" p={1} m={1}>

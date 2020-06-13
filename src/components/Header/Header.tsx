@@ -170,10 +170,20 @@ export class Header extends React.Component<any, any> {
       const customerInfo = event.target.value;
       const { getCustomerInfoCallback } = this.props;
 
-      this.getCustomerInfo(customerInfo).then((data: any) => {
-        // alert(JSON.stringify(this.props.data));
-        getCustomerInfoCallback(this.props.data);
-      });
+      try {
+        this.getCustomerInfo(customerInfo)
+          .then((data: any) => {
+            // pass customer data obtained from API to dashboard
+            getCustomerInfoCallback(this.props.data);
+          })
+          .catch((err: any) =>
+            console.log("Error fetching info from customer info API")
+          );
+      } catch (err) {
+        console.log("error fetching customer info from API");
+      } finally {
+        console.log("finally block of get customer info API");
+      }
 
       console.log(this.props, "header passed props");
 

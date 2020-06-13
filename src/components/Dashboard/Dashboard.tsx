@@ -214,6 +214,8 @@ class Dashboard extends Component<any, any> {
     username: "",
     priId: "",
     cvcId: "",
+    firstName: "",
+    lastName: "",
     isLoggedIn: false // TODO temp state remove it
   };
 
@@ -254,11 +256,13 @@ class Dashboard extends Component<any, any> {
     //     }
     //   }
     // };
-    const customer = data.getCustomer.customer;
-    this.setState({ avcId: customer.avcID });
-    this.setState({ priId: customer.priID });
-    this.setState({ username: customer.username });
-    this.setState({ cvcId: customer.cvcID });
+    const customer = data?.getCustomer?.customer;
+    this.setState({ avcId: customer?.avcID });
+    this.setState({ priId: customer?.priID });
+    this.setState({ username: customer?.username });
+    this.setState({ cvcId: customer?.cvcID });
+    this.setState({ firstName: customer?.firstName });
+    this.setState({ lastName: customer?.lastName });
   }
 
   render() {
@@ -294,7 +298,10 @@ class Dashboard extends Component<any, any> {
             <Box display="flex" flexDirection="row" p={1} m={1}>
               <Box p={1}>
                 <Typography variant="h6" style={{ color: "teal" }}>
-                  Customer <span style={{ color: "black" }}> Jane Bird</span>
+                  Customer{" "}
+                  <span style={{ color: "black" }}>
+                    {`${this.state.firstName} ${this.state.lastName}`}
+                  </span>
                 </Typography>
               </Box>
             </Box>

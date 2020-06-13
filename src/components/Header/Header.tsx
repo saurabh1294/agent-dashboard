@@ -5,8 +5,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Paper from "@material-ui/core/Paper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
+// import MenuItem from "@material-ui/core/MenuItem";
+// import MenuList from "@material-ui/core/MenuList";
+import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 
 import Avatar from "@material-ui/core/Avatar";
@@ -252,7 +253,10 @@ export class Header extends React.Component<any, any> {
 
     return (
       <div className={classes.root}>
-        <AppBar style={{ background: "#004D45" }} position="static">
+        <AppBar
+          style={{ background: "#004D45", minWidth: "1400px" }}
+          position="static"
+        >
           <Toolbar>
             <IconButton
               edge="start"
@@ -357,26 +361,39 @@ export class Header extends React.Component<any, any> {
                 >
                   <span onClick={e => this.handleProfileDropdown(e)}>JB</span>
                 </Avatar>
-                {this.state.profileClicked && (
-                  <Paper
-                    className={classes.paper}
-                    style={{
-                      position: "absolute",
-                      margin: "30px 40px",
-                      color: "white",
-                      borderRadius: "0px",
-                      background: "#00332E"
-                    }}
-                  >
-                    <MenuList>
+                {
+                  // <Paper
+                  //   className={classes.paper}
+                  //   style={{
+                  //     position: "relative",
+                  //     margin: "0px 40px",
+                  //     color: "white",
+                  //     borderRadius: "0px",
+                  //     background: "#00332E"
+                  //   }}
+                  // >
+                  /* <MenuList>
                       <MenuItem>Profile</MenuItem>
                       <MenuItem>My account</MenuItem>
                       <MenuItem onClick={this.logout.bind(this)}>
                         Logout
                       </MenuItem>
-                    </MenuList>
-                  </Paper>
-                )}
+                    </MenuList> */
+                  <Button
+                    style={{
+                      margin: "0px 10px 15px"
+                    }}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={this.logout.bind(this)}
+                  >
+                    Logout
+                  </Button>
+                  // </Paper>
+                }
               </div>
             )}
           </Toolbar>

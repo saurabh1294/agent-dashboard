@@ -131,7 +131,8 @@ const mapStateToProps = (state: any) => {
     isLoggedIn: state.loginReducer.isLoggedIn,
     isLoggedOut: state.loginReducer.isLoggedOut,
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
-    data: state.loginReducer.data,
+    data: state.loginReducer.data, // session data - TODO rename it to sessionData to avoid confusion
+    getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -146,9 +147,9 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export class Header extends React.Component<any, any> {
-  state = {
-    profileClicked: false
-  };
+  // state = {
+  //   profileClicked: false
+  // };
 
   getCustomerInfo(customerInfo: string) {
     // fetch customer info here
@@ -175,7 +176,7 @@ export class Header extends React.Component<any, any> {
         this.getCustomerInfo(customerInfo)
           .then((data: any) => {
             // pass customer data obtained from API to dashboard
-            getCustomerInfoCallback(this.props.data);
+            getCustomerInfoCallback(this.props.getCustomer);
           })
           .catch((err: any) =>
             console.log("Error fetching info from customer info API")
@@ -224,15 +225,30 @@ export class Header extends React.Component<any, any> {
     }
   }
 
-  async handleProfileDropdown(event: any) {
-    await this.setState({ profileClicked: !this.state.profileClicked });
+  componentDidMount() {
+    try {
+      this.getAuthenticationStatus().then((data: any) =>
+        console.log(
+          "got here in componentDidMount of Header.tsx: getAuthenticationStatus()",
+          this.props
+        )
+      );
+    } catch (err) {
+      console.log("Error getting authentication status");
+    } finally {
+      console.log("Finally block get authentication status");
+    }
   }
 
-  async getAuthenticationStatus() {
+  // async handleProfileDropdown(event: any) {
+  //   await this.setState({ profileClicked: !this.state.profileClicked });
+  // }
+
+  getAuthenticationStatus() {
     const { checkIfAgentAuthenticated } = this.props;
     try {
-      const response = await checkIfAgentAuthenticated();
-      return response;
+      return checkIfAgentAuthenticated();
+      // return response;
     } catch (err) {
       console.log("Error calling isAuthenticated API");
     } finally {
@@ -244,12 +260,6 @@ export class Header extends React.Component<any, any> {
     const { classes } = this.props as any;
 
     console.log(this.props, "props in header.tsx");
-
-    console.log(
-      "Checking if agent is authenticated",
-      this.getAuthenticationStatus(),
-      this.state
-    );
 
     return (
       <div className={classes.root}>
@@ -276,7 +286,7 @@ export class Header extends React.Component<any, any> {
             </Typography>
 
             {/* TODO check if agentIsAuthenticated using sessionInfo query here instead */}
-            {this.props.location && this.props.location?.state?.isLoggedIn && (
+            {this.props?.isAuthenticated === "true" && (
               <div className={classes.search}>
                 <Grid item xs={2}>
                   <Typography
@@ -339,7 +349,7 @@ export class Header extends React.Component<any, any> {
               </div>
             )}
 
-            {this.props.location && this.props.location?.state?.isLoggedIn && (
+            {this.props?.isAuthenticated === "true" && (
               <div
                 style={{
                   marginLeft: "25%",
@@ -359,7 +369,7 @@ export class Header extends React.Component<any, any> {
                     cursor: "pointer"
                   }}
                 >
-                  <span onClick={e => this.handleProfileDropdown(e)}>JB</span>
+                  {/* <span onClick={e => this.handleProfileDropdown(e)}>JB</span> */}
                 </Avatar>
                 {
                   // <Paper

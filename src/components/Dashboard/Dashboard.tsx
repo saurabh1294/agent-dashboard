@@ -34,7 +34,8 @@ const mapStateToProps = (state: any) => {
     isLoggedIn: state.loginReducer.isLoggedIn,
     isLoggedOut: state.loginReducer.isLoggedOut,
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
-    data: state.loginReducer.data,
+    data: state.loginReducer.data, // session data - TODO rename it to sessionData to avoid confusion
+    getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -219,16 +220,35 @@ class Dashboard extends Component<any, any> {
     isLoggedIn: false // TODO temp state remove it
   };
 
-  async getAuthenticationStatus() {
+  componentDidMount() {
+    try {
+      this.getAuthenticationStatus().then((data: any) =>
+        console.log(
+          "got here in componentDidMount of Dashboard.tsx: getAuthenticationStatus()",
+          this.props
+        )
+      );
+    } catch (err) {
+      console.log("Error getting authentication status");
+    } finally {
+      console.log("Finally block get authentication status");
+    }
+  }
+
+  getAuthenticationStatus() {
     const { checkIfAgentAuthenticated } = this.props;
     try {
-      const response = await checkIfAgentAuthenticated();
-      return response;
+      return checkIfAgentAuthenticated();
+      // return response;
     } catch (err) {
       console.log("Error calling isAuthenticated API");
     } finally {
       console.log("getAuthenticationStatus finally block");
     }
+  }
+
+  componentWillUnmount() {
+    console.log("unmounting dashboard");
   }
 
   getCustomerInfoCallback(data: any) {
@@ -256,7 +276,8 @@ class Dashboard extends Component<any, any> {
     //     }
     //   }
     // };
-    const customer = data?.getCustomer?.customer;
+    // alert(JSON.stringify(data));
+    const customer = data?.customer;
     this.setState({ avcId: customer?.avcID });
     this.setState({ priId: customer?.priID });
     this.setState({ username: customer?.username });
@@ -267,23 +288,23 @@ class Dashboard extends Component<any, any> {
 
   render() {
     // TODO check if user is logged in or not, if yes then render this else redirect to home page
-    console.log(
-      "in dashboard component ",
-      this.props,
-      this.props.location.state?.isLoggedIn,
-      this.props.location.state?.isLoggedOut,
-      this.state
-    );
+    // console.log(
+    //   "in dashboard component ",
+    //   this.props,
+    //   this.props.location.state?.isLoggedIn,
+    //   this.props.location.state?.isLoggedOut,
+    //   this.state
+    // );
 
     const { classes } = this.props as any;
 
-    console.log(
-      "Checking if agent is authenticated",
-      this.getAuthenticationStatus(),
-      this.state
-    );
+    // console.log(
+    //   "Checking if agent is authenticated",
+    //   this.getAuthenticationStatus(),
+    //   this.state
+    // );
     // TODO check isAgentAuthenticated here instead of this flag
-    if (this.props.location.state?.isLoggedIn) {
+    if (this.props?.isAuthenticated === "true") {
       return (
         <div>
           <InstructionsModal />

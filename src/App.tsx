@@ -28,7 +28,8 @@ const mapStateToProps = (state: any) => {
     isLoggedIn: state.loginReducer.isLoggedIn,
     isLoggedOut: state.loginReducer.isLoggedOut,
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
-    data: state.loginReducer.data,
+    data: state.loginReducer.data, // session data - TODO rename it to sessionData to avoid confusion
+    getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -115,7 +116,18 @@ export class App extends React.Component<any, any> {
   };
 
   componentDidMount() {
-    console.log("componentDidMount", this.props);
+    try {
+      this.getAuthenticationStatus().then((data: any) =>
+        console.log(
+          "got here in componentDidMount of App.tsx: getAuthenticationStatus()",
+          this.props
+        )
+      );
+    } catch (err) {
+      console.log("Error getting authentication status");
+    } finally {
+      console.log("Finally block get authentication status");
+    }
   }
 
   setCookie(cname: string, cvalue: string, minutes: number) {
@@ -172,6 +184,7 @@ export class App extends React.Component<any, any> {
     }
 
     const { data } = this.props;
+
     // dispatch login complete action here and set the auth token in the session cookie
     if (data?.newSessionStaffauth?.result === "GOOD") {
       // TODO dispatch action here which will set global state
@@ -184,13 +197,27 @@ export class App extends React.Component<any, any> {
       // dispatch action here which will set state
       await this.setState({ authError: data?.newSessionStaffauth?.result });
     }
+
+    // update authentication status here
+    try {
+      this.getAuthenticationStatus().then((data: any) =>
+        console.log("got here", this.props)
+      );
+    } catch (err) {
+      console.log(
+        "Error getting auth status post login in App.tsx: handleLogin()"
+      );
+    } finally {
+      console.log("finally block of get auth status in handleLogin()");
+    }
+    // alert(this.props.isAuthenticated);
   }
 
-  async getAuthenticationStatus() {
+  getAuthenticationStatus() {
     const { checkIfAgentAuthenticated } = this.props;
     try {
-      const response = await checkIfAgentAuthenticated();
-      return response;
+      return checkIfAgentAuthenticated();
+      // return response;
     } catch (err) {
       console.log("Error calling isAuthenticated API");
     } finally {
@@ -201,14 +228,14 @@ export class App extends React.Component<any, any> {
   render() {
     const { classes } = this.props as any;
 
-    console.log(
-      "Checking if agent is authenticated",
-      this.getAuthenticationStatus(),
-      this.state
-    );
+    // console.log(
+    //   "Checking if agent is authenticated",
+    //   this.getAuthenticationStatus(),
+    //   this.state
+    // );
 
     // TODO check isAgentAuthenticated here instead
-    if (this.state.isLoggedIn) {
+    if (this.props?.isAuthenticated === "true") {
       return (
         <Redirect
           to={{

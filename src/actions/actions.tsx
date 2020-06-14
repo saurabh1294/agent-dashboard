@@ -110,10 +110,17 @@ export const fetchCustomerInfo = (searchQuery: string) => {
 
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 4 lines when running locally
-    const request = await client.query({
-      query: someQuery
-    });
-    const result = await request;
+    let result = {};
+    try {
+      const request = await client.query({
+        query: someQuery
+      });
+      result = await request;
+    } catch (err) {
+      console.log("fetchCustomerInfo() graphql error occurred in actions.tsx");
+    } finally {
+      console.log("fetchCustomerInfo() graphql finally block in actions.tsx");
+    }
 
     // TODO uncomment when running locally - pass result.getCustomer - strip off data
     /*const result = {
@@ -159,10 +166,17 @@ export const isAuthenticated = () => {
 
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 4 lines when running locally
-    const request = await client.query({
-      query: someQuery
-    });
-    const result = await request;
+    let result = {};
+    try {
+      const request = await client.query({
+        query: someQuery
+      });
+      result = await request;
+    } catch (err) {
+      console.log("error calling isAuthenticated graphql endpoint");
+    } finally {
+      console.log("isAuthenticated finally block");
+    }
 
     // TODO uncomment when running locally
     // const result = {
@@ -193,10 +207,17 @@ export const logout = () => {
 
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 4 lines when running locally
-    const request = await client.mutate({
-      mutation: someQuery
-    });
-    const result = await request;
+    let result = {};
+    try {
+      const request = await client.mutate({
+        mutation: someQuery
+      });
+      result = await request;
+    } catch (err) {
+      console.log("Error calling logout() graphql API endpoint");
+    } finally {
+      console.log("In logout() of finally block");
+    }
 
     // TODO uncomment when running locally
     // const result = {};
@@ -226,11 +247,18 @@ export const authenticate = (username: string, password: string) => {
   );
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 5 lines when running locally
-    const request = await client.mutate({
-      mutation: someQuery,
-      variables: { username, password }
-    });
-    const result = await request;
+    let result = {};
+    try {
+      const request = await client.mutate({
+        mutation: someQuery,
+        variables: { username, password }
+      });
+      result = await request;
+    } catch (err) {
+      console.log("error calling authenticate mutation gql query");
+    } finally {
+      console.log("authentication actions.tsx finally block");
+    }
 
     // TODO uncomment below - stub for testing different API responses when testing locally
     // const result = {

@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-import Paper from "@material-ui/core/Paper";
+// import Paper from "@material-ui/core/Paper";
 // import MenuItem from "@material-ui/core/MenuItem";
 // import MenuList from "@material-ui/core/MenuList";
 import Button from "@material-ui/core/Button";
@@ -261,6 +261,7 @@ export class Header extends React.Component<any, any> {
 
     console.log(this.props, "props in header.tsx");
 
+    // TODO make this AppBar markup more responsive
     return (
       <div className={classes.root}>
         <AppBar
@@ -341,7 +342,7 @@ export class Header extends React.Component<any, any> {
                       background: "#00332E",
                       marginLeft: "480px",
                       width: "200px",
-                      padding: "4px 0px 0px 0px"
+                      padding: "5px 0px 0px 0px"
                     }}
                     inputProps={{ "aria-label": "search" }}
                   />
@@ -352,24 +353,23 @@ export class Header extends React.Component<any, any> {
             {this.props?.isAuthenticated === "true" && (
               <div
                 style={{
-                  marginLeft: "25%",
-                  marginTop: "20px",
-                  display: "flex",
-                  bottom: "10px"
+                  marginLeft: "20%",
+                  marginTop: "10px",
+                  display: "flex"
                 }}
               >
-                LoggedIn Agent:
+                <span style={{ marginTop: "10px" }}>LoggedIn Agent:</span>
                 <Avatar
                   alt="Profile Avatar"
                   style={{
                     display: "flex",
-                    marginLeft: "10px",
-                    bottom: "10px",
+                    marginLeft: "5px",
                     backgroundColor: "teal",
                     cursor: "pointer"
                   }}
                 >
-                  {/* <span onClick={e => this.handleProfileDropdown(e)}>JB</span> */}
+                  <span>JB</span>
+                  {/* Replace the above username with props returned via graphql API */}
                 </Avatar>
                 {
                   // <Paper
@@ -391,7 +391,8 @@ export class Header extends React.Component<any, any> {
                     </MenuList> */
                   <Button
                     style={{
-                      margin: "0px 10px 15px"
+                      margin: "0px 15px 15px",
+                      width: "80px"
                     }}
                     type="submit"
                     fullWidth
@@ -400,7 +401,7 @@ export class Header extends React.Component<any, any> {
                     className={classes.submit}
                     onClick={this.logout.bind(this)}
                   >
-                    Logout
+                    LogOut
                   </Button>
                   // </Paper>
                 }

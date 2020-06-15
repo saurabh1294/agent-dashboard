@@ -304,7 +304,10 @@ class Dashboard extends Component<any, any> {
     //   this.state
     // );
     // TODO check isAgentAuthenticated here instead of this flag
-    if (this.props?.isAuthenticated === "true" || this.props.location.state?.isLoggedIn) {
+    if (
+      this.props?.isAuthenticated === "true" ||
+      this.props.location.state?.isLoggedIn
+    ) {
       return (
         <div>
           <InstructionsModal />

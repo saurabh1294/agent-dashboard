@@ -287,7 +287,7 @@ export class Header extends React.Component<any, any> {
             </Typography>
 
             {/* TODO check if agentIsAuthenticated using sessionInfo query here instead */}
-            {this.props?.isAuthenticated === "true" && (
+            {(this.props.location && this.props.location?.state?.isLoggedIn)&& (
               <div className={classes.search}>
                 <Grid item xs={2}>
                   <Typography
@@ -350,7 +350,7 @@ export class Header extends React.Component<any, any> {
               </div>
             )}
 
-            {this.props?.isAuthenticated === "true" && (
+            {(this.props.location && this.props.location?.state?.isLoggedIn) && (
               <div
                 style={{
                   marginLeft: "20%",

@@ -235,7 +235,7 @@ export class App extends React.Component<any, any> {
     // );
 
     // TODO check isAgentAuthenticated here instead
-    if (this.props?.isAuthenticated === "true") {
+    if (this.state.isLoggedIn) {
       return (
         <Redirect
           to={{

@@ -88,9 +88,9 @@ export const sendCustomerInfo = (data: any) => {
 };
 
 export const fetchCustomerInfo = (searchQuery: string) => {
-  const someQuery = gql`
+  /*const someQuery = gql`
   query GetCustomer {
-    getCustomer(with: USERNAME matching: ${searchQuery}) {
+    getCustomer(with: USERNAME matching: '${searchQuery}') {
       result
       customer {
         username
@@ -106,18 +106,36 @@ export const fetchCustomerInfo = (searchQuery: string) => {
       }
     }
   }
-  `;
+  `;*/
+
+const someQuery = gql`query GetCustomer($searchQuery : ID!) {
+    getCustomer(with: USERNAME matching: $searchQuery) {
+      result
+      customer {
+        username
+        firstName
+        lastName
+        addressLines
+        accessType
+        avcID
+        cvcID
+        priID
+	speedProfile
+      }
+    }
+  }`;
 
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 4 lines when running locally
-    let result = {};
+    let result = {data: {}};
     try {
       const request = await client.query({
-        query: someQuery
+        query: someQuery,
+	variables: {searchQuery}
       });
       result = await request;
     } catch (err) {
-      console.log("fetchCustomerInfo() graphql error occurred in actions.tsx");
+      console.log("fetchCustomerInfo() graphql error occurred in actions.tsx %%%************", err);
     } finally {
       console.log("fetchCustomerInfo() graphql finally block in actions.tsx");
     }
@@ -147,8 +165,9 @@ export const fetchCustomerInfo = (searchQuery: string) => {
       // }
     };*/
 
-    console.log("this is the result from graphql endpoint", result);
-    dispatch(sendCustomerInfo(result));
+    console.log("fetchCustInfo",JSON.stringify(someQuery));
+    console.log("this is the result from graphql fetchCustomerInfo endpoint", result);
+    dispatch(sendCustomerInfo(result.data));
   };
 };
 
@@ -223,6 +242,7 @@ export const logout = () => {
     // const result = {};
 
     console.log("this is the result from graphql endpoint", result);
+    // alert("logout"+JSON.stringify(result));
     dispatch(logoutSuccess(result));
   };
 };

@@ -36,6 +36,8 @@ const mapStateToProps = (state: any) => {
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
     data: state.loginReducer.data, // session data - TODO rename it to sessionData to avoid confusion
     getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
+    getCustomerOnline: state.loginReducer.getCustomerOnline, // get customer online info when searching for it in dashboard
+    getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -217,8 +219,17 @@ class Dashboard extends Component<any, any> {
     cvcId: "",
     firstName: "",
     lastName: "",
+    deviceModel: "",
+    mac: "",
+    ipaddr: "",
+    serviceStatus: "",
+    accessType: "",
+    speedProfile: "",
+    voiceLines: [{number: ""}],
     isLoggedIn: false // TODO temp state remove it
   };
+
+  fnnNumber: string = "";
 
   componentDidMount() {
     try {
@@ -276,14 +287,53 @@ class Dashboard extends Component<any, any> {
     //     }
     //   }
     // };
-    // alert(JSON.stringify(data));
-    const customer = data?.customer;
+
+console.log("inside customer info callback", data);    
+const customer = data?.getCustomer.customer;
     this.setState({ avcId: customer?.avcID });
     this.setState({ priId: customer?.priID });
     this.setState({ username: customer?.username });
     this.setState({ cvcId: customer?.cvcID });
     this.setState({ firstName: customer?.firstName });
     this.setState({ lastName: customer?.lastName });
+    this.setState({ serviceStatus: customer?.serviceStatus });
+    this.setState({ accessType: customer?.accessType });
+    this.setState({ speedProfile: customer?.speedProfile });
+    this.setState({ voiceLines: customer?.voiceLines });
+    const customerOnline = data?.getCustomerOnline;
+    const deviceInfo = data?.getDeviceInfo;
+
+    this.setState({ mac: customerOnline.info.mac});
+    this.setState({ ipaddr: customerOnline.info.ipaddr});
+    this.setState({ deviceModel: deviceInfo.device.deviceModel});
+    this.fnnNumber = this.state.voiceLines[0]?.number;
+  }
+
+  getAccStatus(state: any) {
+	/*const map = {
+		C: "Active",
+		W: "Withdrawn",
+		S: "Suspended",
+		A: "Abuse"}*/
+
+
+	switch(state) {
+
+		case "C":
+			return "Active";
+
+		case "W":
+			return "Withdrawn";
+
+		case "S":
+			return "Suspended";
+
+		case "A":
+			return "Abuse";
+
+		default:
+			return "";
+	}
   }
 
   render() {
@@ -304,10 +354,7 @@ class Dashboard extends Component<any, any> {
     //   this.state
     // );
     // TODO check isAgentAuthenticated here instead of this flag
-    if (
-      this.props?.isAuthenticated === "true" ||
-      this.props.location.state?.isLoggedIn
-    ) {
+    if (this.props?.isAuthenticated === "true" || this.props.location.state?.isLoggedIn) {
       return (
         <div>
           <InstructionsModal />
@@ -385,7 +432,7 @@ class Dashboard extends Component<any, any> {
                   >
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        {/* Account Status{" "} */}
+                        Account Status{" "}
                         <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
@@ -393,7 +440,7 @@ class Dashboard extends Component<any, any> {
                         color="textSecondary"
                         gutterBottom
                       >
-                        {/* ISE Prov DB */}
+                        ISE Prov DB
                       </Typography>
                       <Typography
                         variant="body2"
@@ -404,7 +451,7 @@ class Dashboard extends Component<any, any> {
                           fontSize: "18px"
                         }}
                       >
-                        {/* //TODO - use some state here instead// Suspended */}
+                        {this.getAccStatus(this.state.serviceStatus)}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -547,7 +594,7 @@ class Dashboard extends Component<any, any> {
                         Technology Type
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXXXX
+                       { this.state.accessType } 
                       </Typography>
 
                       <Typography
@@ -569,7 +616,7 @@ class Dashboard extends Component<any, any> {
                         FNN Number
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        XXXXXXXX
+			{this.state.voiceLines[0]?.number}
                       </Typography>
 
                       <Typography
@@ -615,6 +662,7 @@ class Dashboard extends Component<any, any> {
                         Modem Model
                       </Typography>
                       <Typography variant="body2" gutterBottom>
+			{this.state.deviceModel}
                         {/* //TODO - use some state here instead// XXXX XXXXX */}
                       </Typography>
 
@@ -626,10 +674,12 @@ class Dashboard extends Component<any, any> {
                         Modem Specs
                       </Typography>
                       <Typography variant="body2" gutterBottom>
+			{this.state.mac}
                         {/* //TODO - use some state here instead//  XXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXX */}
+			{this.state.ipaddr}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXXXXXX */}
@@ -818,7 +868,8 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         style={{
                           marginBottom: "10px",
-                          fontSize: "12px"
+                          fontSize: "12px",
+			  fontWeight: "bold"
                         }}
                       >
                         TR143{" "}
@@ -938,7 +989,7 @@ class Dashboard extends Component<any, any> {
                     <CachedIcon className={classes.cachedIcon} />
                   </Typography>
                   <Grid item container xs={12}>
-                    <Typography color="textSecondary">{/* Speed */}</Typography>
+                    <Typography color="textSecondary">Speed</Typography>
                     <Typography
                       style={{ marginLeft: "47%" }}
                       color="textSecondary"
@@ -951,7 +1002,7 @@ class Dashboard extends Component<any, any> {
                     <Typography
                       style={{ fontSize: "14px", fontWeight: "bold" }}
                     >
-                      {/* //TODO - use some state here instead//  XXXX XXXXXXX */}
+                      {this.state.speedProfile}
                     </Typography>
                     <Typography
                       style={{

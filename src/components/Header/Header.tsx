@@ -133,6 +133,8 @@ const mapStateToProps = (state: any) => {
     isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
     data: state.loginReducer.data, // session data - TODO rename it to sessionData to avoid confusion
     getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
+    getCustomerOnline: state.loginReducer.getCustomerOnline, // get customer online info when searching for it in dashboard
+    getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -167,6 +169,8 @@ export class Header extends React.Component<any, any> {
   }
 
   handleSearch(event: any) {
+console.log("inside handleSearch() here", event);
+
     if (event.charCode === 13) {
       console.log("Searching for", event.target.value);
       const customerInfo = event.target.value;
@@ -176,7 +180,7 @@ export class Header extends React.Component<any, any> {
         this.getCustomerInfo(customerInfo)
           .then((data: any) => {
             // pass customer data obtained from API to dashboard
-            getCustomerInfoCallback(this.props.getCustomer);
+            getCustomerInfoCallback(this.props);
           })
           .catch((err: any) =>
             console.log("Error fetching info from customer info API")
@@ -287,7 +291,7 @@ export class Header extends React.Component<any, any> {
             </Typography>
 
             {/* TODO check if agentIsAuthenticated using sessionInfo query here instead */}
-            {this.props.location && this.props.location?.state?.isLoggedIn && (
+            {(this.props.location && this.props.location?.state?.isLoggedIn)&& (
               <div className={classes.search}>
                 <Grid item xs={2}>
                   <Typography
@@ -347,10 +351,11 @@ export class Header extends React.Component<any, any> {
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Grid>
+
               </div>
             )}
 
-            {this.props.location && this.props.location?.state?.isLoggedIn && (
+            {(this.props.location && this.props.location?.state?.isLoggedIn) && (
               <div
                 style={{
                   marginLeft: "20%",

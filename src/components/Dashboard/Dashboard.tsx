@@ -351,7 +351,7 @@ class Dashboard extends Component<any, any> {
     //   this.getAuthenticationStatus(),
     //   this.state
     // );
-    // TODO check isAgentAuthenticated here instead of this flag
+    // TODO check this.props.isAuthenticated along with isLoggedIn here instead
     if (
       this.props?.isAuthenticated === "true" ||
       this.props.location.state?.isLoggedIn
@@ -1134,6 +1134,7 @@ class Dashboard extends Component<any, any> {
         <Redirect
           to={{
             pathname: "/",
+            // instead of ORing with false or with this.props.isAuthenticated
             state: { isLoggedIn: this.state?.isLoggedIn || false }
           }}
         />

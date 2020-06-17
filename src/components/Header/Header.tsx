@@ -292,7 +292,7 @@ export class Header extends React.Component<any, any> {
               </span>
             </Typography>
 
-            {/* TODO check if agentIsAuthenticated using sessionInfo query here instead */}
+            {/* TODO check if this.props.isAuthenticated or isLoggedIn here instead */}
             {this.props.location && this.props.location?.state?.isLoggedIn && (
               <div className={classes.search}>
                 <Grid item xs={2}>
@@ -375,6 +375,7 @@ export class Header extends React.Component<any, any> {
               </div>
             )}
 
+            {/* TODO check if this.props.isAuthenticated or isLoggedIn here instead */}
             {this.props.location && this.props.location?.state?.isLoggedIn && (
               <div
                 style={{

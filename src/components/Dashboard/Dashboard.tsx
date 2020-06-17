@@ -225,7 +225,7 @@ class Dashboard extends Component<any, any> {
     serviceStatus: "",
     accessType: "",
     speedProfile: "",
-    voiceLines: [{number: ""}],
+    voiceLines: [{ number: "" }],
     isLoggedIn: false // TODO temp state remove it
   };
 
@@ -288,8 +288,8 @@ class Dashboard extends Component<any, any> {
     //   }
     // };
 
-console.log("inside customer info callback", data);    
-const customer = data?.getCustomer.customer;
+    console.log("inside customer info callback", data);
+    const customer = data?.getCustomer.customer;
     this.setState({ avcId: customer?.avcID });
     this.setState({ priId: customer?.priID });
     this.setState({ username: customer?.username });
@@ -303,37 +303,35 @@ const customer = data?.getCustomer.customer;
     const customerOnline = data?.getCustomerOnline;
     const deviceInfo = data?.getDeviceInfo;
 
-    this.setState({ mac: customerOnline.info.mac});
-    this.setState({ ipaddr: customerOnline.info.ipaddr});
-    this.setState({ deviceModel: deviceInfo.device.deviceModel});
+    this.setState({ mac: customerOnline.info.mac });
+    this.setState({ ipaddr: customerOnline.info.ipaddr });
+    this.setState({ deviceModel: deviceInfo.device.deviceModel });
     this.fnnNumber = this.state.voiceLines[0]?.number;
   }
 
   getAccStatus(state: any) {
-	/*const map = {
+    /*const map = {
 		C: "Active",
 		W: "Withdrawn",
 		S: "Suspended",
 		A: "Abuse"}*/
 
+    switch (state) {
+      case "C":
+        return "Active";
 
-	switch(state) {
+      case "W":
+        return "Withdrawn";
 
-		case "C":
-			return "Active";
+      case "S":
+        return "Suspended";
 
-		case "W":
-			return "Withdrawn";
+      case "A":
+        return "Abuse";
 
-		case "S":
-			return "Suspended";
-
-		case "A":
-			return "Abuse";
-
-		default:
-			return "";
-	}
+      default:
+        return "";
+    }
   }
 
   render() {
@@ -354,7 +352,10 @@ const customer = data?.getCustomer.customer;
     //   this.state
     // );
     // TODO check isAgentAuthenticated here instead of this flag
-    if (this.props?.isAuthenticated === "true" || this.props.location.state?.isLoggedIn) {
+    if (
+      this.props?.isAuthenticated === "true" ||
+      this.props.location.state?.isLoggedIn
+    ) {
       return (
         <div>
           <InstructionsModal />
@@ -594,7 +595,7 @@ const customer = data?.getCustomer.customer;
                         Technology Type
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                       { this.state.accessType } 
+                        {this.state.accessType}
                       </Typography>
 
                       <Typography
@@ -616,7 +617,7 @@ const customer = data?.getCustomer.customer;
                         FNN Number
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-			{this.state.voiceLines[0]?.number}
+                        {this.state.voiceLines[0]?.number}
                       </Typography>
 
                       <Typography
@@ -662,7 +663,7 @@ const customer = data?.getCustomer.customer;
                         Modem Model
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-			{this.state.deviceModel}
+                        {this.state.deviceModel}
                         {/* //TODO - use some state here instead// XXXX XXXXX */}
                       </Typography>
 
@@ -674,12 +675,12 @@ const customer = data?.getCustomer.customer;
                         Modem Specs
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-			{this.state.mac}
+                        {this.state.mac}
                         {/* //TODO - use some state here instead//  XXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXX */}
-			{this.state.ipaddr}
+                        {this.state.ipaddr}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXXXXXX */}
@@ -869,7 +870,7 @@ const customer = data?.getCustomer.customer;
                         style={{
                           marginBottom: "10px",
                           fontSize: "12px",
-			  fontWeight: "bold"
+                          fontWeight: "bold"
                         }}
                       >
                         TR143{" "}

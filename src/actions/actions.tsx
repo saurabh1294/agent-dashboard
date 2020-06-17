@@ -88,9 +88,8 @@ export const sendCustomerInfo = (data: any) => {
 };
 
 export const fetchCustomerInfo = (searchQuery: string) => {
-
-//const someQuery = gql`query GetCustomer($searchQuery : ID!) {
-const someQuery = gql`
+  //const someQuery = gql`query GetCustomer($searchQuery : ID!) {
+  const someQuery = gql`
     query GetCustomer($searchQuery: ID!) {
       getCustomerOnline(with: USERNAME, matching: $searchQuery) {
         result
@@ -117,17 +116,17 @@ const someQuery = gql`
           cvcID
           priID
           speedProfile
-	  serviceStatus
-	  voiceLines {
-		number
-		serviceID
-	  }
+          serviceStatus
+          voiceLines {
+            number
+            serviceID
+          }
         }
       }
     }
   `;
-    
-/*getCustomer(with: USERNAME matching: $searchQuery) {
+
+  /*getCustomer(with: USERNAME matching: $searchQuery) {
       result
       customer {
         username
@@ -145,15 +144,18 @@ const someQuery = gql`
 
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 4 lines when running locally
-    let result = {data: {}};
+    let result = { data: {} };
     try {
       const request = await client.query({
         query: someQuery,
-	variables: {searchQuery}
+        variables: { searchQuery }
       });
       result = await request;
     } catch (err) {
-      console.log("fetchCustomerInfo() graphql error occurred in actions.tsx %%%************", err);
+      console.log(
+        "fetchCustomerInfo() graphql error occurred in actions.tsx %%%************",
+        err
+      );
     } finally {
       console.log("fetchCustomerInfo() graphql finally block in actions.tsx");
     }
@@ -183,8 +185,11 @@ const someQuery = gql`
       // }
     };*/
 
-    console.log("fetchCustInfo",JSON.stringify(someQuery));
-    console.log("this is the result from graphql fetchCustomerInfo endpoint", result);
+    console.log("fetchCustInfo", JSON.stringify(someQuery));
+    console.log(
+      "this is the result from graphql fetchCustomerInfo endpoint",
+      result
+    );
     dispatch(sendCustomerInfo(result.data));
   };
 };

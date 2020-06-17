@@ -149,9 +149,9 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export class Header extends React.Component<any, any> {
-  // state = {
-  //   profileClicked: false
-  // };
+  state = {
+    customerId: ""
+  };
 
   getCustomerInfo(customerInfo: string) {
     // fetch customer info here
@@ -168,12 +168,14 @@ export class Header extends React.Component<any, any> {
     }
   }
 
-  handleSearch(event: any) {
-console.log("inside handleSearch() here", event);
+  handleChange(event: any) {
+    this.setState({ customerId: event.target.value });
+  }
 
-    if (event.charCode === 13) {
-      console.log("Searching for", event.target.value);
-      const customerInfo = event.target.value;
+  handleSearch(event: any) {
+    if (event.charCode === 13 || event.type === "click") {
+      const customerInfo =
+        event.type !== "click" ? event.target.value : this.state.customerId;
       const { getCustomerInfoCallback } = this.props;
 
       try {
@@ -291,7 +293,7 @@ console.log("inside handleSearch() here", event);
             </Typography>
 
             {/* TODO check if agentIsAuthenticated using sessionInfo query here instead */}
-            {(this.props.location && this.props.location?.state?.isLoggedIn)&& (
+            {this.props.location && this.props.location?.state?.isLoggedIn && (
               <div className={classes.search}>
                 <Grid item xs={2}>
                   <Typography
@@ -331,11 +333,12 @@ console.log("inside handleSearch() here", event);
                   </NativeSelect>
                 </Grid>
 
-                <Grid item xs={2}>
+                <Grid item xs={6}>
                   <InputBase
                     startAdornment={<SearchIcon />}
                     placeholder="Search"
                     onKeyPress={this.handleSearch.bind(this)}
+                    onChange={this.handleChange.bind(this)}
                     classes={{
                       root: classes.inputRoot,
                       input: classes.inputInput
@@ -350,12 +353,29 @@ console.log("inside handleSearch() here", event);
                     }}
                     inputProps={{ "aria-label": "search" }}
                   />
-                </Grid>
 
+                  <Button
+                    style={{
+                      width: "40px",
+                      float: "right",
+                      top: "-10px",
+                      left: "60%",
+                      position: "fixed"
+                    }}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={e => this.handleSearch(e)}
+                  >
+                    Go
+                  </Button>
+                </Grid>
               </div>
             )}
 
-            {(this.props.location && this.props.location?.state?.isLoggedIn) && (
+            {this.props.location && this.props.location?.state?.isLoggedIn && (
               <div
                 style={{
                   marginLeft: "20%",

@@ -238,8 +238,6 @@ class Dashboard extends Component<any, any> {
     isLoggedIn: false // TODO temp state remove it
   };
 
-  fnnNumber: string = "";
-
   componentDidMount() {
     try {
       this.getAuthenticationStatus().then((data: any) =>
@@ -303,31 +301,23 @@ class Dashboard extends Component<any, any> {
     this.setState({ priId: customer?.priID });
     this.setState({ username: customer?.username });
     this.setState({ cvcId: customer?.cvcID });
-    this.setState({ firstName: customer?.firstName || "" });
-    this.setState({ lastName: customer?.lastName || "" });
+    this.setState({ firstName: customer?.firstName || "Not" });
+    this.setState({ lastName: customer?.lastName || "Found" });
     this.setState({ serviceStatus: customer?.serviceStatus });
     this.setState({ accessType: customer?.accessType });
     this.setState({ speedProfile: customer?.speedProfile });
     this.setState({ voiceLines: customer?.voiceLines });
     this.setState({ gsID: customer?.gsID });
+
     const customerOnline = data?.getCustomerOnline;
     const deviceInfo = data?.getDeviceInfo;
 
-    this.setState({ mac: customerOnline.info.mac });
-    this.setState({ ipaddr: customerOnline.info.ipaddr });
-    this.setState({ deviceModel: deviceInfo.device.deviceModel });
-    this.fnnNumber = this.state.voiceLines[0]?.number;
+    this.setState({ mac: customerOnline?.info?.mac });
+    this.setState({ ipaddr: customerOnline?.info?.ipaddr });
+    this.setState({ deviceModel: deviceInfo?.device?.deviceModel });
   }
 
   getAccStatus(state: any) {
-    /*const map = {
-		C: "Active",
-		W: "Withdrawn",
-		S: "Suspended",
-		A: "Abuse"}*/
-
-    // (`classes.${'Active'.toLowerCase()}`);
-
     switch (state) {
       case "C":
         return "Active";

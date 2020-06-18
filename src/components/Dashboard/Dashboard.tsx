@@ -208,6 +208,14 @@ const styles = (theme: any) => ({
     position: "absolute",
     marginLeft: "30px",
     color: "gray"
+  },
+
+  active: {
+    color: "#00875A"
+  },
+
+  abuse: {
+    color: "red"
   }
 });
 
@@ -225,6 +233,7 @@ class Dashboard extends Component<any, any> {
     serviceStatus: "",
     accessType: "",
     speedProfile: "",
+    gsID: "",
     voiceLines: [{ number: "" }],
     isLoggedIn: false // TODO temp state remove it
   };
@@ -294,12 +303,13 @@ class Dashboard extends Component<any, any> {
     this.setState({ priId: customer?.priID });
     this.setState({ username: customer?.username });
     this.setState({ cvcId: customer?.cvcID });
-    this.setState({ firstName: customer?.firstName });
-    this.setState({ lastName: customer?.lastName });
+    this.setState({ firstName: customer?.firstName || "" });
+    this.setState({ lastName: customer?.lastName || "" });
     this.setState({ serviceStatus: customer?.serviceStatus });
     this.setState({ accessType: customer?.accessType });
     this.setState({ speedProfile: customer?.speedProfile });
     this.setState({ voiceLines: customer?.voiceLines });
+    this.setState({ gsID: customer?.gsID });
     const customerOnline = data?.getCustomerOnline;
     const deviceInfo = data?.getDeviceInfo;
 
@@ -316,6 +326,8 @@ class Dashboard extends Component<any, any> {
 		S: "Suspended",
 		A: "Abuse"}*/
 
+    // (`classes.${'Active'.toLowerCase()}`);
+
     switch (state) {
       case "C":
         return "Active";
@@ -328,6 +340,23 @@ class Dashboard extends Component<any, any> {
 
       case "A":
         return "Abuse";
+
+      default:
+        return "";
+    }
+  }
+
+  getClass(status: any) {
+    const { classes } = this.props as any;
+
+    switch (status) {
+      case "C":
+        return classes.active;
+
+      case "S":
+      case "W":
+      case "A":
+        return classes.abuse;
 
       default:
         return "";
@@ -445,14 +474,16 @@ class Dashboard extends Component<any, any> {
                       </Typography>
                       <Typography
                         variant="body2"
-                        color="textSecondary"
                         style={{
-                          color: "rgba(233, 77, 84, 0.81)",
                           fontWeight: "bold",
                           fontSize: "18px"
                         }}
                       >
-                        {this.getAccStatus(this.state.serviceStatus)}
+                        <span
+                          className={this.getClass(this.state.serviceStatus)}
+                        >
+                          {this.getAccStatus(this.state.serviceStatus)}
+                        </span>
                       </Typography>
                     </Grid>
                   </Grid>
@@ -617,7 +648,8 @@ class Dashboard extends Component<any, any> {
                         FNN Number
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        {this.state.voiceLines[0]?.number}
+                        {this.state.voiceLines &&
+                          this.state.voiceLines[0]?.number}
                       </Typography>
 
                       <Typography

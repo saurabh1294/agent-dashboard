@@ -112,9 +112,8 @@ export const fetchCustomerInfo = (searchQuery: string) => {
           lastName
           addressLines
           accessType
-          avcID
-          cvcID
           priID
+          gsID
           speedProfile
           serviceStatus
           voiceLines {

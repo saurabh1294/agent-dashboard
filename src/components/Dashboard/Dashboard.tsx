@@ -16,7 +16,11 @@ import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 import CachedIcon from "@material-ui/icons/Cached";
-import { fetchCustomerInfo } from "../../actions/actions";
+import {
+  fetchCustomerInfo,
+  fetchDIMPSOnlineStatus,
+  fetchRadiusDropOuts
+} from "../../actions/actions";
 
 import { connect } from "react-redux";
 
@@ -38,6 +42,8 @@ const mapStateToProps = (state: any) => {
     getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
     getCustomerOnline: state.loginReducer.getCustomerOnline, // get customer online info when searching for it in dashboard
     getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
+    userOnline: state.loginReducer.userOnline, // get DIMPS online/offline status
+    userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -45,11 +51,15 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     // same effect
-    fetchCustomerInfo: (searchQuery: string) =>
-      dispatch(fetchCustomerInfo(searchQuery)),
+    fetchCustomerInfo: (searchQuery: string, type: string) =>
+      dispatch(fetchCustomerInfo(searchQuery, type)),
 
     logoutUser: () => dispatch(logout()),
-    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
+    checkIfAgentAuthenticated: () => dispatch(isAuthenticated()),
+    fetchDIMPSOnlineStatus: (customer: string) =>
+      dispatch(fetchDIMPSOnlineStatus(customer)),
+    fetchRadiusDropOuts: (customer: string) =>
+      dispatch(fetchRadiusDropOuts(customer))
   };
 };
 
@@ -235,17 +245,24 @@ class Dashboard extends Component<any, any> {
     speedProfile: "",
     gsID: "",
     voiceLines: [{ number: "" }],
-    isLoggedIn: false // TODO temp state remove it
+    dimpsOnline: "",
+    radiusDropouts: 0,
+    isLoggedIn: false, // TODO refine this by having only one state in reducer
+    isAuthenticated: false,
+    idTypeHasError: false
   };
 
   componentDidMount() {
     try {
-      this.getAuthenticationStatus().then((data: any) =>
-        console.log(
+      this.getAuthenticationStatus().then((data: any) => {
+        /*console.log(
           "got here in componentDidMount of Dashboard.tsx: getAuthenticationStatus()",
           this.props
-        )
-      );
+        );*/
+        this.setState({
+          isAuthenticated: this.props?.isAuthenticated === "true"
+        });
+      });
     } catch (err) {
       console.log("Error getting authentication status");
     } finally {
@@ -309,8 +326,22 @@ class Dashboard extends Component<any, any> {
     this.setState({ voiceLines: customer?.voiceLines });
     this.setState({ gsID: customer?.gsID });
 
-    const customerOnline = data?.getCustomerOnline;
-    const deviceInfo = data?.getDeviceInfo;
+    // TODO fix JFI-588 and changing FNN number doesn't clear mac, ipaddr and deviceModel bug
+    const customerOnline =
+      data?.getCustomerOnline?.result === "BAD" ? {} : data?.getCustomerOnline;
+    const deviceInfo =
+      data?.getDeviceInfo?.result === "BAD" ? {} : data?.getDeviceInfo;
+
+    const userOnline = data?.userOnline;
+    const userDropoutCount = data?.userDropoutCount;
+
+    this.setState({
+      radiusDropouts: userDropoutCount.last24 + userDropoutCount.last48
+    });
+
+    this.setState({
+      dimpsOnline: userOnline.online === "true" ? "Online" : "Offline"
+    });
 
     this.setState({ mac: customerOnline?.info?.mac });
     this.setState({ ipaddr: customerOnline?.info?.ipaddr });
@@ -371,10 +402,7 @@ class Dashboard extends Component<any, any> {
     //   this.state
     // );
     // TODO check this.props.isAuthenticated along with isLoggedIn here instead
-    if (
-      this.props?.isAuthenticated === "true" ||
-      this.props.location.state?.isLoggedIn
-    ) {
+    if (this.state.isAuthenticated || this.props.location.state?.isLoggedIn) {
       return (
         <div>
           <InstructionsModal />
@@ -418,7 +446,7 @@ class Dashboard extends Component<any, any> {
                   >
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        {/* Service Status{" "} */}
+                        Service Status{" "}
                         <CachedIcon className={classes.cachedIcon} />
                       </Typography>
                       <Typography
@@ -426,7 +454,7 @@ class Dashboard extends Component<any, any> {
                         color="textSecondary"
                         gutterBottom
                       >
-                        {/* DIMPS */}
+                        DIMPS
                       </Typography>
                       <Typography
                         variant="body2"
@@ -436,7 +464,7 @@ class Dashboard extends Component<any, any> {
                           fontSize: "18px"
                         }}
                       >
-                        {/* //TODO - use some state here instead//  Online */}
+                        {this.state.dimpsOnline}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -1092,7 +1120,7 @@ class Dashboard extends Component<any, any> {
                     style={{ fontSize: "14px" }}
                     color="textSecondary"
                   >
-                    {/* Last 24/48 hours */}
+                    Last 24/48 hours
                   </Typography>
                   <Typography
                     style={{
@@ -1101,7 +1129,7 @@ class Dashboard extends Component<any, any> {
                       color: "rgba(233,77,84,0.81)"
                     }}
                   >
-                    {/* //TODO - use some state here instead//  15 drops */}
+                    {this.state.radiusDropouts}
                   </Typography>
                 </Paper>
               </Grid>

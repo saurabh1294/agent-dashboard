@@ -7,7 +7,9 @@ import {
   FETCH_CUSTOMER_INFO_SUCCESS,
   FETCH_CUSTOMER_INFO_FAILURE,
   IS_AGENT_AUTHENTICATED,
-  SEND_CUSTOMER_INFO
+  SEND_CUSTOMER_INFO,
+  SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
+  SEND_CUSTOMER_RADIUS_DROPOUT_STATS
 } from "./actionTypes";
 // import axios from "axios";
 import gql from "graphql-tag";
@@ -87,24 +89,109 @@ export const sendCustomerInfo = (data: any) => {
   };
 };
 
-export const fetchCustomerInfo = (searchQuery: string) => {
-  //const someQuery = gql`query GetCustomer($searchQuery : ID!) {
+export const sendCustomerDIMPSOnlineStatus = (data: any) => {
+  return {
+    type: SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
+    state: "SEND_CUSTOMER_DIMPS_ONLINE_STATUS",
+    payload: data
+  };
+};
+
+export const sendCustomerRadiusDropoutStats = (data: any) => {
+  return {
+    type: SEND_CUSTOMER_RADIUS_DROPOUT_STATS,
+    state: "SEND_CUSTOMER_RADIUS_DROPOUT_STATS",
+    payload: data
+  };
+};
+
+export const fetchDIMPSOnlineStatus = (searchQuery: string) => {
   const someQuery = gql`
-    query GetCustomer($searchQuery: ID!) {
-      getCustomerOnline(with: USERNAME, matching: $searchQuery) {
+    query UserOnline($searchQuery: ID!) {
+      userOnline(username: $searchQuery) {
         result
-        info {
-          ipaddr
-          mac
-        }
+        online
       }
-      getDeviceInfo(username: $searchQuery) {
+    }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    let result = { data: {} };
+    try {
+      const request = await client.query({
+        query: someQuery,
+        variables: { searchQuery }
+      });
+      result = await request;
+    } catch (err) {
+      console.log(
+        "fetchDIMPSOnlineStatus() graphql error occurred in actions.tsx %%%************",
+        err
+      );
+    } finally {
+      console.log(
+        "fetchDIMPSOnlineStatus() graphql finally block in actions.tsx"
+      );
+    }
+    console.log("fetchDIMPSOnlineStatus", JSON.stringify(someQuery));
+    console.log(
+      "this is the result from graphql fetchDIMPSOnlineStatus endpoint",
+      result
+    );
+    dispatch(sendCustomerDIMPSOnlineStatus(result.data)); // TODO change this use another function to dispatch
+  };
+};
+
+export const fetchRadiusDropOuts = (searchQuery: string) => {
+  const someQuery = gql`
+    query UserDropoutCount($searchQuery: ID!) {
+      userDropoutCount(username: $searchQuery) {
+        last24
+        last48
         result
-        device {
-          deviceModel
-        }
       }
-      getCustomer(with: USERNAME, matching: $searchQuery) {
+    }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    let result = { data: {} };
+    try {
+      const request = await client.query({
+        query: someQuery,
+        variables: { searchQuery }
+      });
+      result = await request;
+    } catch (err) {
+      console.log(
+        "fetchRadiusDropouts() graphql error occurred in actions.tsx %%%************",
+        err
+      );
+    } finally {
+      console.log("fetchRadiusDropouts() graphql finally block in actions.tsx");
+    }
+    console.log("fetchRadiusDropouts", JSON.stringify(someQuery));
+    console.log(
+      "this is the result from graphql fetchRadiusDropouts endpoint",
+      result
+    );
+    dispatch(sendCustomerRadiusDropoutStats(result.data)); // TODO change this send via another function
+  };
+};
+
+export const fetchCustomerInfo = (searchQuery: string, type: string) => {
+  //const someQuery = gql`query GetCustomer($searchQuery : ID!) {
+
+  const queryType = type === "username" ? "username" : "fnn";
+
+  let someQuery: any;
+
+  if (queryType === "fnn") {
+    someQuery = gql`
+query GetCustomer($searchQuery: ID!) {
+
+      getCustomer(with: ${queryType.toUpperCase()}, matching: $searchQuery) {
         result
         customer {
           username
@@ -113,7 +200,43 @@ export const fetchCustomerInfo = (searchQuery: string) => {
           addressLines
           accessType
           priID
-          gsID
+	  gsID
+          speedProfile
+          serviceStatus
+          voiceLines {
+            number
+            serviceID
+          }
+        }
+      }
+}
+`;
+  } else {
+    someQuery = gql`
+    query GetCustomer($searchQuery: ID!) {
+      getCustomerOnline(with: ${queryType.toUpperCase()}, matching: $searchQuery) {
+        result
+        info {
+          ipaddr
+          mac
+        }
+      }
+      getDeviceInfo(${queryType}: $searchQuery) {
+        result
+        device {
+          deviceModel
+        }
+      }
+      getCustomer(with: ${queryType.toUpperCase()}, matching: $searchQuery) {
+        result
+        customer {
+          username
+          firstName
+          lastName
+          addressLines
+          accessType
+          priID
+	  gsID
           speedProfile
           serviceStatus
           voiceLines {
@@ -124,6 +247,7 @@ export const fetchCustomerInfo = (searchQuery: string) => {
       }
     }
   `;
+  }
 
   /*getCustomer(with: USERNAME matching: $searchQuery) {
       result

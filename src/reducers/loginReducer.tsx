@@ -7,7 +7,9 @@ import {
   AGENT_AUTHENTICATE,
   FETCH_CUSTOMER_INFO_FAILURE,
   IS_AGENT_AUTHENTICATED,
-  SEND_CUSTOMER_INFO
+  SEND_CUSTOMER_INFO,
+  SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
+  SEND_CUSTOMER_RADIUS_DROPOUT_STATS
 } from "../actions/actionTypes";
 
 // export interface State {
@@ -57,6 +59,28 @@ export default function loginReducer(state = initialState, action: any) {
 
     case SEND_CUSTOMER_INFO:
       console.log(state, "got this customer info from API", action.payload);
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case SEND_CUSTOMER_DIMPS_ONLINE_STATUS:
+      console.log(
+        state,
+        "got this DIMPS online status from the API",
+        action.payload
+      );
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case SEND_CUSTOMER_RADIUS_DROPOUT_STATS:
+      console.log(
+        state,
+        "got this RADIUS drop out stats from the API",
+        action.payload
+      );
       return {
         ...state,
         ...action.payload

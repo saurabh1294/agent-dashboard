@@ -135,6 +135,8 @@ const mapStateToProps = (state: any) => {
     getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
     getCustomerOnline: state.loginReducer.getCustomerOnline, // get customer online info when searching for it in dashboard
     getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
+    userOnline: state.loginReducer.userOnline, // get DIMPS online/offline status
+    userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -143,24 +145,45 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     // same effect
     checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
-    // retrieveCustomerInfo: (searchQuery: string) =>
-    //   dispatch(fetchCustomerInfo(searchQuery))
+    //    getCustDIMPSOnlineStatus: (customer: string) => dispatch(fetchDIMPSOnlineStatus(customer))
   };
 };
 
 export class Header extends React.Component<any, any> {
   state = {
-    customerId: ""
+    customerId: "",
+    customerIdType: ""
   };
 
-  getCustomerInfo(customerInfo: string) {
+  async getCustomerDIMPSOnlineStatus(customerInfo: string) {
+    console.log("inside DIMPS", this.props);
+    const { fetchDIMPSOnlineStatus } = this.props;
+    try {
+      await fetchDIMPSOnlineStatus(customerInfo);
+    } catch (err) {
+      console.log("error in getCustomerDIMPSOnlineStatus", err);
+    }
+    return {};
+  }
+
+  async getCustomerRadiusDropoutCount(customerInfo: string) {
+    console.log("inside getCustomerRadiusDropoutCount", this.props);
+    const { fetchRadiusDropOuts } = this.props;
+    try {
+      await fetchRadiusDropOuts(customerInfo);
+    } catch (err) {
+      console.log("error in getCustomerRadiusDropoutCount", err);
+    }
+  }
+
+  getCustomerInfo(customerInfo: string, type: string) {
     // fetch customer info here
     const { fetchCustomerInfo } = this.props;
 
     console.log("this is the function &&&&&*****", this.props);
 
     try {
-      return fetchCustomerInfo(customerInfo);
+      return fetchCustomerInfo(customerInfo, type);
       // const {data} = this.props;
       // return data;
     } catch (err) {
@@ -179,7 +202,13 @@ export class Header extends React.Component<any, any> {
       const { getCustomerInfoCallback } = this.props;
 
       try {
-        this.getCustomerInfo(customerInfo)
+        // fetch DIMPS online status
+        this.getCustomerDIMPSOnlineStatus(customerInfo);
+
+        // fetch customer RADIUS dropout stats
+        this.getCustomerRadiusDropoutCount(customerInfo);
+
+        this.getCustomerInfo(customerInfo, this.state.customerIdType)
           .then((data: any) => {
             // pass customer data obtained from API to dashboard
             getCustomerInfoCallback(this.props);
@@ -204,6 +233,9 @@ export class Header extends React.Component<any, any> {
 
   handleSelect(event: any) {
     console.log("ID Type", event.target.value);
+    this.setState({
+      customerIdType: event.target.value === "FNN Number" ? "fnn" : "username"
+    });
   }
 
   deleteCookie(cname: string) {

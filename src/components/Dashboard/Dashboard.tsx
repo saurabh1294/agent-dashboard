@@ -226,6 +226,14 @@ const styles = (theme: any) => ({
 
   abuse: {
     color: "red"
+  },
+
+  online: {
+    color: "#00CCFF"
+  },
+
+  offline: {
+    color: "rgba(233,77,84,0.81)"
   }
 });
 
@@ -379,6 +387,12 @@ class Dashboard extends Component<any, any> {
       case "A":
         return classes.abuse;
 
+      case "Online":
+        return classes.online;
+
+      case "Offline":
+        return classes.offline;
+
       default:
         return "";
     }
@@ -459,12 +473,13 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         variant="body2"
                         style={{
-                          color: "#00CCFF",
                           fontWeight: "bold",
                           fontSize: "18px"
                         }}
                       >
-                        {this.state.dimpsOnline}
+                        <span className={this.getClass(this.state.dimpsOnline)}>
+                          {this.state.dimpsOnline}
+                        </span>
                       </Typography>
                     </Grid>
                   </Grid>

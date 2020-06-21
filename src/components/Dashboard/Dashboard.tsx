@@ -343,14 +343,18 @@ class Dashboard extends Component<any, any> {
     const userOnline = data?.userOnline;
     const userDropoutCount = data?.userDropoutCount;
 
+    // TODO for Brett Watson send proper API response - check result GOOD or BAD and then set state or if result BAD then set state empty
     this.setState({
       radiusDropouts: userDropoutCount.last24 + userDropoutCount.last48
     });
 
-    this.setState({
-      dimpsOnline: userOnline.online === "true" ? "Online" : "Offline"
-    });
+    userOnline.result === "GOOD"
+      ? this.setState({
+          dimpsOnline: userOnline.online === "true" ? "Online" : "Offline"
+        })
+      : this.setState({ dimpsOnline: "" });
 
+    // TODO for Brett Watson send proper API response - check result GOOD or BAD and then set state or if result BAD then set state empty
     this.setState({ mac: customerOnline?.info?.mac });
     this.setState({ ipaddr: customerOnline?.info?.ipaddr });
     this.setState({ deviceModel: deviceInfo?.device?.deviceModel });

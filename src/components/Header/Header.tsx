@@ -4,13 +4,21 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-// import Paper from "@material-ui/core/Paper";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import MenuList from "@material-ui/core/MenuList";
+import Badge from "@material-ui/core/Badge";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MailIcon from "@material-ui/icons/Mail";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MoreIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
-import { connect } from "react-redux";
-
 import Avatar from "@material-ui/core/Avatar";
+
+import { connect } from "react-redux";
+import { isAuthenticated } from "../../actions/actions";
+
 import {
   fade,
   withStyles,
@@ -18,13 +26,36 @@ import {
   Theme,
   createStyles
 } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 
 import NativeSelect from "@material-ui/core/NativeSelect";
-import Grid from "@material-ui/core/Grid";
 
-import { isAuthenticated } from "../../actions/actions";
+const mapStateToProps = (state: any) => {
+  console.log("this is the state in mapStateToProps of Dashboard.tsx", state);
+  return {
+    username: state.loginReducer.username,
+    password: state.loginReducer.password,
+    authToken: state.loginReducer.authToken,
+    authError: state.loginReducer.authError,
+    isLoggedIn: state.loginReducer.isLoggedIn,
+    isLoggedOut: state.loginReducer.isLoggedOut,
+    isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
+    data: state.loginReducer.data, // session data - TODO rename it to sessionData to avoid confusion
+    getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
+    getCustomerOnline: state.loginReducer.getCustomerOnline, // get customer online info when searching for it in dashboard
+    getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
+    userOnline: state.loginReducer.userOnline, // get DIMPS online/offline status
+    userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
+    isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    // same effect
+    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
+    //    getCustDIMPSOnlineStatus: (customer: string) => dispatch(fetchDIMPSOnlineStatus(customer))
+  };
+};
 
 // default style hook from material-ui
 const BootstrapInput = withStyles((theme: Theme) =>
@@ -58,7 +89,7 @@ const BootstrapInput = withStyles((theme: Theme) =>
         '"Segoe UI Symbol"'
       ].join(","),
       "&:focus": {
-        borderRadius: 4,
+        borderRadius: 0,
         borderColor: "#80bdff",
         boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)"
       }
@@ -82,7 +113,7 @@ const styles = makeStyles(theme => ({
   },
   search: {
     position: "relative",
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: 0,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25)
@@ -121,33 +152,368 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-const mapStateToProps = (state: any) => {
-  console.log("this is the state in mapStateToProps of Dashboard.tsx", state);
-  return {
-    username: state.loginReducer.username,
-    password: state.loginReducer.password,
-    authToken: state.loginReducer.authToken,
-    authError: state.loginReducer.authError,
-    isLoggedIn: state.loginReducer.isLoggedIn,
-    isLoggedOut: state.loginReducer.isLoggedOut,
-    isCustInfoLoaded: state.loginReducer.isCustInfoLoaded,
-    data: state.loginReducer.data, // session data - TODO rename it to sessionData to avoid confusion
-    getCustomer: state.loginReducer.getCustomer, // get customer info when searching for it in dashboard
-    getCustomerOnline: state.loginReducer.getCustomerOnline, // get customer online info when searching for it in dashboard
-    getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
-    userOnline: state.loginReducer.userOnline, // get DIMPS online/offline status
-    userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
-    isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
-  };
-};
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    grow: {
+      flexGrow: 1
+    },
+    menuButton: {
+      marginRight: theme.spacing(2)
+    },
+    goBtn: {
+      background: "teal",
+      width: "40px",
+      height: "34px",
+      borderRadius: 0
+    },
+    logoutBtn: {
+      background: "teal",
+      borderRadius: 0,
+      width: "auto",
+      marginLeft: "3%"
+    },
+    searchBox: {
+      width: "200px"
+    },
+    title: {
+      display: "none",
+      [theme.breakpoints.up("sm")]: {
+        display: "block"
+      }
+    },
+    search: {
+      position: "relative",
+      borderRadius: 0,
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      "&:hover": {
+        backgroundColor: fade(theme.palette.common.white, 0.25)
+      },
+      marginRight: theme.spacing(2),
+      marginLeft: 0,
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        marginLeft: theme.spacing(3),
+        width: "auto"
+      }
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: "100%",
+      position: "absolute",
+      pointerEvents: "none",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    inputRoot: {
+      color: "inherit"
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("md")]: {
+        width: "20ch"
+      }
+    },
+    sectionDesktop: {
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        display: "flex"
+      }
+    },
+    sectionMobile: {
+      display: "flex",
+      [theme.breakpoints.up("md")]: {
+        display: "none"
+      }
+    },
+    appBarBg: {
+      background: "#004D45"
+    }
+  })
+);
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    // same effect
-    checkIfAgentAuthenticated: () => dispatch(isAuthenticated())
-    //    getCustDIMPSOnlineStatus: (customer: string) => dispatch(fetchDIMPSOnlineStatus(customer))
+export function PrimarySearchAppBar(props: any) {
+  console.log("I received props here", props);
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [
+    mobileMoreAnchorEl,
+    setMobileMoreAnchorEl
+  ] = React.useState<null | HTMLElement>(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
-};
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label="show 11 new notifications" color="inherit">
+          <Badge badgeContent={11} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  const handleSelect = (event: React.MouseEvent<HTMLElement>) => {
+    console.log("this props is &&&", props);
+    props.compositeData.handleSelect(event);
+  };
+
+  const handleSearch = (event: React.MouseEvent<HTMLElement>) => {
+    console.log("this props is &&&", props);
+    props.compositeData.handleSearch(event);
+  };
+
+  const handleChange = (event: React.KeyboardEvent<HTMLElement>) => {
+    console.log("this props is handleChange", event);
+    props.compositeData.handleChange(event);
+  };
+
+  const logout = (event: React.MouseEvent<HTMLElement>) => {
+    console.log("this props is &&&", props);
+    props.compositeData.logout(event);
+  };
+
+  return (
+    <div className={classes.grow}>
+      <AppBar position="static" className={classes.appBarBg}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
+
+          <Typography className={classes.title} variant="h6" noWrap>
+            Just<span style={{ fontWeight: "bold" }}>Fix</span>
+            <span style={{ color: "yellow" }}>it</span>
+            <span style={{ color: "#80FFF2" }}> ʸᵉˢ</span>
+          </Typography>
+
+          {props.compositeData.props.location &&
+            props.compositeData.props.location?.state?.isLoggedIn && (
+              <Typography variant="h6">
+                <span
+                  style={{
+                    position: "absolute",
+                    margin: "-15px 13%",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Search
+                </span>
+              </Typography>
+            )}
+
+          {props.compositeData.props.location &&
+            props.compositeData.props.location?.state?.isLoggedIn && (
+              <NativeSelect
+                style={{ marginLeft: "22%" }}
+                id="demo-customized-select-native"
+                onChange={(e: any) => handleSelect(e)}
+                input={<BootstrapInput />}
+              >
+                <option
+                  aria-label="None"
+                  value="ID Type"
+                  style={{ backgroundColor: "#00332E", color: "white" }}
+                >
+                  ID Type
+                </option>
+                <option
+                  value={"Username"}
+                  style={{ backgroundColor: "#00332E", color: "white" }}
+                >
+                  Username
+                </option>
+                <option
+                  value={"FNN Number"}
+                  style={{ backgroundColor: "#00332E", color: "white" }}
+                >
+                  FNN Number
+                </option>
+              </NativeSelect>
+            )}
+
+          {props.compositeData.props.location &&
+            props.compositeData.props.location?.state?.isLoggedIn && (
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  onKeyPress={(e: any) => handleSearch(e)}
+                  onChange={(e: any) => handleChange(e)}
+                  className={classes.searchBox}
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </div>
+            )}
+
+          {props.compositeData.props.location &&
+            props.compositeData.props.location?.state?.isLoggedIn && (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.goBtn}
+                onClick={e => handleSearch(e)}
+              >
+                Go
+              </Button>
+            )}
+
+          {props.compositeData.props.location &&
+            props.compositeData.props.location?.state?.isLoggedIn && (
+              <span style={{ marginLeft: "2%" }}>LoggedIn Agent:</span>
+            )}
+
+          {props.compositeData.props.location &&
+            props.compositeData.props.location?.state?.isLoggedIn && (
+              <Avatar
+                alt="Profile Avatar"
+                style={{
+                  marginLeft: "1%",
+                  backgroundColor: "teal",
+                  cursor: "pointer"
+                }}
+              >
+                <span>JB</span>
+              </Avatar>
+            )}
+
+          {props.compositeData.props.location &&
+            props.compositeData.props.location?.state?.isLoggedIn && (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.logoutBtn}
+                onClick={(e: any) => logout(e)}
+              >
+                LogOut
+              </Button>
+            )}
+
+          {/* <div className={classes.grow} />
+        <div className={classes.sectionDesktop}>
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <MailIcon />
+            </Badge>
+          </IconButton>
+          <IconButton aria-label="show 17 new notifications" color="inherit">
+            <Badge badgeContent={17} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </div>
+        <div className={classes.sectionMobile}>
+          <IconButton
+            aria-label="show more"
+            aria-controls={mobileMenuId}
+            aria-haspopup="true"
+            onClick={handleMobileMenuOpen}
+            color="inherit"
+          >
+            <MoreIcon />
+          </IconButton>
+        </div> */}
+        </Toolbar>
+      </AppBar>
+      {/* {renderMobileMenu}
+    {renderMenu} */}
+    </div>
+  );
+}
 
 export class Header extends React.Component<any, any> {
   state = {
@@ -184,8 +550,6 @@ export class Header extends React.Component<any, any> {
 
     try {
       return fetchCustomerInfo(customerInfo, type);
-      // const {data} = this.props;
-      // return data;
     } catch (err) {
       console.log("error fetching customer info for user", customerInfo);
     }
@@ -278,10 +642,6 @@ export class Header extends React.Component<any, any> {
     }
   }
 
-  // async handleProfileDropdown(event: any) {
-  //   await this.setState({ profileClicked: !this.state.profileClicked });
-  // }
-
   getAuthenticationStatus() {
     const { checkIfAgentAuthenticated } = this.props;
     try {
@@ -295,187 +655,16 @@ export class Header extends React.Component<any, any> {
   }
 
   render() {
-    const { classes } = this.props as any;
-
-    console.log(this.props, "props in header.tsx");
-
-    // TODO make this AppBar markup more responsive
-    return (
-      <div className={classes.root}>
-        <AppBar
-          style={{ background: "#004D45", minWidth: "1400px" }}
-          position="static"
-        >
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="open drawer"
-            >
-              <MenuIcon style={{ color: "#80FFF2" }} />
-            </IconButton>
-            <Typography className={classes.title} variant="h6">
-              Just<span style={{ fontWeight: "bold" }}>Fix</span>
-              <span style={{ color: "yellow" }}>it</span>
-              <span style={{ color: "#80FFF2", position: "absolute" }}>
-                {" "}
-                ʸᵉˢ
-              </span>
-            </Typography>
-
-            {/* TODO check if this.props.isAuthenticated or isLoggedIn here instead */}
-            {this.props.location && this.props.location?.state?.isLoggedIn && (
-              <div className={classes.search}>
-                <Grid item xs={2}>
-                  <Typography
-                    style={{ position: "absolute", marginLeft: "15%" }}
-                    variant="h6"
-                  >
-                    <span style={{ fontWeight: "bold" }}>Search</span>
-                  </Typography>
-                </Grid>
-
-                <Grid item xs={2}>
-                  <NativeSelect
-                    style={{ position: "absolute", marginLeft: "22%" }}
-                    id="demo-customized-select-native"
-                    onChange={this.handleSelect.bind(this)}
-                    input={<BootstrapInput />}
-                  >
-                    <option
-                      aria-label="None"
-                      value="ID Type"
-                      style={{ backgroundColor: "#00332E", color: "white" }}
-                    >
-                      ID Type
-                    </option>
-                    <option
-                      value={"Username"}
-                      style={{ backgroundColor: "#00332E", color: "white" }}
-                    >
-                      Username
-                    </option>
-                    <option
-                      value={"FNN Number"}
-                      style={{ backgroundColor: "#00332E", color: "white" }}
-                    >
-                      FNN Number
-                    </option>
-                  </NativeSelect>
-                </Grid>
-
-                <Grid item xs={6}>
-                  <InputBase
-                    startAdornment={<SearchIcon />}
-                    placeholder="Search"
-                    onKeyPress={this.handleSearch.bind(this)}
-                    onChange={this.handleChange.bind(this)}
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput
-                    }}
-                    style={{
-                      color: "white",
-                      fontWeight: "bold",
-                      background: "#00332E",
-                      marginLeft: "480px",
-                      width: "200px",
-                      padding: "5px 0px 0px 0px"
-                    }}
-                    inputProps={{ "aria-label": "search" }}
-                  />
-
-                  <Button
-                    style={{
-                      width: "40px",
-                      float: "right",
-                      top: "-10px",
-                      left: "60%",
-                      position: "fixed"
-                    }}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={e => this.handleSearch(e)}
-                  >
-                    Go
-                  </Button>
-                </Grid>
-              </div>
-            )}
-
-            {/* TODO check if this.props.isAuthenticated or isLoggedIn here instead */}
-            {this.props.location && this.props.location?.state?.isLoggedIn && (
-              <div
-                style={{
-                  marginLeft: "20%",
-                  marginTop: "10px",
-                  display: "flex"
-                }}
-              >
-                <span style={{ marginTop: "10px" }}>LoggedIn Agent:</span>
-                <Avatar
-                  alt="Profile Avatar"
-                  style={{
-                    display: "flex",
-                    marginLeft: "5px",
-                    backgroundColor: "teal",
-                    cursor: "pointer"
-                  }}
-                >
-                  <span>JB</span>
-                  {/* Replace the above username with props returned via graphql API */}
-                </Avatar>
-                {
-                  // <Paper
-                  //   className={classes.paper}
-                  //   style={{
-                  //     position: "relative",
-                  //     margin: "0px 40px",
-                  //     color: "white",
-                  //     borderRadius: "0px",
-                  //     background: "#00332E"
-                  //   }}
-                  // >
-                  /* <MenuList>
-                      <MenuItem>Profile</MenuItem>
-                      <MenuItem>My account</MenuItem>
-                      <MenuItem onClick={this.logout.bind(this)}>
-                        Logout
-                      </MenuItem>
-                    </MenuList> */
-                  <Button
-                    style={{
-                      margin: "0px 15px 15px",
-                      width: "80px"
-                    }}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={this.logout.bind(this)}
-                  >
-                    LogOut
-                  </Button>
-                  // </Paper>
-                }
-              </div>
-            )}
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
+    const compositeData = {
+      handleSelect: this.handleSelect.bind(this),
+      handleChange: this.handleChange.bind(this),
+      handleSearch: this.handleSearch.bind(this),
+      logout: this.logout.bind(this),
+      props: this.props
+    };
+    return <PrimarySearchAppBar compositeData={compositeData} />;
   }
 }
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )withStyles(styles as any)(Header);
 
 export default connect(
   mapStateToProps,

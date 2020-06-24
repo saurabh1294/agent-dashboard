@@ -131,6 +131,7 @@ const styles = (theme: any) => ({
     height: "auto",
     color: "white",
     fontWeight: "bold",
+    fontSize: "18px",
     lineHeight: "25px",
     padding: "15px"
   },
@@ -141,6 +142,7 @@ const styles = (theme: any) => ({
     backgroundColor: "purple",
     color: "white",
     fontWeight: "bold",
+    fontSize: "18px",
     lineHeight: "25px",
     padding: "15px"
   },
@@ -151,6 +153,7 @@ const styles = (theme: any) => ({
     backgroundColor: "#4B0082",
     color: "white",
     fontWeight: "bold",
+    fontSize: "18px",
     lineHeight: "25px",
     padding: "15px"
   },
@@ -254,7 +257,7 @@ class Dashboard extends Component<any, any> {
     gsID: "",
     voiceLines: [{ number: "" }],
     dimpsOnline: "",
-    radiusDropouts: 0,
+    radiusDropouts: { last24: 0, last48: 0 },
     isLoggedIn: false, // TODO refine this by having only one state in reducer
     isAuthenticated: false,
     idTypeHasError: false
@@ -344,9 +347,7 @@ class Dashboard extends Component<any, any> {
     const userDropoutCount = data?.userDropoutCount;
 
     // TODO for Brett Watson send proper API response - check result GOOD or BAD and then set state or if result BAD then set state empty
-    this.setState({
-      radiusDropouts: userDropoutCount.last24 + userDropoutCount.last48
-    });
+    this.setState({ radiusDropouts: userDropoutCount });
 
     userOnline.result === "GOOD"
       ? this.setState({
@@ -436,7 +437,7 @@ class Dashboard extends Component<any, any> {
               <Box p={1}>
                 <Typography variant="h6" style={{ color: "teal" }}>
                   Customer{" "}
-                  <span style={{ color: "black" }}>
+                  <span style={{ color: "black", fontWeight: "bold" }}>
                     {`${this.state.firstName} ${this.state.lastName}`}
                   </span>
                 </Typography>
@@ -1139,7 +1140,7 @@ class Dashboard extends Component<any, any> {
                     style={{ fontSize: "14px" }}
                     color="textSecondary"
                   >
-                    Last 24/48 hours
+                    Last 24 hours
                   </Typography>
                   <Typography
                     style={{
@@ -1148,7 +1149,22 @@ class Dashboard extends Component<any, any> {
                       color: "rgba(233,77,84,0.81)"
                     }}
                   >
-                    {this.state.radiusDropouts}
+                    {this.state.radiusDropouts?.last24}
+                  </Typography>
+                  <Typography
+                    style={{ fontSize: "14px" }}
+                    color="textSecondary"
+                  >
+                    Last 48 hours
+                  </Typography>
+                  <Typography
+                    style={{
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      color: "rgba(233,77,84,0.81)"
+                    }}
+                  >
+                    {this.state.radiusDropouts?.last48}
                   </Typography>
                 </Paper>
               </Grid>

@@ -278,6 +278,8 @@ export function PrimarySearchAppBar(props: any) {
             <span style={{ color: "#80FFF2" }}> ʸᵉˢ</span>
           </Typography>
 
+          {/* // TODO also check for isAuthenticated (Session management) */}
+          {/* // TODO instead of repeating the same condition, wrap in one jsx */}
           {props.compositeData.props.location &&
             props.compositeData.props.location?.state?.isLoggedIn && (
               <Typography variant="h6">
@@ -302,20 +304,13 @@ export function PrimarySearchAppBar(props: any) {
                 input={<BootstrapInput />}
               >
                 <option
-                  aria-label="None"
-                  value="ID Type"
-                  style={{ backgroundColor: "#00332E", color: "white" }}
-                >
-                  ID Type
-                </option>
-                <option
-                  value={"Username"}
+                  value="Username"
                   style={{ backgroundColor: "#00332E", color: "white" }}
                 >
                   Username
                 </option>
                 <option
-                  value={"FNN Number"}
+                  value="FNN Number"
                   style={{ backgroundColor: "#00332E", color: "white" }}
                 >
                   FNN Number
@@ -372,7 +367,10 @@ export function PrimarySearchAppBar(props: any) {
                   cursor: "pointer"
                 }}
               >
-                <span>JB</span>
+                <span>
+                  {props.compositeData.loggedInUser ||
+                    props.compositeData.props.location?.state?.username}
+                </span>
               </Avatar>
             )}
 
@@ -398,7 +396,8 @@ export function PrimarySearchAppBar(props: any) {
 export class Header extends React.Component<any, any> {
   state = {
     customerId: "",
-    customerIdType: ""
+    loggedInUser: "",
+    customerIdType: "username" // default value from dropdown is username
   };
 
   async getCustomerDIMPSOnlineStatus(customerInfo: string) {
@@ -452,7 +451,10 @@ export class Header extends React.Component<any, any> {
         // fetch customer RADIUS dropout stats
         this.getCustomerRadiusDropoutCount(customerInfo);
 
-        this.getCustomerInfo(customerInfo, this.state.customerIdType)
+        this.getCustomerInfo(
+          customerInfo,
+          this.state.customerIdType || "username"
+        )
           .then((data: any) => {
             // pass customer data obtained from API to dashboard
             getCustomerInfoCallback(this.props);
@@ -507,18 +509,35 @@ export class Header extends React.Component<any, any> {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     try {
-      this.getAuthenticationStatus().then((data: any) =>
-        console.log(
-          "got here in componentDidMount of Header.tsx: getAuthenticationStatus()",
-          this.props
-        )
-      );
+      await this.getAuthenticationStatus();
+      await this.setState({
+        loggedInUser: this.props?.data?.sessionInfo?.authenticatedUser
+      });
     } catch (err) {
       console.log("Error getting authentication status");
     } finally {
       console.log("Finally block get authentication status");
+    }
+  }
+  static getDerivedStateFromProps(props: any, state: any) {
+    // ...
+    if (props.data !== state.data) {
+      return {
+        selected: props.data
+      };
+    }
+
+    // Return null if the state hasn't changed
+    return null;
+  }
+
+  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+    if (snapshot) {
+      this.setState({
+        loggedInUser: this.props?.data?.sessionInfo?.authenticatedUser
+      });
     }
   }
 
@@ -540,6 +559,7 @@ export class Header extends React.Component<any, any> {
       handleChange: this.handleChange.bind(this),
       handleSearch: this.handleSearch.bind(this),
       logout: this.logout.bind(this),
+      loggedInUser: this.state.loggedInUser,
       props: this.props
     };
     return <PrimarySearchAppBar compositeData={compositeData} />;

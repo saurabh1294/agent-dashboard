@@ -242,7 +242,8 @@ export class App extends React.Component<any, any> {
             pathname: "/dashboard",
             state: {
               isLoggedIn: this.state.isLoggedIn,
-              isLoggedOut: this.state.isLoggedOut
+              isLoggedOut: this.state.isLoggedOut,
+              username: this.state.username
             }
           }}
         />

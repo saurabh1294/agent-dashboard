@@ -413,28 +413,28 @@ export const authenticate = (username: string, password: string) => {
   );
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 5 lines when running locally
-    // let result = {};
-    // try {
-    //   const request = await client.mutate({
-    //     mutation: someQuery,
-    //     variables: { username, password }
-    //   });
-    //   result = await request;
-    // } catch (err) {
-    //   console.log("error calling authenticate mutation gql query");
-    // } finally {
-    //   console.log("authentication actions.tsx finally block");
-    // }
+    let result = {};
+    try {
+      const request = await client.mutate({
+        mutation: someQuery,
+        variables: { username, password }
+      });
+      result = await request;
+    } catch (err) {
+      console.log("error calling authenticate mutation gql query");
+    } finally {
+      console.log("authentication actions.tsx finally block");
+    }
 
     // TODO uncomment below - stub for testing different API responses when testing locally
-    const result = {
-      data: {
-        newSessionStaffauth: {
-          result: "GOOD",
-          stok: "fake:token123:fred"
-        }
-      }
-    };
+    // const result = {
+    //   data: {
+    //     newSessionStaffauth: {
+    //       result: "GOOD",
+    //       stok: "fake:token123:fred"
+    //     }
+    //   }
+    // };
 
     console.log("this is the result from graphql endpoint", result, getState());
     dispatch(checkAuth(result));

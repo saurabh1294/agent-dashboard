@@ -297,7 +297,7 @@ class Dashboard extends Component<any, any> {
     console.log("unmounting dashboard");
   }
 
-  getCustomerInfoCallback(data: any) {
+  async getCustomerInfoCallback(data: any) {
     // TODO set state here to show info on tiles using data which has response from graphql
     // const result = {
     //   data: {

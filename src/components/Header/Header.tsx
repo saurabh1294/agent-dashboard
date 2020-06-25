@@ -367,9 +367,9 @@ export function PrimarySearchAppBar(props: any) {
                   cursor: "pointer"
                 }}
               >
-                <span>
-                  {props.compositeData.loggedInUser ||
-                    props.compositeData.props.location?.state?.username}
+                <span style={{ fontSize: "14px" }}>
+                  {props.compositeData?.loggedInUser?.toUpperCase() ||
+                    props.compositeData.props.location?.state?.username?.toUpperCase()}
                 </span>
               </Avatar>
             )}
@@ -421,14 +421,14 @@ export class Header extends React.Component<any, any> {
     }
   }
 
-  getCustomerInfo(customerInfo: string, type: string) {
+  async getCustomerInfo(customerInfo: string, type: string) {
     // fetch customer info here
     const { fetchCustomerInfo } = this.props;
 
     console.log("this is the function &&&&&*****", this.props);
 
     try {
-      return fetchCustomerInfo(customerInfo, type);
+      await fetchCustomerInfo(customerInfo, type);
     } catch (err) {
       console.log("error fetching customer info for user", customerInfo);
     }
@@ -438,30 +438,32 @@ export class Header extends React.Component<any, any> {
     this.setState({ customerId: event.target.value });
   }
 
-  handleSearch(event: any) {
+  async handleSearch(event: any) {
     if (event.charCode === 13 || event.type === "click") {
       const customerInfo =
         event.type !== "click" ? event.target.value : this.state.customerId;
       const { getCustomerInfoCallback } = this.props;
 
       try {
+        await this.getCustomerInfo(customerInfo, this.state.customerIdType);
+
+        // pass customer data obtained from API to dashboard
+        // get the username first
+        const uname = this.props?.getCustomer?.customer?.username;
+
+        // if ID type is FNN call getCustomerInfo again with that ID type to fetch device info customerOnline
+        if (this.state.customerIdType === "fnn") {
+          await this.getCustomerInfo(uname, "username");
+        }
+
         // fetch DIMPS online status
-        this.getCustomerDIMPSOnlineStatus(customerInfo);
+        await this.getCustomerDIMPSOnlineStatus(uname);
 
         // fetch customer RADIUS dropout stats
-        this.getCustomerRadiusDropoutCount(customerInfo);
+        await this.getCustomerRadiusDropoutCount(uname);
+        console.log("this is props in customer info", this.props);
 
-        this.getCustomerInfo(
-          customerInfo,
-          this.state.customerIdType || "username"
-        )
-          .then((data: any) => {
-            // pass customer data obtained from API to dashboard
-            getCustomerInfoCallback(this.props);
-          })
-          .catch((err: any) =>
-            console.log("Error fetching info from customer info API")
-          );
+        getCustomerInfoCallback(this.props);
       } catch (err) {
         console.log("error fetching customer info from API");
       } finally {
@@ -521,6 +523,8 @@ export class Header extends React.Component<any, any> {
       console.log("Finally block get authentication status");
     }
   }
+
+  // TODO fix delay in fetching getAuthenticationStatus() on page load via componentWillReceiveProps() alternative
   static getDerivedStateFromProps(props: any, state: any) {
     // ...
     if (props.data !== state.data) {

@@ -189,7 +189,7 @@ export const fetchCustomerInfo = (searchQuery: string, type: string) => {
 
   if (queryType === "fnn") {
     someQuery = gql`
-query GetCustomer($searchQuery: ID!) {
+	query GetCustomer($searchQuery: ID!) {
 
       getCustomer(with: ${queryType.toUpperCase()}, matching: $searchQuery) {
         result

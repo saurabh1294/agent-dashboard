@@ -932,6 +932,20 @@ class Dashboard extends Component<any, any> {
                         >
                           {/* //TODO - use some state here instead//  12 */}
                         </Typography>
+
+                        <Typography
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                            color: "blue",
+                            textAlign: "right",
+                            float: "right",
+                            cursor: "pointer",
+                            margin: "70px 0px 0px 5px"
+                          }}
+                        >
+                          More Info >>
+                        </Typography>
                       </Paper>
                     </Grid>
                   </Grid>

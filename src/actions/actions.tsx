@@ -9,7 +9,8 @@ import {
   IS_AGENT_AUTHENTICATED,
   SEND_CUSTOMER_INFO,
   SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
-  SEND_CUSTOMER_RADIUS_DROPOUT_STATS
+  SEND_CUSTOMER_RADIUS_DROPOUT_STATS,
+  SEND_CUSTOMER_AVC_CVC_IDS
 } from "./actionTypes";
 // import axios from "axios";
 import gql from "graphql-tag";
@@ -105,6 +106,14 @@ export const sendCustomerRadiusDropoutStats = (data: any) => {
   };
 };
 
+export const sendCustomerAvcCvcIds = (data: any) => {
+  return {
+    type: SEND_CUSTOMER_AVC_CVC_IDS,
+    state: "SEND_CUSTOMER_AVC_CVC_IDS",
+    payload: data
+  };
+};
+
 export const fetchDIMPSOnlineStatus = (searchQuery: string) => {
   const someQuery = gql`
     query UserOnline($searchQuery: ID!) {
@@ -143,6 +152,45 @@ export const fetchDIMPSOnlineStatus = (searchQuery: string) => {
   };
 };
 
+export const fetchAvcCvcIds = (gsID: string) => {
+  const someQuery = gql`
+    query NsiGetAvcGsid($gsID: ID) {
+      nsiGetAvcGsid(gsID: $gsID) {
+        result
+        data {
+          avcID
+          cvcID
+        }
+      }
+    }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    let result = { data: {} };
+    try {
+      const request = await client.query({
+        query: someQuery,
+        variables: { gsID }
+      });
+      result = await request;
+    } catch (err) {
+      console.log(
+        "fetchAvcCvcIds() graphql error occurred in actions.tsx %%%************",
+        err
+      );
+    } finally {
+      console.log("fetchAvcCvcIds() graphql finally block in actions.tsx");
+    }
+    console.log("fetchAvcCvcIds()", JSON.stringify(someQuery));
+    console.log(
+      "this is the result from graphql fetchAvcCvcIds endpoint",
+      result
+    );
+    dispatch(sendCustomerAvcCvcIds(result.data));
+  };
+};
+
 export const fetchRadiusDropOuts = (searchQuery: string) => {
   const someQuery = gql`
     query UserDropoutCount($searchQuery: ID!) {
@@ -176,7 +224,7 @@ export const fetchRadiusDropOuts = (searchQuery: string) => {
       "this is the result from graphql fetchRadiusDropouts endpoint",
       result
     );
-    dispatch(sendCustomerRadiusDropoutStats(result.data)); // TODO change this send via another function
+    dispatch(sendCustomerRadiusDropoutStats(result.data));
   };
 };
 

@@ -19,7 +19,8 @@ import CachedIcon from "@material-ui/icons/Cached";
 import {
   fetchCustomerInfo,
   fetchDIMPSOnlineStatus,
-  fetchRadiusDropOuts
+  fetchRadiusDropOuts,
+  fetchAvcCvcIds
 } from "../../actions/actions";
 
 import { connect } from "react-redux";
@@ -44,6 +45,7 @@ const mapStateToProps = (state: any) => {
     getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
     userOnline: state.loginReducer.userOnline, // get DIMPS online/offline status
     userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
+    nsiGetAvcGsid: state.loginReducer.nsiGetAvcGsid, // get customer AVC and CVC ID
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -59,7 +61,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchDIMPSOnlineStatus: (customer: string) =>
       dispatch(fetchDIMPSOnlineStatus(customer)),
     fetchRadiusDropOuts: (customer: string) =>
-      dispatch(fetchRadiusDropOuts(customer))
+      dispatch(fetchRadiusDropOuts(customer)),
+    fetchAvcCvcIds: (gsID: string) => dispatch(fetchAvcCvcIds(gsID))
   };
 };
 
@@ -325,10 +328,11 @@ class Dashboard extends Component<any, any> {
 
     console.log("inside customer info callback", data);
     const customer = data?.getCustomer.customer;
-    this.setState({ avcId: customer?.avcID });
+    const nsiGetAvcGsid = data?.nsiGetAvcGsid?.data;
+    this.setState({ avcId: nsiGetAvcGsid?.avcID });
     this.setState({ priId: customer?.priID });
     this.setState({ username: customer?.username });
-    this.setState({ cvcId: customer?.cvcID });
+    this.setState({ cvcId: nsiGetAvcGsid?.cvcID });
     this.setState({ firstName: customer?.firstName || "Not" });
     this.setState({ lastName: customer?.lastName || "Found" });
     this.setState({ serviceStatus: customer?.serviceStatus });

@@ -9,7 +9,8 @@ import {
   IS_AGENT_AUTHENTICATED,
   SEND_CUSTOMER_INFO,
   SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
-  SEND_CUSTOMER_RADIUS_DROPOUT_STATS
+  SEND_CUSTOMER_RADIUS_DROPOUT_STATS,
+  SEND_CUSTOMER_AVC_CVC_IDS
 } from "../actions/actionTypes";
 
 // export interface State {
@@ -59,6 +60,17 @@ export default function loginReducer(state = initialState, action: any) {
 
     case SEND_CUSTOMER_INFO:
       console.log(state, "got this customer info from API", action.payload);
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case SEND_CUSTOMER_AVC_CVC_IDS:
+      console.log(
+        state,
+        "got this AVC and CVC ID from graphql API",
+        action.payload
+      );
       return {
         ...state,
         ...action.payload

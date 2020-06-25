@@ -411,6 +411,16 @@ export class Header extends React.Component<any, any> {
     return {};
   }
 
+  async getCustomerAvcCvcIds(gsID: string) {
+    console.log("inside getCustomerAvcCvcIds()", this.props);
+    const { fetchAvcCvcIds } = this.props;
+    try {
+      await fetchAvcCvcIds(gsID);
+    } catch (err) {
+      console.log("error inside getCustomerAvcCvcIds", err);
+    }
+  }
+
   async getCustomerRadiusDropoutCount(customerInfo: string) {
     console.log("inside getCustomerRadiusDropoutCount", this.props);
     const { fetchRadiusDropOuts } = this.props;
@@ -451,6 +461,8 @@ export class Header extends React.Component<any, any> {
         // get the username first
         const uname = this.props?.getCustomer?.customer?.username;
 
+        const gsID = this.props?.getCustomer?.customer?.gsID;
+
         // if ID type is FNN call getCustomerInfo again with that ID type to fetch device info customerOnline
         if (this.state.customerIdType === "fnn") {
           await this.getCustomerInfo(uname, "username");
@@ -461,6 +473,10 @@ export class Header extends React.Component<any, any> {
 
         // fetch customer RADIUS dropout stats
         await this.getCustomerRadiusDropoutCount(uname);
+
+        // fetch customer AVC and CVC ID
+        await this.getCustomerAvcCvcIds(gsID);
+
         console.log("this is props in customer info", this.props);
 
         getCustomerInfoCallback(this.props);

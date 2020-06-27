@@ -347,7 +347,7 @@ class Dashboard extends Component<any, any> {
     const customerOnline =
       data?.getCustomerOnline?.result === "BAD" ? {} : data?.getCustomerOnline;
     const deviceInfo =
-      data?.getDeviceInfo?.result === "BAD" ? {} : data?.getDeviceInfo;
+      data?.getCustomer?.result === "BAD" ? {} : data?.getDeviceInfo;
 
     const userOnline = data?.userOnline;
     const userDropoutCount = data?.userDropoutCount;
@@ -365,8 +365,13 @@ class Dashboard extends Component<any, any> {
       : this.setState({ dimpsOnline: "" });
 
     // TODO for Brett Watson send proper API response - check result GOOD or BAD and then set state or if result BAD then set state empty
-    this.setState({ mac: customerOnline?.info?.mac });
-    this.setState({ ipaddr: customerOnline?.info?.ipaddr });
+    if (data?.getCustomer?.result === "GOOD") {
+      this.setState({ mac: customerOnline?.info?.mac });
+      this.setState({ ipaddr: customerOnline?.info?.ipaddr });
+    } else {
+      this.setState({ mac: "" });
+      this.setState({ ipaddr: "" });
+    }
     this.setState({ deviceModel: deviceInfo?.device?.deviceModel });
   }
 

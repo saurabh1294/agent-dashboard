@@ -438,7 +438,8 @@ export class Header extends React.Component<any, any> {
     console.log("this is the function &&&&&*****", this.props);
 
     try {
-      await fetchCustomerInfo(customerInfo, type);
+      // trim leading and trailing spaces from username/FNN
+      await fetchCustomerInfo(customerInfo.trim(), type);
     } catch (err) {
       console.log("error fetching customer info for user", customerInfo);
     }

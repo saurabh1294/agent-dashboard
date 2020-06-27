@@ -261,7 +261,7 @@ class Dashboard extends Component<any, any> {
     gsID: "",
     voiceLines: [{ number: "" }],
     dimpsOnline: "",
-    radiusDropouts: { last24: 0, last48: 0 },
+    radiusDropouts: { last24: undefined, last48: undefined },
     isLoggedIn: false, // TODO refine this by having only one state in reducer
     isAuthenticated: false,
     idTypeHasError: false,
@@ -352,10 +352,13 @@ class Dashboard extends Component<any, any> {
     const userOnline = data?.userOnline;
     const userDropoutCount = data?.userDropoutCount;
 
-    // TODO for Brett Watson send proper API response - check result GOOD or BAD and then set state or if result BAD then set state empty
-    this.setState({ radiusDropouts: userDropoutCount });
+    data?.getCustomer?.result === "GOOD"
+      ? this.setState({ radiusDropouts: userDropoutCount })
+      : this.setState({
+          radiusDropouts: { last24: undefined, last48: undefined }
+        });
 
-    userOnline.result === "GOOD"
+    data?.getCustomer?.result === "GOOD"
       ? this.setState({
           dimpsOnline: userOnline.online === "true" ? "Online" : "Offline"
         })

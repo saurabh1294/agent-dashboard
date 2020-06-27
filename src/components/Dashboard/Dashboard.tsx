@@ -10,6 +10,7 @@ import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
 
 import { InstructionsModal } from "../InstructionsModal/InstructionsModal";
+import { ConnectedDevicesModal } from "../ConnectedDevicesModal/ConnectedDevicesModal";
 
 import Divider from "@material-ui/core/Divider";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
@@ -263,7 +264,8 @@ class Dashboard extends Component<any, any> {
     radiusDropouts: { last24: 0, last48: 0 },
     isLoggedIn: false, // TODO refine this by having only one state in reducer
     isAuthenticated: false,
-    idTypeHasError: false
+    idTypeHasError: false,
+    openConnectedDevicesModal: false
   };
 
   componentDidMount() {
@@ -407,6 +409,14 @@ class Dashboard extends Component<any, any> {
     }
   }
 
+  openModal(e: any) {
+    this.setState({ openConnectedDevicesModal: true });
+  }
+
+  closeModalCallback(state: boolean) {
+    this.setState({ openConnectedDevicesModal: state });
+  }
+
   render() {
     // TODO check if user is logged in or not, if yes then render this else redirect to home page
     // console.log(
@@ -428,6 +438,11 @@ class Dashboard extends Component<any, any> {
     if (this.state.isAuthenticated || this.props.location.state?.isLoggedIn) {
       return (
         <div>
+          {this.state.openConnectedDevicesModal && (
+            <ConnectedDevicesModal
+              modalCloseCallback={this.closeModalCallback.bind(this)}
+            />
+          )}
           <InstructionsModal />
           <Header
             {...this.props}
@@ -944,7 +959,12 @@ class Dashboard extends Component<any, any> {
                             margin: "70px 0px 0px 5px"
                           }}
                         >
-                          More Info >>
+                          <span
+                            data-toggle="modal"
+                            onClick={this.openModal.bind(this)}
+                          >
+                            {"More Info >>"}
+                          </span>
                         </Typography>
                       </Paper>
                     </Grid>

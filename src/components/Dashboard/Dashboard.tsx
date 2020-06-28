@@ -259,7 +259,7 @@ const styles = (theme: any) => ({
   },
 
   offline: {
-    color: "rgba(233,77,84,0.81)"
+    color: "red"
   }
 });
 

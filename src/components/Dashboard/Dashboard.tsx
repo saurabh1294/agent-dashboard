@@ -217,7 +217,26 @@ const styles = (theme: any) => ({
     display: "inline",
     position: "absolute",
     marginLeft: "50px",
-    color: "gray"
+    color: "gray",
+    cursor: "pointer"
+  },
+
+  cachedIconAnimating: {
+    display: "inline",
+    position: "absolute",
+    marginLeft: "50px",
+    color: "gray",
+    animation: `$rotateAnimation 3000ms linear infinite`,
+    cursor: "pointer"
+  },
+
+  "@keyframes rotateAnimation": {
+    from: {
+      transform: "rotate(0deg)"
+    },
+    to: {
+      transform: "rotate(360deg)"
+    }
   },
 
   cachedIconSmallTile: {
@@ -265,7 +284,9 @@ class Dashboard extends Component<any, any> {
     isLoggedIn: false, // TODO refine this by having only one state in reducer
     isAuthenticated: false,
     idTypeHasError: false,
-    openConnectedDevicesModal: false
+    openConnectedDevicesModal: false,
+    stopAnimationAccStatus: true,
+    stopAnimation: true
   };
 
   componentDidMount() {
@@ -302,7 +323,7 @@ class Dashboard extends Component<any, any> {
     console.log("unmounting dashboard");
   }
 
-  async getCustomerInfoCallback(data: any) {
+  async getCustomerInfoCallback(data: any, type: string = "") {
     // TODO set state here to show info on tiles using data which has response from graphql
     // const result = {
     //   data: {
@@ -327,6 +348,11 @@ class Dashboard extends Component<any, any> {
     //     }
     //   }
     // };
+
+    if (type.length === 0) {
+      this.setState({ stopAnimation: false });
+    }
+    await this.sleep(2000);
 
     console.log("inside customer info callback", data);
     const customer = data?.getCustomer.customer;
@@ -373,6 +399,9 @@ class Dashboard extends Component<any, any> {
       this.setState({ ipaddr: "" });
     }
     this.setState({ deviceModel: deviceInfo?.device?.deviceModel });
+    if (type.length === 0) {
+      this.setState({ stopAnimation: true });
+    }
   }
 
   getAccStatus(state: any) {
@@ -423,6 +452,24 @@ class Dashboard extends Component<any, any> {
 
   closeModalCallback(state: boolean) {
     this.setState({ openConnectedDevicesModal: state });
+  }
+
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async refreshAccountStatus() {
+    const username = this.props?.getCustomer?.customer?.username;
+    if (!username) return; // edge case when no user is/was searched
+
+    this.setState({ stopAnimationAccStatus: false });
+    const { fetchCustomerInfo } = this.props;
+    console.log("inside refresehAccountStatus", this.props);
+
+    await fetchCustomerInfo(username, "username");
+    await this.getCustomerInfoCallback(this.props, "ACC_STATUS");
+    await this.sleep(1000);
+    this.setState({ stopAnimationAccStatus: true });
   }
 
   render() {
@@ -493,7 +540,13 @@ class Dashboard extends Component<any, any> {
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
                         Service Status{" "}
-                        <CachedIcon className={classes.cachedIcon} />
+                        <CachedIcon
+                          className={
+                            this.state.stopAnimation
+                              ? classes.cachedIcon
+                              : classes.cachedIconAnimating
+                          }
+                        />
                       </Typography>
                       <Typography
                         variant="body2"
@@ -528,7 +581,14 @@ class Dashboard extends Component<any, any> {
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
                         Account Status{" "}
-                        <CachedIcon className={classes.cachedIcon} />
+                        <CachedIcon
+                          className={
+                            this.state.stopAnimationAccStatus
+                              ? classes.cachedIcon
+                              : classes.cachedIconAnimating
+                          }
+                          onClick={this.refreshAccountStatus.bind(this)}
+                        />
                       </Typography>
                       <Typography
                         variant="body2"
@@ -749,7 +809,13 @@ class Dashboard extends Component<any, any> {
                         style={{ fontSize: "12px", fontWeight: "bold" }}
                       >
                         Modem Connected{" "}
-                        <CachedIcon className={classes.cachedIcon} />
+                        <CachedIcon
+                          className={
+                            this.state.stopAnimation
+                              ? classes.cachedIcon
+                              : classes.cachedIconAnimating
+                          }
+                        />
                       </Typography>
 
                       <Typography
@@ -1103,7 +1169,13 @@ class Dashboard extends Component<any, any> {
                     }}
                   >
                     Provisioning Match{" "}
-                    <CachedIcon className={classes.cachedIcon} />
+                    <CachedIcon
+                      className={
+                        this.state.stopAnimation
+                          ? classes.cachedIcon
+                          : classes.cachedIconAnimating
+                      }
+                    />
                   </Typography>
                   <Grid item container xs={12}>
                     <Typography color="textSecondary">Speed</Typography>
@@ -1180,7 +1252,13 @@ class Dashboard extends Component<any, any> {
                     }}
                   >
                     Radius Dropouts{" "}
-                    <CachedIcon className={classes.cachedIconSmallTile} />
+                    <CachedIcon
+                      className={
+                        this.state.stopAnimation
+                          ? classes.cachedIconSmallTile
+                          : classes.cachedIconAnimating
+                      }
+                    />
                   </Typography>
                   <Typography
                     style={{ fontSize: "14px" }}

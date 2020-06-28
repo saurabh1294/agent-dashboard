@@ -273,6 +273,8 @@ export const fetchCustomerInfo = (searchQuery: string, type: string) => {
         result
         device {
           deviceModel
+	  deviceSerial
+	  wanMac
         }
       }
       getCustomer(with: ${queryType.toUpperCase()}, matching: $searchQuery) {

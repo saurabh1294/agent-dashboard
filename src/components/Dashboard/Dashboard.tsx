@@ -272,6 +272,7 @@ class Dashboard extends Component<any, any> {
     firstName: "",
     lastName: "",
     deviceModel: "",
+    deviceSerial: "",
     mac: "",
     ipaddr: "",
     serviceStatus: "",
@@ -352,7 +353,7 @@ class Dashboard extends Component<any, any> {
     if (type.length === 0) {
       this.setState({ stopAnimation: false });
     }
-    await this.sleep(2000);
+    await this.sleep(1000);
 
     console.log("inside customer info callback", data);
     const customer = data?.getCustomer.customer;
@@ -398,7 +399,18 @@ class Dashboard extends Component<any, any> {
       this.setState({ mac: "" });
       this.setState({ ipaddr: "" });
     }
-    this.setState({ deviceModel: deviceInfo?.device?.deviceModel });
+
+    const wanMac = deviceInfo?.device?.wanMac;
+    const mac = customerOnline?.info?.mac;
+
+    // JFI-592/JFI-640 condition check
+    if (wanMac !== mac) {
+      this.setState({ deviceModel: "" });
+      this.setState({ deviceSerial: "" });
+    } else {
+      this.setState({ deviceModel: deviceInfo?.device?.deviceModel });
+      this.setState({ deviceSerial: deviceInfo?.device?.deviceSerial });
+    }
     if (type.length === 0) {
       this.setState({ stopAnimation: true });
     }
@@ -844,6 +856,10 @@ class Dashboard extends Component<any, any> {
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXX */}
                         {this.state.ipaddr}
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        {this.state.deviceSerial}
+                        {/* //TODO - use some state here instead// XXXX XXXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXXXXXX */}

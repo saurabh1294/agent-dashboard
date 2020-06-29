@@ -121,7 +121,7 @@ const useStyles = makeStyles({
     color: "#FFAE42"
   },
   good: {
-    color: "#00CCFF"
+    color: "#00875A"
   },
   bad: {
     color: "red"

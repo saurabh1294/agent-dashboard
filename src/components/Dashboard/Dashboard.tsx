@@ -414,17 +414,19 @@ class Dashboard extends Component<any, any> {
     if (data?.getCustomer?.result === "GOOD") {
       this.setState({ mac: customerOnline?.info?.mac });
       this.setState({ ipaddr: customerOnline?.info?.ipaddr });
-      this.setState({
-        wifiSpeed1: `${wifiStats?.wifi[0]?.band}(${wifiStats?.wifi[0]?.status})`
-      });
-      this.setState({
-        wifiSpeed2: `${wifiStats?.wifi[1]?.band}(${wifiStats?.wifi[1]?.status})`
-      });
+      this.setState({ wifiSpeed1: wifiStats?.wifi[0]?.band });
+      this.setState({ wifiSpeed2: wifiStats?.wifi[1]?.band });
       this.setState({
         wifiEnabled1: wifiStats?.wifi[0]?.enabled ? "Enabled" : "Disabled"
       });
       this.setState({
+        wifiEnabled1: `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
+      });
+      this.setState({
         wifiEnabled2: wifiStats?.wifi[1]?.enabled ? "Enabled" : "Disabled"
+      });
+      this.setState({
+        wifiEnabled2: `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
       });
     } else {
       this.setState({ mac: "" });
@@ -517,6 +519,12 @@ class Dashboard extends Component<any, any> {
     await this.getCustomerInfoCallback(this.props, "ACC_STATUS");
     await this.sleep(100);
     this.setState({ stopAnimationAccStatus: true });
+  }
+
+  getRadiusDropoutFormatting(radiusDrops: any) {
+    const { classes } = this.props as any;
+    if (radiusDrops >= 5) return classes.abuse;
+    else return classes.active;
   }
 
   render() {
@@ -1016,10 +1024,14 @@ class Dashboard extends Component<any, any> {
                         <Typography
                           style={{
                             marginLeft: "20px",
-                            color: "#00CCFF",
                             fontWeight: "bold",
                             fontSize: "14px"
                           }}
+                          className={
+                            this.state.wifiEnabled1?.split("(")[0] === "Enabled"
+                              ? classes.active
+                              : classes.abuse
+                          }
                         >
                           {this.state.wifiEnabled1}
                         </Typography>
@@ -1034,10 +1046,14 @@ class Dashboard extends Component<any, any> {
                         <Typography
                           style={{
                             marginLeft: "20px",
-                            color: "#00CCFF",
                             fontWeight: "bold",
                             fontSize: "14px"
                           }}
+                          className={
+                            this.state.wifiEnabled2?.split("(")[0] === "Enabled"
+                              ? classes.active
+                              : classes.abuse
+                          }
                         >
                           {this.state.wifiEnabled2}
                         </Typography>
@@ -1326,9 +1342,11 @@ class Dashboard extends Component<any, any> {
                   <Typography
                     style={{
                       fontSize: "24px",
-                      fontWeight: "bold",
-                      color: "rgba(233,77,84,0.81)"
+                      fontWeight: "bold"
                     }}
+                    className={this.getRadiusDropoutFormatting(
+                      this.state.radiusDropouts?.last24
+                    )}
                   >
                     {this.state.radiusDropouts?.last24}
                   </Typography>
@@ -1341,9 +1359,11 @@ class Dashboard extends Component<any, any> {
                   <Typography
                     style={{
                       fontSize: "24px",
-                      fontWeight: "bold",
-                      color: "rgba(233,77,84,0.81)"
+                      fontWeight: "bold"
                     }}
+                    className={this.getRadiusDropoutFormatting(
+                      this.state.radiusDropouts?.last48
+                    )}
                   >
                     {this.state.radiusDropouts?.last48}
                   </Typography>

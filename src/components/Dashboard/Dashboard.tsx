@@ -371,7 +371,7 @@ class Dashboard extends Component<any, any> {
     if (type.length === 0) {
       this.setState({ stopAnimation: false });
     }
-    await this.sleep(200);
+    await this.sleep(100);
 
     console.log("inside customer info callback", data);
     const customer = data?.getCustomer.customer;
@@ -414,8 +414,12 @@ class Dashboard extends Component<any, any> {
     if (data?.getCustomer?.result === "GOOD") {
       this.setState({ mac: customerOnline?.info?.mac });
       this.setState({ ipaddr: customerOnline?.info?.ipaddr });
-      this.setState({ wifiSpeed1: wifiStats?.wifi[0]?.band });
-      this.setState({ wifiSpeed2: wifiStats?.wifi[1]?.band });
+      this.setState({
+        wifiSpeed1: `${wifiStats?.wifi[0]?.band}(${wifiStats?.wifi[0]?.status})`
+      });
+      this.setState({
+        wifiSpeed2: `${wifiStats?.wifi[1]?.band}(${wifiStats?.wifi[1]?.status})`
+      });
       this.setState({
         wifiEnabled1: wifiStats?.wifi[0]?.enabled ? "Enabled" : "Disabled"
       });
@@ -511,7 +515,7 @@ class Dashboard extends Component<any, any> {
 
     await fetchCustomerInfo(username, "username");
     await this.getCustomerInfoCallback(this.props, "ACC_STATUS");
-    await this.sleep(200);
+    await this.sleep(100);
     this.setState({ stopAnimationAccStatus: true });
   }
 

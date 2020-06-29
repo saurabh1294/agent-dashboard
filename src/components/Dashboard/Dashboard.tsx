@@ -21,7 +21,8 @@ import {
   fetchCustomerInfo,
   fetchDIMPSOnlineStatus,
   fetchRadiusDropOuts,
-  fetchAvcCvcIds
+  fetchAvcCvcIds,
+  fetchWifiStats
 } from "../../actions/actions";
 
 import { connect } from "react-redux";
@@ -47,6 +48,7 @@ const mapStateToProps = (state: any) => {
     userOnline: state.loginReducer.userOnline, // get DIMPS online/offline status
     userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
     nsiGetAvcGsid: state.loginReducer.nsiGetAvcGsid, // get customer AVC and CVC ID
+    acsWiFi: state.loginReducer.acsWiFi, // get customer WIFI stats
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
   };
 };
@@ -63,7 +65,9 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(fetchDIMPSOnlineStatus(customer)),
     fetchRadiusDropOuts: (customer: string) =>
       dispatch(fetchRadiusDropOuts(customer)),
-    fetchAvcCvcIds: (gsID: string) => dispatch(fetchAvcCvcIds(gsID))
+    fetchAvcCvcIds: (gsID: string) => dispatch(fetchAvcCvcIds(gsID)),
+    fetchWifiStats: (model: string, serial: string) =>
+      dispatch(fetchWifiStats(model, serial))
   };
 };
 
@@ -243,7 +247,17 @@ const styles = (theme: any) => ({
     display: "inline",
     position: "absolute",
     marginLeft: "30px",
-    color: "gray"
+    color: "gray",
+    cursor: "pointer"
+  },
+
+  cachedIconSmallTileAnimating: {
+    display: "inline",
+    position: "absolute",
+    marginLeft: "30px",
+    color: "gray",
+    animation: `$rotateAnimation 3000ms linear infinite`,
+    cursor: "pointer"
   },
 
   active: {
@@ -255,7 +269,7 @@ const styles = (theme: any) => ({
   },
 
   online: {
-    color: "#00CCFF"
+    color: "#00875A"
   },
 
   offline: {
@@ -287,7 +301,11 @@ class Dashboard extends Component<any, any> {
     idTypeHasError: false,
     openConnectedDevicesModal: false,
     stopAnimationAccStatus: true,
-    stopAnimation: true
+    stopAnimation: true,
+    wifiSpeed1: "",
+    wifiSpeed2: "",
+    wifiEnabled1: "",
+    wifiEnabled2: ""
   };
 
   componentDidMount() {
@@ -353,7 +371,7 @@ class Dashboard extends Component<any, any> {
     if (type.length === 0) {
       this.setState({ stopAnimation: false });
     }
-    await this.sleep(1000);
+    await this.sleep(200);
 
     console.log("inside customer info callback", data);
     const customer = data?.getCustomer.customer;
@@ -375,6 +393,7 @@ class Dashboard extends Component<any, any> {
       data?.getCustomerOnline?.result === "BAD" ? {} : data?.getCustomerOnline;
     const deviceInfo =
       data?.getCustomer?.result === "BAD" ? {} : data?.getDeviceInfo;
+    const wifiStats = data?.getCustomer?.result === "BAD" ? {} : data?.acsWiFi;
 
     const userOnline = data?.userOnline;
     const userDropoutCount = data?.userDropoutCount;
@@ -395,9 +414,21 @@ class Dashboard extends Component<any, any> {
     if (data?.getCustomer?.result === "GOOD") {
       this.setState({ mac: customerOnline?.info?.mac });
       this.setState({ ipaddr: customerOnline?.info?.ipaddr });
+      this.setState({ wifiSpeed1: wifiStats?.wifi[0]?.band });
+      this.setState({ wifiSpeed2: wifiStats?.wifi[1]?.band });
+      this.setState({
+        wifiEnabled1: wifiStats?.wifi[0]?.enabled ? "Enabled" : "Disabled"
+      });
+      this.setState({
+        wifiEnabled2: wifiStats?.wifi[1]?.enabled ? "Enabled" : "Disabled"
+      });
     } else {
       this.setState({ mac: "" });
       this.setState({ ipaddr: "" });
+      this.setState({ wifiSpeed1: "" });
+      this.setState({ wifiSpeed2: "" });
+      this.setState({ wifiEnabled1: "" });
+      this.setState({ wifiEnabled2: "" });
     }
 
     const wanMac = deviceInfo?.device?.wanMac;
@@ -480,7 +511,7 @@ class Dashboard extends Component<any, any> {
 
     await fetchCustomerInfo(username, "username");
     await this.getCustomerInfoCallback(this.props, "ACC_STATUS");
-    await this.sleep(1000);
+    await this.sleep(200);
     this.setState({ stopAnimationAccStatus: true });
   }
 
@@ -964,13 +995,19 @@ class Dashboard extends Component<any, any> {
                         }}
                       >
                         Wifi Status{" "}
-                        <CachedIcon className={classes.cachedIconSmallTile} />
+                        <CachedIcon
+                          className={
+                            this.state.stopAnimation
+                              ? classes.cachedIconSmallTile
+                              : classes.cachedIconSmallTileAnimating
+                          }
+                        />
                       </Typography>
                       <Grid container>
                         <Typography
                           style={{ fontSize: "14px", fontWeight: "bold" }}
                         >
-                          {/* //TODO - use some state here instead// 2.4 GHz */}
+                          {this.state.wifiSpeed1}
                         </Typography>
                         <Typography
                           style={{
@@ -980,7 +1017,7 @@ class Dashboard extends Component<any, any> {
                             fontSize: "14px"
                           }}
                         >
-                          {/* //TODO - use some state here instead// Enabled */}
+                          {this.state.wifiEnabled1}
                         </Typography>
                       </Grid>
 
@@ -988,7 +1025,7 @@ class Dashboard extends Component<any, any> {
                         <Typography
                           style={{ fontSize: "14px", fontWeight: "bold" }}
                         >
-                          {/* //TODO - use some state here instead//  5 GHz */}
+                          {this.state.wifiSpeed2}
                         </Typography>
                         <Typography
                           style={{
@@ -998,7 +1035,7 @@ class Dashboard extends Component<any, any> {
                             fontSize: "14px"
                           }}
                         >
-                          {/* //TODO - use some state here instead//  Enabled */}
+                          {this.state.wifiEnabled2}
                         </Typography>
                       </Grid>
                     </Paper>

@@ -10,7 +10,8 @@ import {
   SEND_CUSTOMER_INFO,
   SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
   SEND_CUSTOMER_RADIUS_DROPOUT_STATS,
-  SEND_CUSTOMER_AVC_CVC_IDS
+  SEND_CUSTOMER_AVC_CVC_IDS,
+  SEND_CUSTOMER_WIFI_STATS
 } from "../actions/actionTypes";
 
 // export interface State {
@@ -69,6 +70,17 @@ export default function loginReducer(state = initialState, action: any) {
       console.log(
         state,
         "got this AVC and CVC ID from graphql API",
+        action.payload
+      );
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case SEND_CUSTOMER_WIFI_STATS:
+      console.log(
+        state,
+        "got these wifi stats from graphql API",
         action.payload
       );
       return {

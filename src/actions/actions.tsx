@@ -10,7 +10,8 @@ import {
   SEND_CUSTOMER_INFO,
   SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
   SEND_CUSTOMER_RADIUS_DROPOUT_STATS,
-  SEND_CUSTOMER_AVC_CVC_IDS
+  SEND_CUSTOMER_AVC_CVC_IDS,
+  SEND_CUSTOMER_WIFI_STATS
 } from "./actionTypes";
 // import axios from "axios";
 import gql from "graphql-tag";
@@ -114,6 +115,14 @@ export const sendCustomerAvcCvcIds = (data: any) => {
   };
 };
 
+export const sendCustomerWifiStats = (data: any) => {
+  return {
+    type: SEND_CUSTOMER_WIFI_STATS,
+    state: "SEND_CUSTOMER_WIFI_STATS",
+    payload: data
+  };
+};
+
 export const fetchDIMPSOnlineStatus = (searchQuery: string) => {
   const someQuery = gql`
     query UserOnline($searchQuery: ID!) {
@@ -149,6 +158,47 @@ export const fetchDIMPSOnlineStatus = (searchQuery: string) => {
       result
     );
     dispatch(sendCustomerDIMPSOnlineStatus(result.data)); // TODO change this use another function to dispatch
+  };
+};
+
+export const fetchWifiStats = (model: string, serial: string) => {
+  const someQuery = gql`
+    query AcsWiFi($model: ID!, $serial: ID!) {
+      acsWiFi(model: $model, serial: $serial) {
+        result
+        freshAt
+        wifi {
+          band
+          enabled
+          status
+        }
+      }
+    }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    let result = { data: {} };
+    try {
+      const request = await client.query({
+        query: someQuery,
+        variables: { model, serial }
+      });
+      result = await request;
+    } catch (err) {
+      console.log(
+        "fetchWifiStats() graphql error occurred in actions.tsx %%%************",
+        err
+      );
+    } finally {
+      console.log("fetchWifiStats() graphql finally block in actions.tsx");
+    }
+    console.log("fetchWifiStats", JSON.stringify(someQuery));
+    console.log(
+      "this is the result from graphql fetchWifiStats endpoint",
+      result
+    );
+    dispatch(sendCustomerWifiStats(result.data));
   };
 };
 

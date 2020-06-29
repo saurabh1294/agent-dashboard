@@ -421,6 +421,16 @@ export class Header extends React.Component<any, any> {
     }
   }
 
+  async getCustomerWifiStats(model: string, serial: string) {
+    console.log("inside customer get Wifi status", this.props);
+    const { fetchWifiStats } = this.props;
+    try {
+      await fetchWifiStats(model, serial);
+    } catch (err) {
+      console.log("error fetching customer wifi stats", err);
+    }
+  }
+
   async getCustomerRadiusDropoutCount(customerInfo: string) {
     console.log("inside getCustomerRadiusDropoutCount", this.props);
     const { fetchRadiusDropOuts } = this.props;
@@ -463,6 +473,7 @@ export class Header extends React.Component<any, any> {
         const uname = this.props?.getCustomer?.customer?.username;
 
         const gsID = this.props?.getCustomer?.customer?.gsID;
+        const device = this.props?.getDeviceInfo?.device;
 
         // if ID type is FNN call getCustomerInfo again with that ID type to fetch device info customerOnline
         if (this.state.customerIdType === "fnn") {
@@ -477,6 +488,12 @@ export class Header extends React.Component<any, any> {
 
         // fetch customer AVC and CVC ID
         await this.getCustomerAvcCvcIds(gsID);
+
+        // fetch customer Wifi stats
+        await this.getCustomerWifiStats(
+          device?.deviceModel,
+          device?.deviceSerial
+        );
 
         console.log("this is props in customer info", this.props);
 

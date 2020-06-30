@@ -566,7 +566,16 @@ class Dashboard extends Component<any, any> {
               <Box p={1}>
                 <Typography variant="h6" style={{ color: "teal" }}>
                   Customer{" "}
-                  <span style={{ color: "black", fontWeight: "bold" }}>
+                  <span
+                    style={{
+                      color:
+                        `${this.state.firstName}${this.state.lastName}` ===
+                        "NotFound"
+                          ? "red"
+                          : "black",
+                      fontWeight: "bold"
+                    }}
+                  >
                     {`${this.state.firstName} ${this.state.lastName}`}
                   </span>
                 </Typography>

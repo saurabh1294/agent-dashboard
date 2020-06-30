@@ -456,13 +456,15 @@ export class Header extends React.Component<any, any> {
   }
 
   handleChange(event: any) {
-    this.setState({ customerId: event.target.value });
+    this.setState({ customerId: event.target.value?.toLowerCase() });
   }
 
   async handleSearch(event: any) {
     if (event.charCode === 13 || event.type === "click") {
       const customerInfo =
-        event.type !== "click" ? event.target.value : this.state.customerId;
+        event.type !== "click"
+          ? event.target?.value?.toLowerCase()
+          : this.state.customerId;
       const { getCustomerInfoCallback } = this.props;
 
       try {
@@ -470,7 +472,7 @@ export class Header extends React.Component<any, any> {
 
         // pass customer data obtained from API to dashboard
         // get the username first
-        const uname = this.props?.getCustomer?.customer?.username;
+        const uname = this.props?.getCustomer?.customer?.username.toLowerCase();
 
         const gsID = this.props?.getCustomer?.customer?.gsID;
         const device = this.props?.getDeviceInfo?.device;

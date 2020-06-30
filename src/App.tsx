@@ -112,8 +112,11 @@ export class App extends React.Component<any, any> {
     authError: "",
     isLoggedIn: false,
     isLoggedOut: false,
-    isCustInfoLoaded: false
+    isCustInfoLoaded: false,
+    isAuthenticated: false
   };
+
+  componentDidUpdate() {}
 
   componentDidMount() {
     try {
@@ -210,7 +213,6 @@ export class App extends React.Component<any, any> {
     } finally {
       console.log("finally block of get auth status in handleLogin()");
     }
-    // alert(this.props.isAuthenticated);
   }
 
   getAuthenticationStatus() {
@@ -235,13 +237,15 @@ export class App extends React.Component<any, any> {
     // );
 
     // TODO check this.props.isAuthenticated along with isLoggedIn here instead
-    if (this.state.isLoggedIn) {
+    // TODO sesssion management bug is almost fixed. Uncomment the below conditions and fix logout to make it work
+    if (this.state.isLoggedIn /*|| this.props.isAuthenticated === "true"*/) {
       return (
         <Redirect
           to={{
             pathname: "/dashboard",
             state: {
-              isLoggedIn: this.state.isLoggedIn,
+              isLoggedIn: this.state
+                .isLoggedIn /*|| this.props.isAuthenticated === "true"*/,
               isLoggedOut: this.state.isLoggedOut,
               username: this.state.username
             }

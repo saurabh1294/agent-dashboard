@@ -537,6 +537,8 @@ export class Header extends React.Component<any, any> {
         response
       );
       // Redirect user to login page here
+      // TODO to fix session management bug, set below state to false in some way
+      // this.props?.location?.setState({isLoggedIn : false});
       this.props.history.push("/");
       // delete auth session cookie
       this.deleteCookie("stok");
@@ -553,6 +555,7 @@ export class Header extends React.Component<any, any> {
       await this.setState({
         loggedInUser: this.props?.data?.sessionInfo?.authenticatedUser
       });
+      console.log("inside header: componentDidMount()", this.props);
     } catch (err) {
       console.log("Error getting authentication status");
     } finally {

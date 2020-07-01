@@ -412,22 +412,40 @@ class Dashboard extends Component<any, any> {
 
     // TODO for Brett Watson send proper API response - check result GOOD or BAD and then set state or if result BAD then set state empty
     if (data?.getCustomer?.result === "GOOD") {
+      const wifiArr = wifiStats?.wifi;
+
       this.setState({ mac: customerOnline?.info?.mac });
       this.setState({ ipaddr: customerOnline?.info?.ipaddr });
-      this.setState({ wifiSpeed1: wifiStats?.wifi[0]?.band });
-      this.setState({ wifiSpeed2: wifiStats?.wifi[1]?.band });
       this.setState({
-        wifiEnabled1: wifiStats?.wifi[0]?.enabled ? "Enabled" : "Disabled"
+        wifiSpeed1: Array.isArray(wifiArr) ? wifiStats?.wifi[0]?.band : ""
       });
       this.setState({
-        wifiEnabled1: `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
+        wifiSpeed2: Array.isArray(wifiArr) ? wifiStats?.wifi[1]?.band : ""
       });
       this.setState({
-        wifiEnabled2: wifiStats?.wifi[1]?.enabled ? "Enabled" : "Disabled"
+        wifiEnabled1: Array.isArray(wifiArr)
+          ? wifiStats?.wifi[0]?.enabled
+            ? "Enabled"
+            : "Disabled"
+          : ""
       });
+
+      const enabled1 = Array.isArray(wifiArr)
+        ? `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
+        : "";
+      this.setState({ wifiEnabled1: enabled1 });
       this.setState({
-        wifiEnabled2: `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
+        wifiEnabled2: Array.isArray(wifiArr)
+          ? wifiStats?.wifi[1]?.enabled
+            ? "Enabled"
+            : "Disabled"
+          : ""
       });
+
+      const enabled2 = Array.isArray(wifiArr)
+        ? `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
+        : "";
+      this.setState({ wifiEnabled2: enabled2 });
     } else {
       this.setState({ mac: "" });
       this.setState({ ipaddr: "" });
@@ -519,6 +537,57 @@ class Dashboard extends Component<any, any> {
     await this.getCustomerInfoCallback(this.props, "ACC_STATUS");
     await this.sleep(100);
     this.setState({ stopAnimationAccStatus: true });
+  }
+
+  async refreshWifiStats() {
+    const data = this.props;
+    const deviceInfo =
+      data?.getCustomer?.result === "BAD" ? {} : data?.getDeviceInfo;
+    const model = deviceInfo?.device?.deviceModel;
+    const serial = deviceInfo?.device?.deviceSerial;
+
+    if (!model || !serial) {
+      return;
+    }
+    const { fetchWifiStats } = this.props;
+
+    await fetchWifiStats(model, serial);
+    await this.sleep(100);
+
+    const wifiStats = data?.getCustomer?.result === "BAD" ? {} : data?.acsWiFi;
+    const wifiArr = wifiStats?.wifi;
+
+    // TODO code refactoring move the below 10 lines and the same 10 lines from getCustomerInfoCallback into a single function
+    this.setState({
+      wifiSpeed1: Array.isArray(wifiArr) ? wifiStats?.wifi[0]?.band : ""
+    });
+    this.setState({
+      wifiSpeed2: Array.isArray(wifiArr) ? wifiStats?.wifi[1]?.band : ""
+    });
+    this.setState({
+      wifiEnabled1: Array.isArray(wifiArr)
+        ? wifiStats?.wifi[0]?.enabled
+          ? "Enabled"
+          : "Disabled"
+        : ""
+    });
+
+    const enabled1 = Array.isArray(wifiArr)
+      ? `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
+      : "";
+    this.setState({ wifiEnabled1: enabled1 });
+    this.setState({
+      wifiEnabled2: Array.isArray(wifiArr)
+        ? wifiStats?.wifi[1]?.enabled
+          ? "Enabled"
+          : "Disabled"
+        : ""
+    });
+
+    const enabled2 = Array.isArray(wifiArr)
+      ? `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
+      : "";
+    this.setState({ wifiEnabled2: enabled2 });
   }
 
   getRadiusDropoutFormatting(radiusDrops: any) {
@@ -890,6 +959,7 @@ class Dashboard extends Component<any, any> {
                         Modem Model
                       </Typography>
                       <Typography variant="body2" gutterBottom>
+                        <span style={{ fontWeight: "bold" }}>Model #</span> :{" "}
                         {this.state.deviceModel}
                         {/* //TODO - use some state here instead// XXXX XXXXX */}
                       </Typography>
@@ -902,15 +972,21 @@ class Dashboard extends Component<any, any> {
                         Modem Specs
                       </Typography>
                       <Typography variant="body2" gutterBottom>
+                        <span style={{ fontWeight: "bold" }}>MAC</span> :{" "}
                         {this.state.mac}
                         {/* //TODO - use some state here instead//  XXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXX */}
-                        {this.state.ipaddr}
+                        <span style={{ fontWeight: "bold" }}>
+                          IP ADDRESS
+                        </span> : {this.state.ipaddr}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        {this.state.deviceSerial}
+                        <span style={{ fontWeight: "bold" }}>
+                          Device Serial #
+                        </span>{" "}
+                        : {this.state.deviceSerial}
                         {/* //TODO - use some state here instead// XXXX XXXXX */}
                       </Typography>
                       <Typography variant="body2" gutterBottom>
@@ -1015,13 +1091,14 @@ class Dashboard extends Component<any, any> {
                           fontWeight: "bold"
                         }}
                       >
-                        Wifi Status{" "}
+                        Wifi Status{`  ${new Date().toLocaleTimeString()}`}
                         <CachedIcon
                           className={
                             this.state.stopAnimation
                               ? classes.cachedIconSmallTile
                               : classes.cachedIconSmallTileAnimating
                           }
+                          onClick={this.refreshWifiStats.bind(this)}
                         />
                       </Typography>
                       <Grid container>
@@ -1333,7 +1410,7 @@ class Dashboard extends Component<any, any> {
                       fontWeight: "bold"
                     }}
                   >
-                    Radius Dropouts{" "}
+                    Radius Dropouts
                     <CachedIcon
                       className={
                         this.state.stopAnimation

@@ -411,42 +411,48 @@ class Dashboard extends Component<any, any> {
         })
       : this.setState({ dimpsOnline: "" });
 
-    // TODO for Brett Watson send proper API response - check result GOOD or BAD and then set state or if result BAD then set state empty
     if (data?.getCustomer?.result === "GOOD") {
-      const wifiArr = wifiStats?.wifi;
+      if (wifiStats.result === "UGLY") {
+        this.setState({ wifiSpeed1: "Timed out. Please retry!!" });
+        this.setState({ wifiEnabled1: "" });
+        this.setState({ wifiSpeed2: "" });
+        this.setState({ wifiEnabled2: "" });
+      } else {
+        const wifiArr = wifiStats?.wifi;
+        this.setState({
+          wifiSpeed1: Array.isArray(wifiArr) ? wifiStats?.wifi[0]?.band : ""
+        });
+        this.setState({
+          wifiSpeed2: Array.isArray(wifiArr) ? wifiStats?.wifi[1]?.band : ""
+        });
+        this.setState({
+          wifiEnabled1: Array.isArray(wifiArr)
+            ? wifiStats?.wifi[0]?.enabled
+              ? "Enabled"
+              : "Disabled"
+            : ""
+        });
+
+        const enabled1 = Array.isArray(wifiArr)
+          ? `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
+          : "";
+        this.setState({ wifiEnabled1: enabled1 });
+        this.setState({
+          wifiEnabled2: Array.isArray(wifiArr)
+            ? wifiStats?.wifi[1]?.enabled
+              ? "Enabled"
+              : "Disabled"
+            : ""
+        });
+
+        const enabled2 = Array.isArray(wifiArr)
+          ? `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
+          : "";
+        this.setState({ wifiEnabled2: enabled2 });
+      }
 
       this.setState({ mac: customerOnline?.info?.mac });
       this.setState({ ipaddr: customerOnline?.info?.ipaddr });
-      this.setState({
-        wifiSpeed1: Array.isArray(wifiArr) ? wifiStats?.wifi[0]?.band : ""
-      });
-      this.setState({
-        wifiSpeed2: Array.isArray(wifiArr) ? wifiStats?.wifi[1]?.band : ""
-      });
-      this.setState({
-        wifiEnabled1: Array.isArray(wifiArr)
-          ? wifiStats?.wifi[0]?.enabled
-            ? "Enabled"
-            : "Disabled"
-          : ""
-      });
-
-      const enabled1 = Array.isArray(wifiArr)
-        ? `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
-        : "";
-      this.setState({ wifiEnabled1: enabled1 });
-      this.setState({
-        wifiEnabled2: Array.isArray(wifiArr)
-          ? wifiStats?.wifi[1]?.enabled
-            ? "Enabled"
-            : "Disabled"
-          : ""
-      });
-
-      const enabled2 = Array.isArray(wifiArr)
-        ? `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
-        : "";
-      this.setState({ wifiEnabled2: enabled2 });
     } else {
       this.setState({ mac: "" });
       this.setState({ ipaddr: "" });
@@ -559,37 +565,44 @@ class Dashboard extends Component<any, any> {
     const wifiStats = data?.getCustomer?.result === "BAD" ? {} : data?.acsWiFi;
     const wifiArr = wifiStats?.wifi;
 
-    // TODO code refactoring move the below 10 lines and the same 10 lines from getCustomerInfoCallback into a single function
-    this.setState({
-      wifiSpeed1: Array.isArray(wifiArr) ? wifiStats?.wifi[0]?.band : ""
-    });
-    this.setState({
-      wifiSpeed2: Array.isArray(wifiArr) ? wifiStats?.wifi[1]?.band : ""
-    });
-    this.setState({
-      wifiEnabled1: Array.isArray(wifiArr)
-        ? wifiStats?.wifi[0]?.enabled
-          ? "Enabled"
-          : "Disabled"
-        : ""
-    });
+    if (wifiStats.result === "UGLY") {
+      this.setState({ wifiSpeed1: "Timed out. Please retry!!" });
+      this.setState({ wifiEnabled1: "" });
+      this.setState({ wifiSpeed2: "" });
+      this.setState({ wifiEnabled2: "" });
+    } else {
+      // TODO code refactoring move the below 10 lines and the same 10 lines from getCustomerInfoCallback into a single function
+      this.setState({
+        wifiSpeed1: Array.isArray(wifiArr) ? wifiStats?.wifi[0]?.band : ""
+      });
+      this.setState({
+        wifiSpeed2: Array.isArray(wifiArr) ? wifiStats?.wifi[1]?.band : ""
+      });
+      this.setState({
+        wifiEnabled1: Array.isArray(wifiArr)
+          ? wifiStats?.wifi[0]?.enabled
+            ? "Enabled"
+            : "Disabled"
+          : ""
+      });
 
-    const enabled1 = Array.isArray(wifiArr)
-      ? `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
-      : "";
-    this.setState({ wifiEnabled1: enabled1 });
-    this.setState({
-      wifiEnabled2: Array.isArray(wifiArr)
-        ? wifiStats?.wifi[1]?.enabled
-          ? "Enabled"
-          : "Disabled"
-        : ""
-    });
+      const enabled1 = Array.isArray(wifiArr)
+        ? `${this.state.wifiEnabled1}(${wifiStats?.wifi[0]?.status})`
+        : "";
+      this.setState({ wifiEnabled1: enabled1 });
+      this.setState({
+        wifiEnabled2: Array.isArray(wifiArr)
+          ? wifiStats?.wifi[1]?.enabled
+            ? "Enabled"
+            : "Disabled"
+          : ""
+      });
 
-    const enabled2 = Array.isArray(wifiArr)
-      ? `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
-      : "";
-    this.setState({ wifiEnabled2: enabled2 });
+      const enabled2 = Array.isArray(wifiArr)
+        ? `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
+        : "";
+      this.setState({ wifiEnabled2: enabled2 });
+    }
     this.setState({ stopAnimationWifiStats: true });
   }
 
@@ -1105,10 +1118,20 @@ class Dashboard extends Component<any, any> {
                         />
                       </Typography>
                       <Grid container>
-                        <Typography
-                          style={{ fontSize: "14px", fontWeight: "bold" }}
-                        >
-                          {this.state.wifiSpeed1}
+                        <Typography>
+                          <span
+                            style={{
+                              fontSize: "14px",
+                              color:
+                                `${this.state.wifiSpeed1}` ===
+                                "Timed out. Please retry!!"
+                                  ? "red"
+                                  : "black",
+                              fontWeight: "bold"
+                            }}
+                          >
+                            {this.state.wifiSpeed1}
+                          </span>
                         </Typography>
                         <Typography
                           style={{

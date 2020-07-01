@@ -302,6 +302,7 @@ class Dashboard extends Component<any, any> {
     openConnectedDevicesModal: false,
     stopAnimationAccStatus: true,
     stopAnimation: true,
+    stopAnimationWifiStats: true,
     wifiSpeed1: "",
     wifiSpeed2: "",
     wifiEnabled1: "",
@@ -535,7 +536,7 @@ class Dashboard extends Component<any, any> {
 
     await fetchCustomerInfo(username, "username");
     await this.getCustomerInfoCallback(this.props, "ACC_STATUS");
-    await this.sleep(100);
+    await this.sleep(500);
     this.setState({ stopAnimationAccStatus: true });
   }
 
@@ -550,9 +551,10 @@ class Dashboard extends Component<any, any> {
       return;
     }
     const { fetchWifiStats } = this.props;
+    this.setState({ stopAnimationWifiStats: false });
 
     await fetchWifiStats(model, serial);
-    await this.sleep(100);
+    await this.sleep(500);
 
     const wifiStats = data?.getCustomer?.result === "BAD" ? {} : data?.acsWiFi;
     const wifiArr = wifiStats?.wifi;
@@ -588,6 +590,7 @@ class Dashboard extends Component<any, any> {
       ? `${this.state.wifiEnabled2}(${wifiStats?.wifi[1]?.status})`
       : "";
     this.setState({ wifiEnabled2: enabled2 });
+    this.setState({ stopAnimationWifiStats: true });
   }
 
   getRadiusDropoutFormatting(radiusDrops: any) {
@@ -1094,7 +1097,7 @@ class Dashboard extends Component<any, any> {
                         Wifi Status{`  ${new Date().toLocaleTimeString()}`}
                         <CachedIcon
                           className={
-                            this.state.stopAnimation
+                            this.state.stopAnimationWifiStats
                               ? classes.cachedIconSmallTile
                               : classes.cachedIconSmallTileAnimating
                           }

@@ -238,14 +238,14 @@ export class App extends React.Component<any, any> {
 
     // TODO check this.props.isAuthenticated along with isLoggedIn here instead
     // TODO sesssion management bug is almost fixed. Uncomment the below conditions and fix logout to make it work
-    if (this.state.isLoggedIn /*|| this.props.isAuthenticated === "true"*/) {
+    if (this.state.isLoggedIn || this.props.isAuthenticated === "true") {
       return (
         <Redirect
           to={{
             pathname: "/dashboard",
             state: {
-              isLoggedIn: this.state
-                .isLoggedIn /*|| this.props.isAuthenticated === "true"*/,
+              isLoggedIn:
+                this.state.isLoggedIn || this.props.isAuthenticated === "true",
               isLoggedOut: this.state.isLoggedOut,
               username: this.state.username
             }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -397,6 +398,7 @@ export class Header extends React.Component<any, any> {
   state = {
     customerId: "",
     loggedInUser: "",
+    isLoggedOut: true,
     customerIdType: "username" // default value from dropdown is username
   };
 
@@ -539,7 +541,9 @@ export class Header extends React.Component<any, any> {
       // Redirect user to login page here
       // TODO to fix session management bug, set below state to false in some way
       // this.props?.location?.setState({isLoggedIn : false});
-      this.props.history.push("/");
+      // this.props.history.push("/");
+      await this.setState({ isLoggedOut: true });
+      await this.getAuthenticationStatus();
       // delete auth session cookie
       this.deleteCookie("stok");
     } catch (err) {
@@ -605,6 +609,18 @@ export class Header extends React.Component<any, any> {
       loggedInUser: this.state.loggedInUser,
       props: this.props
     };
+
+    if (this.state.isLoggedOut && this.props.isAuthenticated === "false") {
+      return (
+        <Redirect
+          to={{
+            pathname: "/",
+            // instead of ORing with false or with this.props.isAuthenticated
+            state: { isLoggedIn: false }
+          }}
+        />
+      );
+    }
     return <PrimarySearchAppBar compositeData={compositeData} />;
   }
 }

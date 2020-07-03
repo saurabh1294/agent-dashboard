@@ -260,6 +260,55 @@ const styles = (theme: any) => ({
     cursor: "pointer"
   },
 
+  loader: {
+    position: "absolute",
+    zIndex: 999,
+    top: "calc(50% - 4em)",
+    left: "calc(50% - 4em)",
+    width: "10em",
+    height: "10em",
+    border: "1.1em solid rgba(0, 0, 0, 0.2)",
+    borderLeft: "1.1em solid #000000",
+    borderRadius: "50%",
+    animationDuration: "2s",
+    animation: `$load8 3000ms linear infinite`,
+    transition: "opacity 0.3s"
+  },
+
+  overlay: {
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: "999999"
+  },
+
+  overlayOpacity: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: "999999",
+    background: "gray",
+    opacity: 0.5
+  },
+
+  loaderHide: {
+    opacity: "0"
+  },
+
+  "@keyframes load8": {
+    "0%": {
+      transform: "rotate(0deg)"
+    },
+
+    "100%": {
+      transform: "rotate(360deg)"
+    }
+  },
+
   active: {
     color: "#00875A"
   },
@@ -306,8 +355,17 @@ class Dashboard extends Component<any, any> {
     wifiSpeed1: "",
     wifiSpeed2: "",
     wifiEnabled1: "",
-    wifiEnabled2: ""
+    wifiEnabled2: "",
+    showStartupSpinner: false
   };
+
+  showLoader() {
+    this.setState({ showStartupSpinner: true });
+  }
+
+  hideLoader() {
+    this.setState({ showStartupSpinner: false });
+  }
 
   componentDidMount() {
     try {
@@ -476,6 +534,7 @@ class Dashboard extends Component<any, any> {
     if (type.length === 0) {
       this.setState({ stopAnimation: true });
     }
+    this.hideLoader();
   }
 
   getAccStatus(state: any) {
@@ -612,38 +671,52 @@ class Dashboard extends Component<any, any> {
     else return classes.active;
   }
 
-  render() {
-    // TODO check if user is logged in or not, if yes then render this else redirect to home page
-    // console.log(
-    //   "in dashboard component ",
-    //   this.props,
-    //   this.props.location.state?.isLoggedIn,
-    //   this.props.location.state?.isLoggedOut,
-    //   this.state
-    // );
+  disableParent(event: any) {
+    if (this.state.showStartupSpinner) {
+      event.preventDefault();
+      return;
+    }
+  }
 
+  render() {
     const { classes } = this.props as any;
 
-    // console.log(
-    //   "Checking if agent is authenticated",
-    //   this.getAuthenticationStatus(),
-    //   this.state
-    // );
-    // TODO check this.props.isAuthenticated along with isLoggedIn here instead
     if (this.state.isAuthenticated || this.props.location.state?.isLoggedIn) {
       return (
-        <div>
+        <div
+          className={
+            this.state.showStartupSpinner ? classes.overlayOpacity : ""
+          }
+        >
           {this.state.openConnectedDevicesModal && (
             <ConnectedDevicesModal
               modalCloseCallback={this.closeModalCallback.bind(this)}
             />
           )}
           <InstructionsModal />
+
+          <div className={this.state.showStartupSpinner ? classes.overlay : ""}>
+            <div
+              className={
+                this.state.showStartupSpinner ? classes.overlayOpacity : ""
+              }
+            >
+              <div
+                className={
+                  this.state.showStartupSpinner
+                    ? classes.loader
+                    : classes.loaderHide
+                }
+              ></div>
+            </div>
+          </div>
+
           <Header
             {...this.props}
             getCustomerInfoCallback={(data: any) =>
               this.getCustomerInfoCallback(data)
             }
+            showLoader={this.showLoader.bind(this)}
           />
 
           <div style={{ marginTop: "10px", marginLeft: "9%" }}>

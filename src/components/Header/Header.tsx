@@ -468,6 +468,9 @@ export class Header extends React.Component<any, any> {
           ? event.target?.value?.toLowerCase()
           : this.state.customerId;
       const { getCustomerInfoCallback } = this.props;
+      const { showLoader } = this.props;
+      // start the loader/spinner
+      showLoader();
 
       try {
         await this.getCustomerInfo(customerInfo, this.state.customerIdType);

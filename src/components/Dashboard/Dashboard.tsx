@@ -262,7 +262,7 @@ const styles = (theme: any) => ({
 
   loader: {
     position: "absolute",
-    zIndex: 999,
+    zIndex: 99999999,
     top: "calc(50% - 4em)",
     left: "calc(50% - 4em)",
     width: "10em",
@@ -402,45 +402,20 @@ class Dashboard extends Component<any, any> {
   }
 
   async getCustomerInfoCallback(data: any, type: string = "") {
-    // TODO set state here to show info on tiles using data which has response from graphql
-    // const result = {
-    //   data: {
-    //     getCustomer: {
-    //       customer: {
-    //         accessType: "HFC",
-    //         addressLines: [
-    //           "Unit 2 23",
-    //           "CARRINGTON Street",
-    //           "NORTH STRATHFIELD NSW 2137"
-    //         ],
-    //         avcID: "AVC000000000001",
-    //         cvcID: "CVC000000000001",
-    //         firstName: "CHRISTINA",
-    //         lastName: "LIM",
-    //         macID: "123456789ABC",
-    //         priID: "PRI400035253337",
-    //         speed: "1138",
-    //         username: "limchristina"
-    //       },
-    //       result: "GOOD"
-    //     }
-    //   }
-    // };
-
     if (type.length === 0) {
       this.setState({ stopAnimation: false });
     }
     await this.sleep(100);
 
     console.log("inside customer info callback", data);
-    const customer = data?.getCustomer.customer;
+    const customer = data?.getCustomer?.customer;
     const nsiGetAvcGsid = data?.nsiGetAvcGsid?.data;
     this.setState({ avcId: nsiGetAvcGsid?.avcID });
     this.setState({ priId: customer?.priID });
     this.setState({ username: customer?.username });
     this.setState({ cvcId: nsiGetAvcGsid?.cvcID });
-    this.setState({ firstName: customer?.firstName || "Not" });
-    this.setState({ lastName: customer?.lastName || "Found" });
+    this.setState({ firstName: customer?.firstName || "" });
+    this.setState({ lastName: customer?.lastName || "" });
     this.setState({ serviceStatus: customer?.serviceStatus });
     this.setState({ accessType: customer?.accessType });
     this.setState({ speedProfile: customer?.speedProfile });
@@ -727,14 +702,15 @@ class Dashboard extends Component<any, any> {
                   <span
                     style={{
                       color:
-                        `${this.state.firstName}${this.state.lastName}` ===
-                        "NotFound"
+                        `${this.props?.getCustomer?.result}` === "BAD"
                           ? "red"
                           : "black",
                       fontWeight: "bold"
                     }}
                   >
-                    {`${this.state.firstName} ${this.state.lastName}`}
+                    {this.props?.getCustomer?.result === "BAD"
+                      ? "Not Found"
+                      : `${this.state.firstName} ${this.state.lastName}`}
                   </span>
                 </Typography>
               </Box>
@@ -1592,7 +1568,7 @@ class Dashboard extends Component<any, any> {
             </Grid>
           </div>
 
-          <Container component="main" maxWidth="xs">
+          <Container component="main" maxWidth="lg">
             <CssBaseline />
             <Box mt={8}>
               <Footer />

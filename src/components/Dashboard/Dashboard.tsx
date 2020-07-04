@@ -19,6 +19,8 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import CachedIcon from "@material-ui/icons/Cached";
 import {
   fetchCustomerInfo,
+  fetchCustomerOnlineInfo,
+  fetchDeviceInfo,
   fetchDIMPSOnlineStatus,
   fetchRadiusDropOuts,
   fetchAvcCvcIds,
@@ -58,7 +60,10 @@ const mapDispatchToProps = (dispatch: any) => {
     // same effect
     fetchCustomerInfo: (searchQuery: string, type: string) =>
       dispatch(fetchCustomerInfo(searchQuery, type)),
-
+    fetchCustomerOnlineInfo: (searchQuery: string, type: string) =>
+      dispatch(fetchCustomerInfo(searchQuery, type)),
+    fetchDeviceInfo: (searchQuery: string, type: string) =>
+      dispatch(fetchCustomerInfo(searchQuery, type)),
     logoutUser: () => dispatch(logout()),
     checkIfAgentAuthenticated: () => dispatch(isAuthenticated()),
     fetchDIMPSOnlineStatus: (customer: string) =>

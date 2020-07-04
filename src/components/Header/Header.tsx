@@ -457,6 +457,34 @@ export class Header extends React.Component<any, any> {
     }
   }
 
+  async getCustomerOnlineInfo(customerInfo: string, type: string) {
+    // fetch customer info here
+    const { fetchCustomerOnlineInfo } = this.props;
+
+    console.log("this is the function &&&&&*****", this.props);
+
+    try {
+      // trim leading and trailing spaces from username/FNN
+      await fetchCustomerOnlineInfo(customerInfo.trim(), type);
+    } catch (err) {
+      console.log("error fetching customer online info for user", customerInfo);
+    }
+  }
+
+  async getDeviceInfo(customerInfo: string, type: string) {
+    // fetch customer info here
+    const { fetchDeviceInfo } = this.props;
+
+    console.log("this is the function &&&&&*****", this.props);
+
+    try {
+      // trim leading and trailing spaces from username/FNN
+      await fetchDeviceInfo(customerInfo.trim(), type);
+    } catch (err) {
+      console.log("error fetching device info for user", customerInfo);
+    }
+  }
+
   handleChange(event: any) {
     this.setState({ customerId: event.target.value?.toLowerCase() });
   }
@@ -474,6 +502,12 @@ export class Header extends React.Component<any, any> {
 
       try {
         await this.getCustomerInfo(customerInfo, this.state.customerIdType);
+        // JFI-643 added on 04/07/2020
+        await this.getDeviceInfo(customerInfo, this.state.customerIdType);
+        await this.getCustomerOnlineInfo(
+          customerInfo,
+          this.state.customerIdType
+        );
 
         // pass customer data obtained from API to dashboard
         // get the username first
@@ -485,6 +519,9 @@ export class Header extends React.Component<any, any> {
         // if ID type is FNN call getCustomerInfo again with that ID type to fetch device info customerOnline
         if (this.state.customerIdType === "fnn") {
           await this.getCustomerInfo(uname, "username");
+          // JFI-643 added on 04/07/2020
+          await this.getDeviceInfo(uname, "username");
+          await this.getCustomerOnlineInfo(uname, "username");
         }
 
         // fetch DIMPS online status

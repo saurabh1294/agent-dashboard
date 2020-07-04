@@ -11,7 +11,9 @@ import {
   SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
   SEND_CUSTOMER_RADIUS_DROPOUT_STATS,
   SEND_CUSTOMER_AVC_CVC_IDS,
-  SEND_CUSTOMER_WIFI_STATS
+  SEND_CUSTOMER_WIFI_STATS,
+  SEND_DEVICE_INFO,
+  SEND_CUSTOMER_ONLINE_INFO
 } from "../actions/actionTypes";
 
 // export interface State {
@@ -54,6 +56,24 @@ export default function loginReducer(state = initialState, action: any) {
 
     case IS_AGENT_AUTHENTICATED:
       console.log(state, "is agent authenticated result", action.payload);
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case SEND_CUSTOMER_ONLINE_INFO:
+      console.log(
+        state,
+        "got this customer online info from API",
+        action.payload
+      );
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    case SEND_DEVICE_INFO:
+      console.log(state, "got this device info from API", action.payload);
       return {
         ...state,
         ...action.payload

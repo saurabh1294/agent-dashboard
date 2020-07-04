@@ -11,7 +11,9 @@ import {
   SEND_CUSTOMER_DIMPS_ONLINE_STATUS,
   SEND_CUSTOMER_RADIUS_DROPOUT_STATS,
   SEND_CUSTOMER_AVC_CVC_IDS,
-  SEND_CUSTOMER_WIFI_STATS
+  SEND_CUSTOMER_WIFI_STATS,
+  SEND_DEVICE_INFO,
+  SEND_CUSTOMER_ONLINE_INFO
 } from "./actionTypes";
 // import axios from "axios";
 import gql from "graphql-tag";
@@ -79,6 +81,22 @@ export const isAuthenticatedResult = (data: any) => {
   return {
     type: IS_AGENT_AUTHENTICATED,
     state: "IS_AGENT_AUTHENTICATED",
+    payload: data
+  };
+};
+
+export const sendDeviceInfo = (data: any) => {
+  return {
+    type: SEND_DEVICE_INFO,
+    state: "SEND_DEVICE_INFO",
+    payload: data
+  };
+};
+
+export const sendCustomerOnlineInfo = (data: any) => {
+  return {
+    type: SEND_CUSTOMER_ONLINE_INFO,
+    state: "SEND_CUSTOMER_ONLINE_INFO",
     payload: data
   };
 };
@@ -275,6 +293,82 @@ export const fetchRadiusDropOuts = (searchQuery: string) => {
       result
     );
     dispatch(sendCustomerRadiusDropoutStats(result.data));
+  };
+};
+
+export const fetchDeviceInfo = (searchQuery: string, type: string) => {
+  const queryType = type === "username" ? "username" : "fnn";
+
+  let someQuery: any;
+
+  someQuery = gql`query GetCustomer($searchQuery: ID!) {
+      getDeviceInfo(${queryType}: $searchQuery) {
+        result
+        device {
+          deviceModel
+	  deviceSerial
+	  wanMac
+        }
+      }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    let result = { data: {} };
+    try {
+      const request = await client.query({
+        query: someQuery,
+        variables: { searchQuery }
+      });
+      result = await request;
+    } catch (err) {
+      console.log(
+        "fetchDeviceInfo() graphql error occurred in actions.tsx %%%************",
+        err
+      );
+    } finally {
+      console.log("fetchDeviceInfo() graphql finally block in actions.tsx");
+    }
+    dispatch(sendDeviceInfo(result.data));
+  };
+};
+
+export const fetchCustomerOnlineInfo = (searchQuery: string, type: string) => {
+  const queryType = type === "username" ? "username" : "fnn";
+
+  let someQuery: any;
+
+  someQuery = gql`query GetCustomer($searchQuery: ID!) { 
+	getCustomerOnline(with: ${queryType.toUpperCase()}, matching: $searchQuery) {
+	  result
+          info {
+            ipaddr
+            mac
+          }
+	}
+      }
+  `;
+
+  return async (dispatch: any, getState: any, client: any) => {
+    // TODO comment the below 4 lines when running locally
+    let result = { data: {} };
+    try {
+      const request = await client.query({
+        query: someQuery,
+        variables: { searchQuery }
+      });
+      result = await request;
+    } catch (err) {
+      console.log(
+        "fetchCustomerOnlineInfo() graphql error occurred in actions.tsx %%%************",
+        err
+      );
+    } finally {
+      console.log(
+        "fetchCustomerOnlineInfo() graphql finally block in actions.tsx"
+      );
+    }
+    dispatch(sendCustomerOnlineInfo(result.data));
   };
 };
 

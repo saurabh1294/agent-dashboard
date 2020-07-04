@@ -14,16 +14,21 @@ export class Footer extends React.Component {
   render() {
     return (
       <Container
-        style={{
-          margin: "0px",
-          padding: "0px",
-          height: "70px",
-          background: "teal"
-        }}
+        style={{ height: "75px", background: "teal", width: "100%" }}
+        maxWidth={false}
       >
         <CssBaseline />
         <Box mt={8}>
-          <Typography variant="body2" align="center">
+          <Typography
+            variant="body2"
+            align="center"
+            style={{
+              lineHeight: "75px",
+              fontWeight: "bold",
+              color: "white",
+              fontSize: "20px"
+            }}
+          >
             {`Copyright ©${new Date().getFullYear()} Singtel Optus Pty Limited. `}
             <Link color="inherit" href="https://optus.com.au">
               Visit Site

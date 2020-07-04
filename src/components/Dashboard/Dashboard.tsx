@@ -1568,12 +1568,7 @@ class Dashboard extends Component<any, any> {
             </Grid>
           </div>
 
-          <Container component="main" maxWidth="lg">
-            <CssBaseline />
-            <Box mt={8}>
-              <Footer />
-            </Box>
-          </Container>
+          <Footer />
         </div>
       );
     } else {

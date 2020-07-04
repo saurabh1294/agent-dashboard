@@ -56,7 +56,8 @@ const styles = (theme: any) => ({
     }
   },
   paperContainer: {
-    backgroundImage: `url(${Image})`
+    backgroundImage: `url(${Image})`,
+    paddingTop: "100px"
   },
   loginTitle: {
     color: "white",
@@ -339,10 +340,8 @@ export class App extends React.Component<any, any> {
                 </Button>
               </form>
             </div>
-            <Box mt={8}>
-              <Footer />
-            </Box>
           </Container>
+          <Footer />
         </div>
       );
   }

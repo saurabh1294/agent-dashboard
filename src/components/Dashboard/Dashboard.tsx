@@ -361,7 +361,8 @@ class Dashboard extends Component<any, any> {
     wifiSpeed2: "",
     wifiEnabled1: "",
     wifiEnabled2: "",
-    showStartupSpinner: false
+    showStartupSpinner: false,
+    nonOptusModem: false
   };
 
   showLoader() {
@@ -450,7 +451,7 @@ class Dashboard extends Component<any, any> {
       : this.setState({ dimpsOnline: "" });
 
     if (data?.getCustomer?.result === "GOOD") {
-      if (wifiStats.result === "UGLY") {
+      if (wifiStats?.result === "UGLY") {
         this.setState({ wifiSpeed1: "Timed out. Please retry!!" });
         this.setState({ wifiEnabled1: "" });
         this.setState({ wifiSpeed2: "" });
@@ -507,9 +508,12 @@ class Dashboard extends Component<any, any> {
     if (wanMac !== mac) {
       this.setState({ deviceModel: "" });
       this.setState({ deviceSerial: "" });
+      this.setState({ nonOptusModem: true });
+      // TODO show message on tile - Non Optus Modem
     } else {
       this.setState({ deviceModel: deviceInfo?.device?.deviceModel });
       this.setState({ deviceSerial: deviceInfo?.device?.deviceSerial });
+      this.setState({ nonOptusModem: false });
     }
     if (type.length === 0) {
       this.setState({ stopAnimation: true });
@@ -604,7 +608,7 @@ class Dashboard extends Component<any, any> {
     const wifiStats = data?.getCustomer?.result === "BAD" ? {} : data?.acsWiFi;
     const wifiArr = wifiStats?.wifi;
 
-    if (wifiStats.result === "UGLY") {
+    if (wifiStats?.result === "UGLY") {
       this.setState({ wifiSpeed1: "Timed out. Please retry!!" });
       this.setState({ wifiEnabled1: "" });
       this.setState({ wifiSpeed2: "" });
@@ -1029,8 +1033,16 @@ class Dashboard extends Component<any, any> {
                         Modem Model
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        <span style={{ fontWeight: "bold" }}>Model #</span> :{" "}
-                        {this.state.deviceModel}
+                        {this.state.nonOptusModem ? (
+                          <span style={{ fontWeight: "bold" }}>
+                            Non Optus Modem
+                          </span>
+                        ) : (
+                          <span>
+                            <span style={{ fontWeight: "bold" }}>Model #</span>{" "}
+                            :{this.state.deviceModel}
+                          </span>
+                        )}
                         {/* //TODO - use some state here instead// XXXX XXXXX */}
                       </Typography>
 
@@ -1052,13 +1064,15 @@ class Dashboard extends Component<any, any> {
                           IP ADDRESS
                         </span> : {this.state.ipaddr}
                       </Typography>
-                      <Typography variant="body2" gutterBottom>
-                        <span style={{ fontWeight: "bold" }}>
-                          Device Serial #
-                        </span>{" "}
-                        : {this.state.deviceSerial}
-                        {/* //TODO - use some state here instead// XXXX XXXXX */}
-                      </Typography>
+                      {!this.state.nonOptusModem && (
+                        <Typography variant="body2" gutterBottom>
+                          <span style={{ fontWeight: "bold" }}>
+                            Device Serial #
+                          </span>{" "}
+                          : {this.state.deviceSerial}
+                          {/* //TODO - use some state here instead// XXXX XXXXX */}
+                        </Typography>
+                      )}
                       <Typography variant="body2" gutterBottom>
                         {/* //TODO - use some state here instead//  XXXXXXXXXX */}
                       </Typography>

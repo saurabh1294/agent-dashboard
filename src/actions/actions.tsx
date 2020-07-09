@@ -260,12 +260,21 @@ export const fetchAvcCvcIds = (gsID: string) => {
 };
 
 export const fetchRadiusDropOuts = (searchQuery: string) => {
+  /*const someQuery = gql`
+query UserDropoutCount($searchQuery: ID!) {
+   userDropoutCount(username: $searchQuery) {
+    last24
+    last48
+    result
+  }
+}
+`;*/
+
   const someQuery = gql`
-    query UserDropoutCount($searchQuery: ID!) {
-      userDropoutCount(username: $searchQuery) {
-        last24
-        last48
+    query DropoutsLast48h($searchQuery: ID!) {
+      userLoginHistory(username: $searchQuery, days: 2) {
         result
+        count
       }
     }
   `;

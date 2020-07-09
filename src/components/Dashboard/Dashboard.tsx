@@ -48,7 +48,8 @@ const mapStateToProps = (state: any) => {
     getCustomerOnline: state.loginReducer.getCustomerOnline, // get customer online info when searching for it in dashboard
     getDeviceInfo: state.loginReducer.getDeviceInfo, // get customer device info when searching for it in dashboard
     userOnline: state.loginReducer.userOnline, // get DIMPS online/offline status
-    userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
+    //userDropoutCount: state.loginReducer.userDropoutCount, // get customer RADIUS dropout count
+    userLoginHistory: state.loginReducer.userLoginHistory, // get customer RADIUS dropout count
     nsiGetAvcGsid: state.loginReducer.nsiGetAvcGsid, // get customer AVC and CVC ID
     acsWiFi: state.loginReducer.acsWiFi, // get customer WIFI stats
     isAuthenticated: state.loginReducer.data?.sessionInfo?.isAuthenticated
@@ -349,7 +350,7 @@ class Dashboard extends Component<any, any> {
     gsID: "",
     voiceLines: [{ number: "" }],
     dimpsOnline: "",
-    radiusDropouts: { last24: undefined, last48: undefined },
+    radiusDropouts: { count: [] },
     isLoggedIn: false, // TODO refine this by having only one state in reducer
     isAuthenticated: false,
     idTypeHasError: false,
@@ -437,12 +438,13 @@ class Dashboard extends Component<any, any> {
     const wifiStats = data?.getCustomer?.result === "BAD" ? {} : data?.acsWiFi;
 
     const userOnline = data?.userOnline;
-    const userDropoutCount = data?.userDropoutCount;
+    //const userDropoutCount = data?.userDropoutCount;
+    const userDropoutCount = data?.userLoginHistory;
 
     data?.getCustomer?.result === "GOOD"
       ? this.setState({ radiusDropouts: userDropoutCount })
       : this.setState({
-          radiusDropouts: { last24: undefined, last48: undefined }
+          radiusDropouts: { count: [] }
         });
 
     data?.getCustomer?.result === "GOOD"
@@ -1556,10 +1558,10 @@ class Dashboard extends Component<any, any> {
                       fontWeight: "bold"
                     }}
                     className={this.getRadiusDropoutFormatting(
-                      this.state.radiusDropouts?.last24
+                      this.state.radiusDropouts?.count[0]
                     )}
                   >
-                    {this.state.radiusDropouts?.last24}
+                    {this.state.radiusDropouts?.count[0]}
                   </Typography>
                   <Typography
                     style={{ fontSize: "14px", fontWeight: "bold" }}
@@ -1573,10 +1575,10 @@ class Dashboard extends Component<any, any> {
                       fontWeight: "bold"
                     }}
                     className={this.getRadiusDropoutFormatting(
-                      this.state.radiusDropouts?.last48
+                      this.state.radiusDropouts?.count[1]
                     )}
                   >
-                    {this.state.radiusDropouts?.last48}
+                    {this.state.radiusDropouts?.count[1]}
                   </Typography>
 
                   <Typography

@@ -310,6 +310,7 @@ export const fetchDeviceInfo = (searchQuery: string, type: string) => {
 	  wanMac
         }
       }
+   }
   `;
 
   return async (dispatch: any, getState: any, client: any) => {
@@ -379,7 +380,7 @@ export const fetchCustomerInfo = (searchQuery: string, type: string) => {
 
   let someQuery: any;
 
-  if (queryType === "fnn") {
+  /*if (queryType === "fnn")*/ {
     someQuery = gql`
 	query GetCustomer($searchQuery: ID!) {
 
@@ -403,8 +404,8 @@ export const fetchCustomerInfo = (searchQuery: string, type: string) => {
       }
 }
 `;
-  } else {
-    someQuery = gql`
+  } /*else {
+ someQuery = gql`
     query GetCustomer($searchQuery: ID!) {
       getCustomerOnline(with: ${queryType.toUpperCase()}, matching: $searchQuery) {
         result
@@ -441,7 +442,7 @@ export const fetchCustomerInfo = (searchQuery: string, type: string) => {
       }
     }
   `;
-  }
+}*/
 
   /*getCustomer(with: USERNAME matching: $searchQuery) {
       result

@@ -11,7 +11,7 @@ import { Header } from "../Header/Header";
 
 import { InstructionsModal } from "../InstructionsModal/InstructionsModal";
 import { ConnectedDevicesModal } from "../ConnectedDevicesModal/ConnectedDevicesModal";
-
+import { AdditionalInfoModal } from "../AdditionalInfoModal/AdditionalInfoModal";
 import Divider from "@material-ui/core/Divider";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
@@ -362,7 +362,8 @@ class Dashboard extends Component<any, any> {
     wifiEnabled1: "",
     wifiEnabled2: "",
     showStartupSpinner: false,
-    nonOptusModem: false
+    nonOptusModem: false,
+    openAdditionalInfoModal: false
   };
 
   showLoader() {
@@ -564,7 +565,19 @@ class Dashboard extends Component<any, any> {
   }
 
   openModal(e: any) {
-    this.setState({ openConnectedDevicesModal: true });
+    if (this.props?.getCustomer?.result === "GOOD") {
+      this.setState({ openConnectedDevicesModal: true });
+    }
+  }
+
+  showMoreInfoModal(e: any) {
+    if (this.props?.getCustomer?.result === "GOOD") {
+      this.setState({ openAdditionalInfoModal: true });
+    }
+  }
+
+  closeAdditionalInfoModalCallback(state: boolean) {
+    this.setState({ openAdditionalInfoModal: state });
   }
 
   closeModalCallback(state: boolean) {
@@ -677,6 +690,15 @@ class Dashboard extends Component<any, any> {
               modalCloseCallback={this.closeModalCallback.bind(this)}
             />
           )}
+
+          {this.state.openAdditionalInfoModal && (
+            <AdditionalInfoModal
+              modalCloseCallback={this.closeAdditionalInfoModalCallback.bind(
+                this
+              )}
+            />
+          )}
+
           <InstructionsModal />
 
           <div className={this.state.showStartupSpinner ? classes.overlay : ""}>
@@ -1555,6 +1577,26 @@ class Dashboard extends Component<any, any> {
                     )}
                   >
                     {this.state.radiusDropouts?.last48}
+                  </Typography>
+
+                  <Typography
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      color: "blue",
+                      textAlign: "right",
+                      float: "right",
+                      cursor: "pointer",
+                      margin: "70px 0px 0px 5px"
+                    }}
+                  >
+                    <span
+                      data-toggle="modal"
+                      onClick={this.showMoreInfoModal.bind(this)}
+                      style={{ color: "blue", cursor: "pointer" }}
+                    >
+                      {"More Info >>"}
+                    </span>
                   </Typography>
                 </Paper>
               </Grid>

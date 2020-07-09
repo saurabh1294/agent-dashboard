@@ -443,6 +443,22 @@ export class Header extends React.Component<any, any> {
     }
   }
 
+  async getCustomerRadiusDropoutHistoryLastThirtyDays(customerInfo: string) {
+    console.log(
+      "inside getCustomerRadiusDropoutHistoryLastThirtyDays",
+      this.props
+    );
+    const { fetchRadiusDropOuts } = this.props;
+    try {
+      await fetchRadiusDropOuts(customerInfo, true);
+    } catch (err) {
+      console.log(
+        "error in getCustomerRadiusDropoutHistoryLastThirtyDays",
+        err
+      );
+    }
+  }
+
   async getCustomerInfo(customerInfo: string, type: string) {
     // fetch customer info here
     const { fetchCustomerInfo } = this.props;
@@ -531,8 +547,11 @@ export class Header extends React.Component<any, any> {
         // fetch DIMPS online status
         await this.getCustomerDIMPSOnlineStatus(uname);
 
-        // fetch customer RADIUS dropout stats
+        // fetch customer RADIUS dropout stats last 48 hours
         await this.getCustomerRadiusDropoutCount(uname);
+
+        // fetch customer RADIUS dropout history last 30 days
+        await this.getCustomerRadiusDropoutHistoryLastThirtyDays(uname);
 
         // fetch customer AVC and CVC ID
         await this.getCustomerAvcCvcIds(gsID);

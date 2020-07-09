@@ -69,8 +69,8 @@ const mapDispatchToProps = (dispatch: any) => {
     checkIfAgentAuthenticated: () => dispatch(isAuthenticated()),
     fetchDIMPSOnlineStatus: (customer: string) =>
       dispatch(fetchDIMPSOnlineStatus(customer)),
-    fetchRadiusDropOuts: (customer: string) =>
-      dispatch(fetchRadiusDropOuts(customer)),
+    fetchRadiusDropOuts: (customer: string, last30Days?: boolean) =>
+      dispatch(fetchRadiusDropOuts(customer, last30Days)),
     fetchAvcCvcIds: (gsID: string) => dispatch(fetchAvcCvcIds(gsID)),
     fetchWifiStats: (model: string, serial: string) =>
       dispatch(fetchWifiStats(model, serial))
@@ -698,6 +698,7 @@ class Dashboard extends Component<any, any> {
               modalCloseCallback={this.closeAdditionalInfoModalCallback.bind(
                 this
               )}
+              graphData={this.props?.userLoginHistory?.sessions}
             />
           )}
 

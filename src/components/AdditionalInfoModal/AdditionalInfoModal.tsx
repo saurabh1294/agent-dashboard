@@ -133,26 +133,8 @@ export function GetClass(value: string) {
   return classMap[value];
 }
 
-export function generatePoints() {
+export function generatePoints(sessions: any) {
   const points: any = [];
-
-  const sessions = [
-    {
-      duration: 600,
-      end: "2020-06-22T19:37:32Z",
-      start: "2020-06-22T19:27:32Z"
-    },
-    {
-      duration: 170400,
-      end: "2020-06-24T18:59:38Z",
-      start: "2020-06-22T19:39:38Z"
-    },
-    {
-      duration: 617400,
-      end: "2020-07-01T22:34:09Z",
-      start: "2020-06-24T19:04:09Z"
-    }
-  ];
 
   for (let i = 0; i < sessions.length; i++) {
     const start = new Date(sessions[i].start) as any;
@@ -223,7 +205,7 @@ export function CustomizedAdditionalInfoDialog(props: any) {
     setOpen(false);
   };
 
-  const dataPoints = generatePoints();
+  const dataPoints = generatePoints(props?.graphData);
 
   return (
     <div>
@@ -424,10 +406,13 @@ export class ScatterPlot extends React.Component<any, any> {
 
 export class AdditionalInfoModal extends React.Component<any, any> {
   render() {
-    const { modalCloseCallback } = this.props;
+    const { modalCloseCallback, graphData } = this.props;
 
     return (
-      <CustomizedAdditionalInfoDialog parentCallback={modalCloseCallback} />
+      <CustomizedAdditionalInfoDialog
+        parentCallback={modalCloseCallback}
+        graphData={graphData}
+      />
     );
   }
 }

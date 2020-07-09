@@ -259,7 +259,10 @@ export const fetchAvcCvcIds = (gsID: string) => {
   };
 };
 
-export const fetchRadiusDropOuts = (searchQuery: string) => {
+export const fetchRadiusDropOuts = (
+  searchQuery: string,
+  last30Days: boolean = false
+) => {
   /*const someQuery = gql`
 query UserDropoutCount($searchQuery: ID!) {
    userDropoutCount(username: $searchQuery) {
@@ -270,14 +273,28 @@ query UserDropoutCount($searchQuery: ID!) {
 }
 `;*/
 
-  const someQuery = gql`
-    query DropoutsLast48h($searchQuery: ID!) {
-      userLoginHistory(username: $searchQuery, days: 2) {
-        result
-        count
-      }
-    }
-  `;
+  const someQuery = !last30Days
+    ? gql`
+        query DropoutsLast48h($searchQuery: ID!) {
+          userLoginHistory(username: $searchQuery, days: 2) {
+            result
+            count
+          }
+        }
+      `
+    : gql`
+        query DropoutsLastThirtyDays($searchQuery: ID!) {
+          userLoginHistory(username: $searchQuery, days: 30) {
+            result
+            count
+            sessions {
+              duration
+              end
+              start
+            }
+          }
+        }
+      `;
 
   return async (dispatch: any, getState: any, client: any) => {
     // TODO comment the below 4 lines when running locally
@@ -298,8 +315,9 @@ query UserDropoutCount($searchQuery: ID!) {
     }
     console.log("fetchRadiusDropouts", JSON.stringify(someQuery));
     console.log(
-      "this is the result from graphql fetchRadiusDropouts endpoint",
-      result
+      "this is the result from graphql fetchRadiusDropouts endpoint for last30Days",
+      result,
+      last30Days
     );
     dispatch(sendCustomerRadiusDropoutStats(result.data));
   };

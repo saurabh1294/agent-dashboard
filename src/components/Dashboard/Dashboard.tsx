@@ -61,9 +61,9 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchCustomerInfo: (searchQuery: string, type: string) =>
       dispatch(fetchCustomerInfo(searchQuery, type)),
     fetchCustomerOnlineInfo: (searchQuery: string, type: string) =>
-      dispatch(fetchCustomerInfo(searchQuery, type)),
+      dispatch(fetchCustomerOnlineInfo(searchQuery, type)),
     fetchDeviceInfo: (searchQuery: string, type: string) =>
-      dispatch(fetchCustomerInfo(searchQuery, type)),
+      dispatch(fetchDeviceInfo(searchQuery, type)),
     logoutUser: () => dispatch(logout()),
     checkIfAgentAuthenticated: () => dispatch(isAuthenticated()),
     fetchDIMPSOnlineStatus: (customer: string) =>
@@ -942,7 +942,7 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "11px", fontWeight: "bold" }}
                       >
                         AVC
                       </Typography>
@@ -953,7 +953,7 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "11px", fontWeight: "bold" }}
                       >
                         Technology Type
                       </Typography>
@@ -964,7 +964,7 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "11px", fontWeight: "bold" }}
                       >
                         Username
                       </Typography>
@@ -975,7 +975,7 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "11px", fontWeight: "bold" }}
                       >
                         FNN Number
                       </Typography>
@@ -987,7 +987,7 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "11px", fontWeight: "bold" }}
                       >
                         PRI Number
                       </Typography>
@@ -998,7 +998,7 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "11px", fontWeight: "bold" }}
                       >
                         CVC
                       </Typography>
@@ -1028,13 +1028,17 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ marginTop: "20px", fontSize: "11px" }}
+                        style={{
+                          marginTop: "20px",
+                          fontSize: "11px",
+                          fontWeight: "bold"
+                        }}
                       >
                         Modem Model
                       </Typography>
                       <Typography variant="body2" gutterBottom>
                         {this.state.nonOptusModem ? (
-                          <span style={{ fontWeight: "bold" }}>
+                          <span style={{ fontWeight: "bold", color: "red" }}>
                             Non Optus Modem
                           </span>
                         ) : (
@@ -1049,7 +1053,7 @@ class Dashboard extends Component<any, any> {
                       <Typography
                         gutterBottom
                         color="textSecondary"
-                        style={{ fontSize: "11px" }}
+                        style={{ fontSize: "11px", fontWeight: "bold" }}
                       >
                         Modem Specs
                       </Typography>
@@ -1431,7 +1435,12 @@ class Dashboard extends Component<any, any> {
                     />
                   </Typography>
                   <Grid item container xs={12}>
-                    <Typography color="textSecondary">Speed</Typography>
+                    <Typography
+                      color="textSecondary"
+                      style={{ fontWeight: "bold" }}
+                    >
+                      Speed
+                    </Typography>
                     <Typography
                       style={{ marginLeft: "47%" }}
                       color="textSecondary"
@@ -1514,7 +1523,7 @@ class Dashboard extends Component<any, any> {
                     />
                   </Typography>
                   <Typography
-                    style={{ fontSize: "14px" }}
+                    style={{ fontSize: "14px", fontWeight: "bold" }}
                     color="textSecondary"
                   >
                     Last 24 hours
@@ -1531,7 +1540,7 @@ class Dashboard extends Component<any, any> {
                     {this.state.radiusDropouts?.last24}
                   </Typography>
                   <Typography
-                    style={{ fontSize: "14px" }}
+                    style={{ fontSize: "14px", fontWeight: "bold" }}
                     color="textSecondary"
                   >
                     Last 48 hours
